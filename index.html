@@ -1,0 +1,1419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Synthetic Users Readiness Map - Interactive Governance Simulator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .step-gradient-active { background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); }
+        .pulse-soft { animation: softPulse 2s infinite; }
+        @keyframes softPulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(59,130,246,0.4); }
+            50% { transform: scale(1.02); box-shadow: 0 0 0 8px rgba(59,130,246,0); }
+        }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        @keyframes questionFadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .question-fade { animation: questionFadeIn 200ms ease-out forwards; }
+        .typing-dots span {
+            display: inline-block; width: 6px; height: 6px;
+            background: #94a3b8; border-radius: 50%; margin: 0 2px;
+            animation: typingBounce 1.2s infinite;
+        }
+        .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes typingBounce {
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
+            30% { transform: translateY(-5px); opacity: 1; }
+        }
+        button:disabled { cursor: not-allowed; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen">
+<header class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div class="flex items-center gap-3">
+            <div class="p-2 bg-blue-100 text-blue-700 rounded-lg"><i data-lucide="shield-check" class="w-6 h-6"></i></div>
+            <div>
+                <h1 class="text-xl font-bold text-slate-900 tracking-tight flex items-center gap-2">
+                    SaaS Synthetic Users Readiness Check
+                    <span class="bg-blue-100 text-blue-800 text-[10px] font-semibold px-2 py-0.5 rounded-full border border-blue-200">SaaS Edition</span>
+                </h1>
+                <p class="text-xs text-slate-500">Governance &amp; Calibration Simulator for SaaS Product Managers</p>
+            </div>
+        </div>
+        <div class="flex flex-wrap items-center gap-2 bg-slate-100 p-1 rounded-xl">
+            <button id="btn-map" onclick="switchView('map')" class="px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-all duration-200 bg-white text-slate-900 shadow-sm">
+                <span class="flex items-center gap-1.5"><i data-lucide="map" class="w-4 h-4"></i> Interactive Map</span>
+            </button>
+            <button id="btn-wizard" onclick="switchView('wizard')" class="px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-all duration-200 text-slate-600 hover:text-slate-900">
+                <span class="flex items-center gap-1.5"><i data-lucide="sparkles" class="w-4 h-4"></i> Run Simulator</span>
+            </button>
+            <button id="btn-sandbox" onclick="switchView('sandbox')" class="px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-all duration-200 text-slate-600 hover:text-slate-900">
+                <span class="flex items-center gap-1.5"><i data-lucide="terminal" class="w-4 h-4"></i> AI Sandbox &amp; Prompt Architect</span>
+            </button>
+            <button id="btn-rationale" onclick="switchView('rationale')" class="px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-all duration-200 text-slate-600 hover:text-slate-900">
+                <span class="flex items-center gap-1.5"><i data-lucide="layout-grid" class="w-4 h-4"></i> Lifecycle Rationale</span>
+            </button>
+        </div>
+    </div>
+</header>
+<div class="bg-indigo-50 border-b border-indigo-100 py-2.5 px-4">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2 text-xs text-indigo-900">
+        <div class="flex items-center gap-2">
+            <span class="flex h-2 w-2 relative">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
+            </span>
+            <p><strong>Gemini Integration Active:</strong> The Canvas automatically supplies credentials. To use a custom key, click settings on the right.</p>
+        </div>
+        <div class="flex items-center gap-2">
+            <label for="custom-api-key" class="font-semibold">Optional Custom Key:</label>
+            <input type="password" id="custom-api-key" placeholder="AIzaSy..." class="bg-white border border-indigo-200 rounded px-2 py-0.5 w-40 text-slate-700 outline-none focus:border-indigo-500">
+        </div>
+    </div>
+</div>
+<div id="toast-container" class="fixed bottom-5 right-5 z-50 space-y-2 pointer-events-none"></div>
+<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<div class="bg-gradient-to-r from-slate-950 via-slate-900 to-slate-800 rounded-2xl p-6 sm:p-8 text-white mb-8 shadow-xl relative overflow-hidden">
+    <div class="absolute -right-16 -bottom-16 opacity-10 pointer-events-none"><i data-lucide="binary" class="w-64 h-64"></i></div>
+    <div class="max-w-3xl relative z-10">
+        <span class="bg-blue-500/20 text-blue-300 border border-blue-500/30 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider">SaaS Product Operations &amp; Growth Platform</span>
+        <h2 class="text-3xl font-extrabold mt-3 tracking-tight">AI-Assisted Governance for SaaS Cohorts</h2>
+        <p class="text-slate-300 mt-2 text-base leading-relaxed">Prevent synthetic user feedback loops from creating product distortion or inaccurate growth metrics. Use this 8-step SaaS governance framework to evaluate feature viability, architect enterprise buyer prompts, and calibrate synthetic cohorts against real subscription telemetry data.</p>
+    </div>
+</div>
+
+<!-- VIEW 1: MAP VIEW -->
+<div id="view-map" class="space-y-8">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+<div class="lg:col-span-8 space-y-4">
+<div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+<div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4 mb-6 border-b border-slate-100 pb-4">
+    <h3 class="font-bold text-lg text-slate-900 flex items-center gap-2"><i data-lucide="git-commit" class="text-blue-500"></i> SaaS Operational Pipeline Checkpoints</h3>
+    <span class="text-xs text-slate-500 bg-slate-100 px-2.5 py-1 rounded-full font-medium">Click any step to inspect details &amp; targets</span>
+</div>
+<div class="relative pl-6 sm:pl-10 space-y-6 border-l-2 border-slate-200 ml-4 py-2">
+<!-- STEPS 1-8 -->
+<div class="relative cursor-pointer group" onclick="highlightStep(1)">
+    <div id="dot-1" class="absolute -left-[35px] sm:-left-[51px] w-6 h-6 rounded-full border-4 border-slate-200 bg-white group-hover:border-blue-500 transition-all flex items-center justify-center text-[10px] font-bold text-slate-500">1</div>
+    <div id="card-1" class="bg-slate-50 border border-slate-200 hover:border-blue-500 p-4 rounded-xl transition-all shadow-sm">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div class="flex items-center gap-3"><span class="w-7 h-7 bg-blue-100 text-blue-700 rounded-lg flex items-center justify-center font-bold text-sm">1</span><h4 class="font-semibold text-slate-900 text-base">Clarify SaaS product decision</h4></div>
+            <span class="text-xs text-slate-400 font-mono">Process Step</span>
+        </div>
+        <p class="text-sm text-slate-600 mt-2">Explicitly state what core SaaS decision (pricing, onboarding flow, feature gate, tier limit) is being evaluated.</p>
+    </div>
+</div>
+<div class="relative cursor-pointer group" onclick="highlightStep(2)">
+    <div id="dot-2" class="absolute -left-[35px] sm:-left-[51px] w-6 h-6 rounded-full border-4 border-slate-200 bg-white group-hover:border-blue-500 transition-all flex items-center justify-center text-[10px] font-bold text-slate-500">2</div>
+    <div id="card-2" class="bg-slate-50 border border-slate-200 hover:border-blue-500 p-4 rounded-xl transition-all shadow-sm">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div class="flex items-center gap-3"><span class="w-7 h-7 bg-blue-100 text-blue-700 rounded-lg flex items-center justify-center font-bold text-sm">2</span><h4 class="font-semibold text-slate-900 text-base">Check revenue &amp; churn risk level</h4></div>
+            <span class="text-xs text-rose-500 bg-rose-50 px-2 py-0.5 rounded-md font-semibold border border-rose-100">Decision Branch</span>
+        </div>
+        <p class="text-sm text-slate-600 mt-2">Evaluate the impact. Is the change high-risk, irreversible, or directly affecting core MRR/LTV metrics?</p>
+        <div class="mt-3 flex items-center gap-2 border-t border-slate-100 pt-3 text-xs">
+            <span class="text-blue-600 font-bold bg-blue-50 px-1.5 py-0.5 rounded">Yes / High Risk</span>
+            <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-slate-400"></i>
+            <span class="text-rose-700 bg-rose-50 px-2.5 py-1 rounded-md font-medium border border-rose-100 flex items-center gap-1"><i data-lucide="help-circle" class="w-3 h-3"></i> Reframe question</span>
+        </div>
+    </div>
+</div>
+<div class="relative cursor-pointer group" onclick="highlightStep(3)">
+    <div id="dot-3" class="absolute -left-[35px] sm:-left-[51px] w-6 h-6 rounded-full border-4 border-slate-200 bg-white group-hover:border-blue-500 transition-all flex items-center justify-center text-[10px] font-bold text-slate-500">3</div>
+    <div id="card-3" class="bg-slate-50 border border-slate-200 hover:border-blue-500 p-4 rounded-xl transition-all shadow-sm">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div class="flex items-center gap-3"><span class="w-7 h-7 bg-blue-100 text-blue-700 rounded-lg flex items-center justify-center font-bold text-sm">3</span><h4 class="font-semibold text-slate-900 text-base">Fit the question to SaaS mechanics</h4></div>
+            <span class="text-xs text-rose-500 bg-rose-50 px-2 py-0.5 rounded-md font-semibold border border-rose-100">Decision Branch</span>
+        </div>
+        <p class="text-sm text-slate-600 mt-2">Can simulated models logically evaluate the SaaS interface constraints, or is the inquiry overly open-ended?</p>
+        <div class="mt-3 flex items-center gap-2 border-t border-slate-100 pt-3 text-xs">
+            <span class="text-blue-600 font-bold bg-blue-50 px-1.5 py-0.5 rounded">Yes / Open-ended</span>
+            <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-slate-400"></i>
+            <span class="text-indigo-700 bg-indigo-50 px-2.5 py-1 rounded-md font-medium border border-indigo-100 flex items-center gap-1"><i data-lucide="compass" class="w-3 h-3"></i> Do user discovery first</span>
+        </div>
+    </div>
+</div>
+<div class="relative cursor-pointer group" onclick="highlightStep(4)">
+    <div id="dot-4" class="absolute -left-[35px] sm:-left-[51px] w-6 h-6 rounded-full border-4 border-slate-200 bg-white group-hover:border-blue-500 transition-all flex items-center justify-center text-[10px] font-bold text-slate-500">4</div>
+    <div id="card-4" class="bg-slate-50 border border-slate-200 hover:border-blue-500 p-4 rounded-xl transition-all shadow-sm">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div class="flex items-center gap-3"><span class="w-7 h-7 bg-blue-100 text-blue-700 rounded-lg flex items-center justify-center font-bold text-sm">4</span><h4 class="font-semibold text-slate-900 text-base">Confirm real SaaS usage data</h4></div>
+            <span class="text-xs text-rose-500 bg-rose-50 px-2 py-0.5 rounded-md font-semibold border border-rose-100">Data Gate</span>
+        </div>
+        <p class="text-sm text-slate-600 mt-2">Do you have live product metrics (Product Analytics, CRM logs, or sales transcripts) to ground the cohort?</p>
+        <div class="mt-3 flex items-center gap-2 border-t border-slate-100 pt-3 text-xs">
+            <span class="text-slate-500 font-bold bg-slate-100 px-1.5 py-0.5 rounded">No Baseline Data</span>
+            <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-slate-400"></i>
+            <span class="text-amber-700 bg-amber-50 px-2.5 py-1 rounded-md font-medium border border-amber-100 flex items-center gap-1"><i data-lucide="users" class="w-3 h-3"></i> Real customers only</span>
+        </div>
+    </div>
+</div>
+<div class="relative cursor-pointer group" onclick="highlightStep(5)">
+    <div id="dot-5" class="absolute -left-[35px] sm:-left-[51px] w-6 h-6 rounded-full border-4 border-slate-200 bg-white group-hover:border-blue-500 transition-all flex items-center justify-center text-[10px] font-bold text-slate-500">5</div>
+    <div id="card-5" class="bg-slate-50 border border-slate-200 hover:border-blue-500 p-4 rounded-xl transition-all shadow-sm">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div class="flex items-center gap-3"><span class="w-7 h-7 bg-blue-100 text-blue-700 rounded-lg flex items-center justify-center font-bold text-sm">5</span><h4 class="font-semibold text-slate-900 text-base">Define synthetic user persona/role</h4></div>
+            <span class="text-xs text-slate-400 font-mono">Process Step</span>
+        </div>
+        <p class="text-sm text-slate-600 mt-2">Define specific software pricing plan, user permissions, task limits, and corporate buying thresholds.</p>
+    </div>
+</div>
+<div class="relative cursor-pointer group" onclick="highlightStep(6)">
+    <div id="dot-6" class="absolute -left-[35px] sm:-left-[51px] w-6 h-6 rounded-full border-4 border-slate-200 bg-white group-hover:border-blue-500 transition-all flex items-center justify-center text-[10px] font-bold text-slate-500">6</div>
+    <div id="card-6" class="bg-slate-50 border border-slate-200 hover:border-blue-500 p-4 rounded-xl transition-all shadow-sm">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div class="flex items-center gap-3"><span class="w-7 h-7 bg-blue-100 text-blue-700 rounded-lg flex items-center justify-center font-bold text-sm">6</span><h4 class="font-semibold text-slate-900 text-base">Calibrate on historical SaaS results</h4></div>
+            <span class="text-xs text-rose-500 bg-rose-50 px-2 py-0.5 rounded-md font-semibold border border-rose-100">Calibration Gate</span>
+        </div>
+        <p class="text-sm text-slate-600 mt-2">Test your agent against past SaaS releases or onboarding metrics where physical outcomes are already known.</p>
+        <div class="mt-3 flex items-center gap-2 border-t border-slate-100 pt-3 text-xs">
+            <span class="text-slate-500 font-bold bg-slate-100 px-1.5 py-0.5 rounded">Failure / Off-drift</span>
+            <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-slate-400"></i>
+            <span class="text-slate-600 bg-slate-100 px-2.5 py-1 rounded-md font-medium border border-slate-200 flex items-center gap-1"><i data-lucide="refresh-cw" class="w-3 h-3"></i> Refine prompt attributes</span>
+        </div>
+    </div>
+</div>
+<div class="relative cursor-pointer group" onclick="highlightStep(7)">
+    <div id="dot-7" class="absolute -left-[35px] sm:-left-[51px] w-6 h-6 rounded-full border-4 border-slate-200 bg-white group-hover:border-blue-500 transition-all flex items-center justify-center text-[10px] font-bold text-slate-500">7</div>
+    <div id="card-7" class="bg-slate-50 border border-slate-200 hover:border-blue-500 p-4 rounded-xl transition-all shadow-sm">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div class="flex items-center gap-3"><span class="w-7 h-7 bg-blue-100 text-blue-700 rounded-lg flex items-center justify-center font-bold text-sm">7</span><h4 class="font-semibold text-slate-900 text-base">Plan human + synthetic hybrid loop</h4></div>
+            <span class="text-xs text-rose-500 bg-rose-50 px-2 py-0.5 rounded-md font-semibold border border-rose-100">Hybrid Gate</span>
+        </div>
+        <p class="text-sm text-slate-600 mt-2">Establish regular cross-checks with real customer feedback channels, customer success logs, or beta groups.</p>
+        <div class="mt-3 flex items-center gap-2 border-t border-slate-100 pt-3 text-xs">
+            <span class="text-slate-500 font-bold bg-slate-100 px-1.5 py-0.5 rounded">No Hybrid Loop</span>
+            <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-slate-400"></i>
+            <span class="text-amber-700 bg-amber-50 px-2.5 py-1 rounded-md font-medium border border-amber-100 flex items-center gap-1"><i data-lucide="users-2" class="w-3 h-3"></i> Real customers only</span>
+        </div>
+    </div>
+</div>
+<div class="relative cursor-pointer group" onclick="highlightStep(8)">
+    <div id="dot-8" class="absolute -left-[35px] sm:-left-[51px] w-6 h-6 rounded-full border-4 border-slate-200 bg-white group-hover:border-blue-500 transition-all flex items-center justify-center text-[10px] font-bold text-slate-500">8</div>
+    <div id="card-8" class="bg-slate-50 border border-slate-200 hover:border-blue-500 p-4 rounded-xl transition-all shadow-sm">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div class="flex items-center gap-3"><span class="w-7 h-7 bg-blue-100 text-blue-700 rounded-lg flex items-center justify-center font-bold text-sm">8</span><h4 class="font-semibold text-slate-900 text-base">Set compliance guardrails &amp; tags</h4></div>
+            <span class="text-xs text-rose-500 bg-rose-50 px-2 py-0.5 rounded-md font-semibold border border-rose-100">Compliance Gate</span>
+        </div>
+        <p class="text-sm text-slate-600 mt-2">Explicitly label all synthetic analytics, log version changes, and continuously audit for drift spikes.</p>
+        <div class="mt-3 flex items-center gap-2 border-t border-slate-100 pt-3 text-xs">
+            <span class="text-slate-500 font-bold bg-slate-100 px-1.5 py-0.5 rounded">No Guardrails</span>
+            <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-slate-400"></i>
+            <span class="text-violet-700 bg-violet-50 px-2.5 py-1 rounded-md font-medium border border-violet-100 flex items-center gap-1"><i data-lucide="brain" class="w-3 h-3"></i> Brainstorm purposes only</span>
+        </div>
+    </div>
+</div>
+</div></div></div>
+<!-- Inspector Sidebar -->
+<div class="lg:col-span-4 lg:sticky lg:top-24 space-y-6">
+<div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+    <div id="inspector-placeholder" class="text-center py-12 text-slate-400">
+        <i data-lucide="info" class="w-12 h-12 mx-auto stroke-1 mb-3"></i>
+        <p class="font-semibold text-slate-600">Inspect a Process Gate</p>
+        <p class="text-xs mt-1">Select any numbered step on the left to review operational guidelines, risk alignments, and product lifecycles.</p>
+    </div>
+    <div id="inspector-content" class="hidden space-y-4">
+        <div class="flex items-center gap-2 mb-2">
+            <span id="inspect-num" class="bg-blue-600 text-white text-xs px-2.5 py-1 rounded-full font-bold">Step 1</span>
+            <span id="inspect-type" class="bg-slate-100 text-slate-700 text-xs px-2 py-1 rounded font-medium">Standard</span>
+        </div>
+        <h3 id="inspect-title" class="text-xl font-bold text-slate-900"></h3>
+        <div class="bg-slate-50 rounded-lg p-3.5 border border-slate-100">
+            <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Operational Target</h4>
+            <p id="inspect-objective" class="text-sm text-slate-700 mt-1"></p>
+        </div>
+        <div class="border border-slate-200 rounded-lg overflow-hidden bg-slate-50">
+            <div class="bg-slate-100 px-3 py-2 border-b border-slate-200 flex items-center justify-between">
+                <span class="text-xs font-bold text-slate-700 flex items-center gap-1"><i data-lucide="milestone" class="w-3.5 h-3.5 text-blue-600"></i> Lifecycle Positioning</span>
+                <span class="text-[10px] text-slate-400 font-mono">Dynamic Rationale</span>
+            </div>
+            <div class="p-3 space-y-3 text-xs">
+                <div class="space-y-1">
+                    <p class="font-semibold text-slate-900 uppercase tracking-wider text-[10px] text-indigo-700 flex items-center gap-1">
+                        <i data-lucide="trending-up" class="w-3 h-3"></i> Standard SaaS Phase: <span id="inspect-std-phase" class="text-slate-800 ml-1">Discovery</span>
+                    </p>
+                    <p class="text-slate-600 text-[11px]" id="inspect-std-text"></p>
+                </div>
+                <div class="border-t border-slate-200 pt-2 space-y-1">
+                    <p class="font-semibold text-slate-900 uppercase tracking-wider text-[10px] text-violet-700 flex items-center gap-1">
+                        <i data-lucide="cpu" class="w-3 h-3"></i> Agentic / AI Phase: <span id="inspect-agent-phase" class="text-slate-800 ml-1">Problem Framing</span>
+                    </p>
+                    <p class="text-slate-600 text-[11px]" id="inspect-agent-text"></p>
+                </div>
+            </div>
+        </div>
+        <div class="space-y-2">
+            <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Trigger Scenario</h4>
+            <p id="inspect-risk" class="text-sm text-slate-700"></p>
+        </div>
+        <div class="border-t border-slate-100 pt-4">
+            <h4 class="text-xs font-semibold text-slate-500 mb-2">Actionable SaaS Guide:</h4>
+            <ul id="inspect-guide" class="space-y-2 text-xs text-slate-600"></ul>
+        </div>
+    </div>
+</div>
+<div class="bg-gradient-to-br from-indigo-900 via-indigo-950 to-slate-900 rounded-xl p-6 text-white shadow-md relative overflow-hidden">
+    <div class="absolute -right-10 -bottom-10 opacity-10"><i data-lucide="brain-circuit" class="w-32 h-32 animate-pulse"></i></div>
+    <div class="relative z-10">
+        <span class="bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 px-2 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-wider">SaaS Diagnostic Screener</span>
+        <h4 class="font-bold text-lg mt-2 mb-2 flex items-center gap-2"><i data-lucide="zap" class="text-amber-400"></i> SaaS Risk Screener</h4>
+        <p class="text-xs text-indigo-200 mb-4 leading-relaxed">Type your SaaS feature, pricing, or onboarding hypothesis. Gemini will run it against the 8-gate SaaS governance model to analyze feasibility issues.</p>
+        <textarea id="ai-screener-input" placeholder="e.g. We want to test a synthetic user cohort representing corporate IT directors to evaluate moving our enterprise self-serve plan limit from 10 users to 50 users." class="w-full h-24 bg-slate-900/80 border border-indigo-700/50 rounded-lg p-2.5 text-xs text-slate-100 placeholder-slate-400 focus:outline-none focus:border-indigo-400 transition mb-3 resize-none"></textarea>
+        <button id="ai-screener-btn" onclick="runAiRiskScreener()" class="w-full bg-blue-600 hover:bg-blue-500 active:bg-blue-700 disabled:opacity-60 disabled:cursor-not-allowed text-white text-xs font-semibold py-2.5 rounded-lg transition duration-200 flex items-center justify-center gap-1.5 shadow-sm">
+            <i data-lucide="cpu" class="w-4 h-4"></i> Run SaaS Gate Assessment
+        </button>
+    </div>
+</div>
+</div>
+</div>
+</div>
+<!-- VIEW 2: WIZARD -->
+<div id="view-wizard" class="hidden">
+<div class="max-w-3xl mx-auto bg-white border border-slate-200 rounded-2xl shadow-lg overflow-hidden">
+    <div class="bg-slate-900 px-6 py-4 flex justify-between items-center text-white border-b border-slate-800">
+        <div>
+            <span class="text-xs text-blue-400 font-semibold tracking-wider uppercase">SaaS Governance Check</span>
+            <h3 class="text-lg font-bold">Product Checkpoint Assessment</h3>
+        </div>
+        <span id="wizard-progress" class="bg-slate-800 px-3 py-1 rounded-full text-xs font-mono">Step 1 of 8</span>
+    </div>
+    <div class="w-full bg-slate-800 h-1">
+        <div id="progress-bar-fill" class="bg-blue-500 h-1 transition-all duration-300" style="width:12.5%;"></div>
+    </div>
+    <!-- Visual Step Tracker (Enhancement #5) -->
+    <div class="px-8 pt-5 pb-0">
+        <div id="wizard-step-tracker" class="flex items-center justify-center gap-1.5 flex-wrap"></div>
+    </div>
+    <div class="p-8 pt-5">
+        <div id="wizard-question-container" class="space-y-6">
+            <div class="space-y-2">
+                <div class="inline-flex items-center gap-2 text-xs font-semibold text-blue-600 bg-blue-50 px-2.5 py-1 rounded">
+                    <span id="wizard-step-badge">Step 1</span>
+                    <span class="w-1 h-1 bg-blue-300 rounded-full"></span>
+                    <span id="wizard-step-type">Process Step</span>
+                </div>
+                <h2 id="wizard-question-title" class="text-2xl font-bold text-slate-900"></h2>
+                <p id="wizard-question-desc" class="text-slate-600 text-sm"></p>
+            </div>
+            <div id="wizard-choices" class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4"></div>
+            <!-- Back button (Enhancement #6) -->
+            <div class="pt-2">
+                <button id="wizard-back-btn" onclick="wizardGoBack()" disabled class="text-xs text-slate-500 hover:text-slate-700 flex items-center gap-1 disabled:opacity-40 disabled:cursor-not-allowed transition-colors">
+                    <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i> Back to previous step
+                </button>
+            </div>
+        </div>
+        <!-- Result Screen -->
+        <div id="wizard-result-container" class="hidden space-y-6 text-center py-6">
+            <div id="result-icon-container" class="w-20 h-20 mx-auto rounded-full flex items-center justify-center"></div>
+            <div class="space-y-2 max-w-lg mx-auto">
+                <h2 id="result-title" class="text-2xl font-black tracking-tight"></h2>
+                <p id="result-description" class="text-slate-600 text-sm"></p>
+            </div>
+            <div class="bg-slate-50 rounded-xl p-5 border border-slate-100 max-w-lg mx-auto text-left">
+                <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Gate evaluation path:</h4>
+                <div id="result-summary" class="space-y-2 text-xs text-slate-600 font-medium"></div>
+            </div>
+            <div class="pt-4 flex flex-wrap justify-center gap-3">
+                <button onclick="restartWizard()" class="bg-slate-950 hover:bg-slate-800 text-white font-semibold text-sm px-5 py-2.5 rounded-lg transition-colors flex items-center gap-1">
+                    <i data-lucide="refresh-cw" class="w-4 h-4"></i> Restart Assessment
+                </button>
+                <button onclick="switchView('map')" class="border border-slate-200 hover:bg-slate-50 font-semibold text-sm px-5 py-2.5 rounded-lg transition-all flex items-center gap-1 text-slate-700">
+                    <i data-lucide="map" class="w-4 h-4"></i> Explore Map
+                </button>
+                <!-- Download report (Enhancement #8) -->
+                <button onclick="downloadWizardReport()" class="border border-slate-200 hover:bg-slate-50 font-semibold text-sm px-5 py-2.5 rounded-lg transition-all flex items-center gap-1 text-slate-700">
+                    <i data-lucide="file-down" class="w-4 h-4"></i> Download Report
+                </button>
+            </div>
+            <!-- AI Next Steps (Enhancement #9) -->
+            <div id="ai-next-steps-container" class="hidden max-w-lg mx-auto">
+                <button id="ai-next-steps-btn" onclick="getAiNextSteps()" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 disabled:opacity-60 disabled:cursor-not-allowed text-white font-semibold text-sm px-5 py-3 rounded-xl transition-all flex items-center justify-center gap-2 shadow-md">
+                    <i data-lucide="sparkles" class="w-4 h-4"></i> Get AI-Powered Next Steps
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<!-- VIEW 3: SANDBOX -->
+<div id="view-sandbox" class="hidden space-y-8">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+<div class="lg:col-span-5 space-y-4">
+    <!-- Quick Templates (Enhancement #10) -->
+    <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
+        <div class="flex items-center gap-2 mb-3">
+            <i data-lucide="zap" class="w-4 h-4 text-amber-500"></i>
+            <h4 class="text-sm font-bold text-slate-900">Quick Templates</h4>
+            <span class="text-[10px] text-slate-400 ml-auto">Pre-fill all fields instantly</span>
+        </div>
+        <div class="flex flex-wrap gap-2">
+            <button onclick="applyTemplate('enterprise-mfa')" class="text-[11px] font-semibold bg-blue-50 hover:bg-blue-100 text-blue-800 border border-blue-200 px-2.5 py-1.5 rounded-lg transition-all">Enterprise IT Admin Testing MFA</button>
+            <button onclick="applyTemplate('free-tier-limits')" class="text-[11px] font-semibold bg-indigo-50 hover:bg-indigo-100 text-indigo-800 border border-indigo-200 px-2.5 py-1.5 rounded-lg transition-all">Free Tier Dev Hitting Seat Limits</button>
+            <button onclick="applyTemplate('smb-upgrade')" class="text-[11px] font-semibold bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 px-2.5 py-1.5 rounded-lg transition-all">SMB Finance Lead Evaluating Upgrade</button>
+        </div>
+    </div>
+    <!-- Config Form -->
+    <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm space-y-5">
+        <div>
+            <div class="flex items-center gap-2 mb-2">
+                <span class="bg-blue-100 text-blue-800 text-xs px-2.5 py-1 rounded-full font-bold uppercase tracking-wider flex items-center gap-1">
+                    <i data-lucide="cog" class="w-3.5 h-3.5"></i> SaaS Console
+                </span>
+            </div>
+            <h3 class="text-xl font-bold text-slate-900">Synthetic Persona Architect</h3>
+            <p class="text-xs text-slate-500 mt-1">Generate SaaS-specific prompt files utilizing Step 5 &amp; 8 with automated guardrails.</p>
+        </div>
+        <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">SaaS Product Decision</label>
+            <textarea id="architect-decision" placeholder="e.g. Forcing active enterprise SaaS managers to undergo an automated 2-step verification layout change to secure team databases." class="w-full text-xs p-2.5 border border-slate-200 rounded-lg focus:outline-none focus:border-blue-500" rows="2"></textarea>
+        </div>
+        <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Target Persona / Tier Level Profile</label>
+            <input type="text" id="architect-audience" placeholder="e.g. Free Tier developer users on AWS cloud deployments who spend zero budget but request high resource limits" class="w-full text-xs p-2.5 border border-slate-200 rounded-lg focus:outline-none focus:border-blue-500">
+        </div>
+        <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Real SaaS Usage Baseline Data (Step 4 &amp; 6 Grounding)</label>
+            <textarea id="architect-data" placeholder="e.g. CS logs: Standard developers complain heavily about security steps that add > 30 seconds to setup times. Out of 100 tested, 45 abandoned onboarding entirely when MFA was enabled." class="w-full text-xs p-2.5 border border-slate-200 rounded-lg focus:outline-none focus:border-blue-500 h-24" rows="3"></textarea>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">SaaS User Permissions</label>
+                <select id="architect-expertise" class="w-full text-xs p-2 border border-slate-200 rounded-lg outline-none focus:border-blue-500">
+                    <option value="highly specialized security administrator with full IAM privileges">Admin / IAM Owner</option>
+                    <option value="standard daily active worker with low interface privileges">Standard Non-Admin User</option>
+                    <option value="external contract operator with read-only dashboard levels">Guest / Read-Only</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Persona Biases</label>
+                <select id="architect-bias" class="w-full text-xs p-2 border border-slate-200 rounded-lg outline-none focus:border-blue-500">
+                    <option value="severe cognitive load friction, low patience, zero toleration for workflow delays">Friction Sensitive</option>
+                    <option value="fully cooperative rational enterprise corporate user">Hyper-Rational Corporate</option>
+                </select>
+            </div>
+        </div>
+        <!-- Extra fields (Enhancement #11) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Company Size</label>
+                <select id="architect-company-size" class="w-full text-xs p-2 border border-slate-200 rounded-lg outline-none focus:border-blue-500">
+                    <option value="Startup (1-50 employees)">Startup (1-50)</option>
+                    <option value="SMB (51-500 employees)">SMB (51-500)</option>
+                    <option value="Mid-Market (501-2000 employees)">Mid-Market (501-2000)</option>
+                    <option value="Enterprise (2000+ employees)">Enterprise (2000+)</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Industry Vertical</label>
+                <select id="architect-industry" class="w-full text-xs p-2 border border-slate-200 rounded-lg outline-none focus:border-blue-500">
+                    <option value="SaaS/Tech industry">SaaS/Tech</option>
+                    <option value="Finance/Banking industry">Finance/Banking</option>
+                    <option value="Healthcare industry">Healthcare</option>
+                    <option value="E-commerce industry">E-commerce</option>
+                    <option value="Government sector">Government</option>
+                </select>
+            </div>
+        </div>
+        <div class="pt-2 border-t border-slate-100 flex items-center justify-between gap-4">
+            <button id="build-persona-btn" onclick="generateSystemPrompt()" class="flex-1 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 disabled:opacity-60 disabled:cursor-not-allowed text-white font-semibold text-xs py-2.5 px-4 rounded-lg transition-all flex items-center justify-center gap-1.5 shadow">
+                <i data-lucide="shield-alert" class="w-4 h-4"></i> Build SaaS Persona Prompt
+            </button>
+            <button onclick="clearSandboxConfig()" class="border border-slate-200 hover:bg-slate-50 text-slate-600 font-semibold text-xs py-2.5 px-4 rounded-lg transition-all flex items-center gap-1">
+                <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i> Clear
+            </button>
+        </div>
+    </div>
+</div>
+<!-- Right: Output + Chat -->
+<div class="lg:col-span-7 space-y-6">
+    <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm space-y-3">
+        <div class="flex justify-between items-center">
+            <h4 class="text-sm font-bold text-slate-900 flex items-center gap-1.5"><i data-lucide="file-text" class="text-slate-500"></i> SaaS System Instruction Prompt</h4>
+            <button onclick="copyGeneratedPrompt()" class="text-xs text-blue-600 font-semibold hover:text-blue-700 flex items-center gap-1">
+                <i data-lucide="copy" class="w-3.5 h-3.5"></i> Copy Prompt
+            </button>
+        </div>
+        <!-- Editable prompt (Enhancement #12) -->
+        <textarea id="sandbox-system-prompt" class="w-full h-32 bg-slate-50 border border-slate-100 rounded-lg p-3 text-xs text-slate-600 font-mono resize-none focus:outline-none focus:border-blue-400 transition" placeholder="Instruction prompt will auto-generate here..."></textarea>
+        <p class="text-[11px] text-slate-400 italic">You can edit this prompt before starting the session.</p>
+        <!-- Prompt quality badge (Enhancement #16) -->
+        <div id="prompt-quality-badge" class="hidden text-[11px] font-semibold px-2.5 py-1 rounded-full w-fit"></div>
+    </div>
+    <!-- Chat Window -->
+    <div class="bg-slate-900 text-slate-100 border border-slate-800 rounded-xl shadow-lg flex flex-col h-[500px]">
+        <div class="px-5 py-4 border-b border-slate-800 flex justify-between items-center bg-slate-950 rounded-t-xl">
+            <div class="flex items-center gap-2.5">
+                <div class="w-3.5 h-3.5 rounded-full bg-blue-500 pulse-soft"></div>
+                <div>
+                    <h4 class="text-xs font-bold tracking-wider uppercase text-blue-400">SaaS User Simulation Sandbox</h4>
+                    <p id="chat-persona-subtitle" class="text-[10px] text-slate-400">Simulation inactive. Configure a persona on the left to launch interview sessions.</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-2">
+                <!-- Export chat (Enhancement #13) -->
+                <button onclick="exportChatTranscript()" id="export-chat-btn" disabled class="bg-slate-700 hover:bg-slate-600 disabled:opacity-50 disabled:cursor-not-allowed text-white text-[10px] font-bold px-3 py-1.5 rounded flex items-center gap-1 transition-all">
+                    <i data-lucide="download" class="w-3.5 h-3.5"></i> Export Chat
+                </button>
+                <button onclick="auditChatSession()" id="audit-btn" disabled class="bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed text-white text-[10px] font-bold px-3 py-1.5 rounded flex items-center gap-1 transition-all">
+                    <i data-lucide="clipboard-check" class="w-3.5 h-3.5"></i> Audit SaaS Drift (Step 6/8)
+                </button>
+                <button onclick="resetChat()" class="text-slate-400 hover:text-slate-100 transition-colors">
+                    <i data-lucide="trash-2" class="w-4 h-4"></i>
+                </button>
+            </div>
+        </div>
+        <div id="sandbox-messages" class="flex-1 overflow-y-auto p-5 space-y-4 text-xs">
+            <div class="bg-slate-800/50 text-slate-300 p-4 rounded-lg border border-slate-800 text-center space-y-1">
+                <p class="font-bold text-slate-200">Simulation Waiting Room</p>
+                <p class="text-[11px]">Fill in the configuration parameters on the left and click <strong>Build SaaS Persona Prompt</strong>. You can then interview the user, observe how onboarding hurdles affect them, and evaluate alignment with your real-world usage logs.</p>
+            </div>
+        </div>
+        <div class="p-3 bg-slate-950 rounded-b-xl border-t border-slate-800 flex gap-2">
+            <input type="text" id="sandbox-chat-input" disabled onkeydown="if(event.key==='Enter')sendSandboxMessage()" placeholder="Ask your customer persona an interface or pricing question..." class="flex-1 bg-slate-900 border border-slate-800 rounded-lg px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-blue-500 placeholder-slate-500">
+            <button id="sandbox-chat-send-btn" disabled onclick="sendSandboxMessage()" class="bg-blue-600 hover:bg-blue-500 active:bg-blue-700 disabled:opacity-60 disabled:cursor-not-allowed text-white font-bold text-xs px-4 py-2.5 rounded-lg transition-colors flex items-center gap-1">
+                Send <i data-lucide="send" class="w-3.5 h-3.5"></i>
+            </button>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+<!-- VIEW 4: RATIONALE -->
+<div id="view-rationale" class="hidden space-y-8">
+<div class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-6 mb-6">
+        <div class="flex items-center gap-4">
+            <img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" style="height:56px;" alt="Perplexity Logo" class="object-contain" />
+            <div>
+                <h2 class="text-2xl font-bold text-slate-900 tracking-tight">Strategic Research Positioning Matrix</h2>
+                <p class="text-sm text-slate-500">The role of synthetic users across standard product lifecycles and modern agentic development pipelines.</p>
+            </div>
+        </div>
+        <span class="bg-indigo-100 text-indigo-800 text-xs font-semibold px-3 py-1 rounded-full border border-indigo-200 self-start sm:self-center">Strategic Mapping</span>
+    </div>
+    <div class="bg-indigo-50 border border-indigo-100 rounded-xl p-4 text-sm text-indigo-950 mb-8 flex items-start gap-3">
+        <i data-lucide="info" class="w-5 h-5 text-indigo-600 shrink-0 mt-0.5"></i>
+        <div>
+            <strong class="font-bold block mb-1">Methodology Statement:</strong>
+            <p class="leading-relaxed">Synthetic users sit <em>early and peripherally</em> in both lifecycles: they are powerful accelerators for exploration, instrument design, and simulation, but they are not reliable sources of net&#8209;new truth about users and must be followed by real&#8209;user validation. In AI/agentic products specifically, they also play a stronger role in offline evaluation and safety simulations, but again as a modeling tool, not a substitute for human testing.</p>
+        </div>
+    </div>
+    <div class="flex items-center gap-2 bg-slate-100 p-1 rounded-xl w-fit mb-6">
+        <button id="btn-toggle-std" onclick="switchRationaleMode('std')" class="px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all duration-200 bg-white text-slate-900 shadow-sm">
+            <span class="flex items-center gap-1.5"><i data-lucide="layout" class="w-4 h-4 text-blue-600"></i> Standard Product Lifecycle</span>
+        </button>
+        <button id="btn-toggle-agent" onclick="switchRationaleMode('agent')" class="px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all duration-200 text-slate-600 hover:text-slate-900">
+            <span class="flex items-center gap-1.5"><i data-lucide="bot" class="w-4 h-4 text-violet-600"></i> AI / Agentic Product Lifecycle</span>
+        </button>
+    </div>
+    <div id="table-standard-lifecycle" class="space-y-4">
+        <div class="overflow-x-auto rounded-xl border border-slate-200">
+            <table class="w-full text-left border-collapse text-xs sm:text-sm">
+                <thead><tr class="bg-slate-900 text-white text-[11px] font-bold uppercase tracking-wider">
+                    <th class="p-4 border-b border-slate-800">Lifecycle Stage</th>
+                    <th class="p-4 border-b border-slate-800">Primary Human Work</th>
+                    <th class="p-4 border-b border-slate-800 text-indigo-200">Appropriate Uses of Synthetics</th>
+                    <th class="p-4 border-b border-slate-800 text-amber-200">Rely on Real Humans For</th>
+                </tr></thead>
+                <tbody class="divide-y divide-slate-200 text-slate-700 bg-white">
+                    <tr><td class="p-4 font-bold text-slate-900 bg-slate-50/50">Discovery</td><td class="p-4">Field visits, stakeholder interviews, early user interviews, analysis of existing data.</td><td class="p-4 bg-indigo-50/30 font-medium text-indigo-950">Desk-research style conversations to surface domain context, clarify jargon, and generate candidate questions.</td><td class="p-4 bg-amber-50/30 text-amber-950">Generating fresh insight into unmet needs, context, workarounds; emotions and marginalized groups.</td></tr>
+                    <tr><td class="p-4 font-bold text-slate-900 bg-slate-50/50">Definition</td><td class="p-4">Synthesizing research into personas, JTBD maps, problem statements, and value props.</td><td class="p-4 bg-indigo-50/30 font-medium text-indigo-950">Stress-testing early persona drafts ("What would this user push back on?") and generating counter-example edge cases.</td><td class="p-4 bg-amber-50/30 text-amber-950">Deciding which jobs or requirements matter enough to design for; prioritization must be grounded in real data.</td></tr>
+                    <tr><td class="p-4 font-bold text-slate-900 bg-slate-50/50">Design</td><td class="p-4">Sketching, wireframing, IA patterns, interaction design, copy workflows.</td><td class="p-4 bg-indigo-50/30 font-medium text-indigo-950">Concept screening and heuristic feedback: walking through described flows to identify obvious UI friction before prototyping.</td><td class="p-4 bg-amber-50/30 text-amber-950">Determining whether people can actually complete tasks, interpret custom copy, and recover from real errors.</td></tr>
+                    <tr><td class="p-4 font-bold text-slate-900 bg-slate-50/50">Build</td><td class="p-4">Engineering development, detailed interface adjustments, telemetry and analytics wiring.</td><td class="p-4 bg-indigo-50/30 font-medium text-indigo-950">Testing instrumentation logic (e.g., in-app survey flows) and generating fake but plausible metrics to dry-run pipelines.</td><td class="p-4 bg-amber-50/30 text-amber-950">Accepting code to production based on synthetic opinions; QA and overall UX quality still require expert humans.</td></tr>
+                    <tr><td class="p-4 font-bold text-slate-900 bg-slate-50/50">Test &amp; Validate</td><td class="p-4">Usability tests, concept and value assessments, surveys, experimental design.</td><td class="p-4 bg-indigo-50/30 font-medium text-indigo-950">Simulating usability protocols to debug tasks and study flows before investing in expensive human recruitment.</td><td class="p-4 bg-amber-50/30 text-amber-950">Any final go/no-go decisions regarding UX desirability, emotional alignment, or core product-market fit.</td></tr>
+                    <tr><td class="p-4 font-bold text-slate-900 bg-slate-50/50">Launch &amp; Optimize</td><td class="p-4">A/B tests, telemetry analytics, ongoing post-launch support and customer reviews.</td><td class="p-4 bg-indigo-50/30 font-medium text-indigo-950">Generating hypothesis variations for experiments and clustering or classifying real-world user complaints.</td><td class="p-4 bg-amber-50/30 text-amber-950">Evaluating actual experiment conversions; synthetics cannot represent population effects over time.</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div id="table-agentic-lifecycle" class="space-y-4 hidden">
+        <div class="overflow-x-auto rounded-xl border border-slate-200">
+            <table class="w-full text-left border-collapse text-xs sm:text-sm">
+                <thead><tr class="bg-slate-900 text-white text-[11px] font-bold uppercase tracking-wider">
+                    <th class="p-4 border-b border-slate-800">Agentic Phase</th>
+                    <th class="p-4 border-b border-slate-800">Primary Technical Work</th>
+                    <th class="p-4 border-b border-slate-800 text-indigo-200">Role of Synthetic / LLM-Simulated Users</th>
+                    <th class="p-4 border-b border-slate-800 text-amber-200">Rely on Real Humans For</th>
+                </tr></thead>
+                <tbody class="divide-y divide-slate-200 text-slate-700 bg-white">
+                    <tr><td class="p-4 font-bold text-slate-900 bg-slate-50/50">Framing &amp; Risks</td><td class="p-4">Define safe use cases, potential harms, user abuse scopes, target metrics.</td><td class="p-4 bg-indigo-50/30 font-medium text-indigo-950">Enumerating obvious misuse scenarios, edge failures, and adversarial pathways the design team missed.</td><td class="p-4 bg-amber-50/30 text-amber-950">Deciding acceptable societal risks, legal compliance standards, and ethical harm balances.</td></tr>
+                    <tr><td class="p-4 font-bold text-slate-900 bg-slate-50/50">Data &amp; Context</td><td class="p-4">Auditing user logs, labeling telemetry vectors, mapping organizational workflows.</td><td class="p-4 bg-indigo-50/30 font-medium text-indigo-950">Replaying or remixing known log patterns to verify pipeline coverage and simulate standard task streams.</td><td class="p-4 bg-amber-50/30 text-amber-950">Identifying systematic data biases and underrepresented user cohorts that training logs are missing.</td></tr>
+                    <tr><td class="p-4 font-bold text-slate-900 bg-slate-50/50">Agent Design</td><td class="p-4">Defining agent policies, tools, system constraints, persona tones, guardrail loops.</td><td class="p-4 bg-indigo-50/30 font-medium text-indigo-950">Rapid policy and tooling-usage simulations ("If our agent acts with policy X, what conflicts arise with user archetype Y?").</td><td class="p-4 bg-amber-50/30 text-amber-950">Aligning agents with sensitive organizational gray areas and real interpersonal expectations.</td></tr>
+                    <tr><td class="p-4 font-bold text-slate-900 bg-slate-50/50">UX &amp; Interaction</td><td class="p-4">Designing prompt structures, conversational UI affordances, error correction views.</td><td class="p-4 bg-indigo-50/30 font-medium text-indigo-950">Stress-testing conversational dialogue models to flag prompt vulnerabilities and missing error mitigations.</td><td class="p-4 bg-amber-50/30 text-amber-950">Validating trust, clarity, and whether users can reliably correct a malfunctioning agent.</td></tr>
+                    <tr><td class="p-4 font-bold text-slate-900 bg-slate-50/50">Offline Evaluation</td><td class="p-4">Scripting automated test suites, core benchmarks, safety red-teaming sweeps.</td><td class="p-4 bg-indigo-50/30 font-medium text-indigo-950"><strong class="text-blue-700">Strongest Fit:</strong> Scalable test harnesses for red-teaming, load-testing, and automated task success checks.</td><td class="p-4 bg-amber-50/30 text-amber-950">Confirming actual human satisfaction and real-world compliance in mission-critical applications.</td></tr>
+                    <tr><td class="p-4 font-bold text-slate-900 bg-slate-50/50">Human Evaluation</td><td class="p-4">Lab usability studies, piloting agent run states, expert alignment evaluations.</td><td class="p-4 bg-indigo-50/30 font-medium text-indigo-950">Prioritizing high-risk tasks and prompts that broke during offline evaluation to focus human trials.</td><td class="p-4 bg-amber-50/30 text-amber-950">The evaluations themselves: synthetics regularly diverge from physical human alignment metrics.</td></tr>
+                    <tr><td class="p-4 font-bold text-slate-900 bg-slate-50/50">Deployment &amp; Monitor</td><td class="p-4">System telemetry loops, continuous policy updates, live incident management.</td><td class="p-4 bg-indigo-50/30 font-medium text-indigo-950">Ongoing regression checks, running daily automated user journeys to flag agent degradation.</td><td class="p-4 bg-amber-50/30 text-amber-950">Interpreting live signals, defining strategic responses, and addressing complex user trust breakdowns.</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="mt-6 p-4 rounded-xl bg-slate-900 text-slate-300 text-xs flex flex-col sm:flex-row justify-between items-center gap-3">
+        <p class="font-medium text-center sm:text-left">Use synthetic metrics as a scale-multiplier, never as the single source of human truth.</p>
+        <span class="text-blue-400 font-bold flex items-center gap-1 shrink-0"><i data-lucide="shield-check" class="w-4 h-4"></i> Safe Integration Confirmed</span>
+    </div>
+</div>
+</div>
+</main>
+<!-- GLOBAL MODAL -->
+<div id="global-modal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-slate-950/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white border border-slate-200 rounded-2xl max-w-2xl w-full max-h-[85vh] overflow-y-auto flex flex-col shadow-2xl">
+        <div class="p-6 border-b border-slate-100 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <div id="modal-header-icon" class="p-2 rounded-lg bg-indigo-100 text-indigo-700"><i data-lucide="file-search"></i></div>
+                <div>
+                    <h3 id="modal-title" class="font-bold text-lg text-slate-900">Analysis Title</h3>
+                    <p id="modal-subtitle" class="text-xs text-slate-400">Diagnostic outcome summary</p>
+                </div>
+            </div>
+            <button onclick="closeGlobalModal()" class="p-1 text-slate-400 hover:text-slate-600 transition-colors"><i data-lucide="x" class="w-5 h-5"></i></button>
+        </div>
+        <div class="p-6 overflow-y-auto text-sm text-slate-700 space-y-4" id="modal-content"></div>
+        <div class="p-4 bg-slate-50 border-t border-slate-100 flex justify-end">
+            <button onclick="closeGlobalModal()" class="bg-slate-950 hover:bg-slate-800 text-white text-xs font-semibold px-4 py-2 rounded-lg transition-colors">Acknowledge Analysis</button>
+        </div>
+    </div>
+</div>
+
+<!-- Footer (Enhancement #21) -->
+<footer class="bg-white border-t border-slate-200 mt-16 py-8">
+    <div class="max-w-7xl mx-auto px-4 text-center text-slate-500 text-xs space-y-2">
+        <p class="font-medium">SaaS Synthetic Users Governance Simulator &bull; Powered by Gemini 2.0 &bull; <span id="footer-year"></span></p>
+        <p>Always align synthetic persona configurations with physical customer telemetry, support tickets, and direct feedback channels.</p>
+    </div>
+</footer>
+<script>
+// ===================== DATA =====================
+const stepsData = {
+    1: { title:"Clarify SaaS product decision", type:"SaaS Checkpoint", objective:"Clearly formulate the business decision, user onboarding step, or subscription limit being altered.", stdPhase:"Discovery", stdText:"Useful for exploring what is widely known in the domain, generating candidate questions, and clarifying jargon.", agentPhase:"Problem Framing & Risks", agentText:"Synthetics enumerate obvious user misuse scenarios or edge cases the design team has overlooked.", risk:"Vague targets lead to default model replies that simulate generic consumer logic instead of your specific SaaS system.", guide:["Formulate a 1-sentence hypothesis (e.g. 'How will adding user limits impact our conversion rate?').","List SaaS metrics directly tied to this change (MRR, Free-to-Paid expansion, churn).","Map specific system conditions (MFA barriers, feature toggles) before running cohorts."] },
+    2: { title:"Check risk level", type:"Risk Checkpoint", objective:"Assess if the modification involves irreversible contract liability, core billing loops, or security risks.", stdPhase:"Definition", stdText:"Helps stress-test early requirements but deciding priority and acceptable risk belongs to human segments.", agentPhase:"Framing & Risks", agentText:"Deciding legal or policy bounds requires legal and domain experts, not model metrics.", risk:"High-risk decisions can result in customer account drop-offs or security flaws. Action: Reframe question to focus on incremental releases.", guide:["Calculate blast radius: How many active tenants or accounts does this modification impact?","If legal, compliance, or billing codes are involved, flag the test path as highly dangerous for ungrounded synthetics."] },
+    3: { title:"Fit the question", type:"Suitability Checkpoint", objective:"Ensure the test evaluates strict system interactions, interface constraints, or pricing plan logic.", stdPhase:"Definition", stdText:"Excellent for verifying strict constraints, but fails at generating net-new value propositions.", agentPhase:"Agent Design", agentText:"Useful for exploring how different synthetic agents react to conflicting design policies.", risk:"Highly exploratory product discovery requests fail because LLMs cannot predict unexpected real-world startup behaviors. Action: Do qualitative user discovery.", guide:["Does your query require exploring emerging, unmapped markets? If so, prioritize human feedback.","Use synthetics primarily to check UI friction, task complexity limits, and permissions structure checkouts."] },
+    4: { title:"Confirm real SaaS usage data", type:"Data Gate", objective:"Review empirical logs, telemetry data, survey charts, or historical customer interviews to act as system anchors.", stdPhase:"Discovery", stdText:"Synthetics are built on existing material. Grounding requires injecting active physical logs and behaviors.", agentPhase:"Data & Context", agentText:"Simulations can replay logs at scale, but cannot identify structural blind spots in initial datasets.", risk:"Using synthetics without customer usage profiles results in massive AI hallucination. Action: Humans only.", guide:["Isolate user session maps, analytics histories, database sizes, or support interactions.","If you are launching a brand-new SaaS product with zero existing users, stop and conduct standard customer interviews."] },
+    5: { title:"Define synthetic user persona/role", type:"SaaS Checkpoint", objective:"Detail the synthetic user's corporate profile, job constraints, user rights, and budget limits.", stdPhase:"Design", stdText:"Helps perform heuristic walks and flag missing layout states prior to high-fidelity prototyping.", agentPhase:"UX & Interaction", agentText:"Hammers dialog prompt flows to check for context dropouts and interaction deadlocks.", risk:"Generic templates yield generic insights, making simulations useless for SaaS testing.", guide:["Define standard permissions: Is the user an Admin, Editor, Developer, or external Guest?","Include corporate limitations: Specify their seat-allowances, budget limits, and technical expertise level."] },
+    6: { title:"Calibrate on historical SaaS results", type:"Calibration Gate", objective:"Verify that the synthetic persona matches a past user study or analytics event with known outcomes.", stdPhase:"Test & Validate", stdText:"Ideal for debugging test structures and surveys to ensure logic metrics line up prior to running real humans.", agentPhase:"Offline Evaluation", agentText:"This is the strongest slot for synthetics: serving as repeatable, programmatic offline test suites.", risk:"If calibration drift exceeds 15%, halt testing. Action: Adjust prompt limitations and test parameters.", guide:["Run an identical test utilizing past user feedback data.","Verify if simulated user drop-offs align with actual customer abandonments logged on your SaaS dashboard."] },
+    7: { title:"Plan human + synthetic hybrid loop", type:"Hybrid Gate", objective:"Design a hybrid testing system where human validation channels verify simulated metrics.", stdPhase:"Test & Validate", stdText:"Synthetics are highly valuable for rehearsal, but go/no-go decisions must always involve humans.", agentPhase:"Human Evaluation", agentText:"Synthetics assist in creating evaluations, but direct human lab tests are necessary to prevent model drift.", risk:"Relying 100% on simulations defaults to a closed loop system. Action: Humans only.", guide:["Designate critical checks: ensure your beta-tester cohort cross-checks simulated outputs.","Define check schedules: e.g. validate 80% with synthetic testing, and 20% with real design partners."] },
+    8: { title:"Set compliance guardrails & tags", type:"Compliance Gate", objective:"Apply labels indicating AI-generated feedback, save logs of prompt structures, and review output reliability.", stdPhase:"Launch & Optimize", stdText:"Requires regression logging and transparent tags so stakeholders do not confuse synthetic and human data.", agentPhase:"Deployment & Monitor", agentText:"Synthetic flows act as ongoing smoke checks to detect agent regressions after code releases.", risk:"No-guardrail systems yield misleading, unlogged data, resulting in poor product prioritization.", guide:["Tag simulated responses so internal stakeholders know the difference between real and simulated usage data.","Regularly audit simulated responses to detect prompt template biases."] }
+};
+
+const wizardSteps = {
+    1: { title:"Have you clearly mapped out the SaaS product decision?", desc:"Before choosing any verification tools or personas, you must define the explicit business, architecture, billing plan, or feature gating choice you are evaluating.", choices:[{label:"Yes, we have a clear, documented SaaS decision target",next:2,action:"Proceed"},{label:"No, the decision parameters are open-ended / undefined",next:"reframe",action:"Stop"}] },
+    2: { title:"Check risk level: Is this a high-consequence SaaS decision?", desc:"If the consequences of incorrect research are high (e.g. churn of enterprise accounts, billing failures, or data security changes), we must handle synthetic validation carefully.", choices:[{label:"No, this is low-to-medium risk / easily reversible",next:3,action:"Proceed"},{label:"Yes, this directly impacts major security, enterprise plans, or MRR codes",next:"reframe",action:"Stop"}] },
+    3: { title:"Fit the question: Is this query suitable for SaaS metrics?", desc:"LLMs validate structured interaction logic well. They fail at uncovering emergent enterprise buyer needs or finding unexpected user growth tracks.", choices:[{label:"No, it's a specific, structured interaction or pricing logic check",next:4,action:"Proceed"},{label:"Yes, it is speculative/creative/requires brand-new product discovery",next:"discovery",action:"Stop"}] },
+    4: { title:"Confirm real SaaS usage data: Do you have live customer metrics?", desc:"To ground your synthetic users, you need verified, empirical feedback or telemetry from actual human beings. If not, synthetics are just generating generic bias.", choices:[{label:"Yes, we have telemetry, billing details, or user session data",next:5,action:"Proceed"},{label:"No, we have no real-world user metrics or support tickets yet",next:"humans-only",action:"Stop"}] },
+    5: { title:"Have you defined a precise synthetic SaaS user role?", desc:"Instead of generic prompts, write detailed instructions outlining explicit access rights, budget metrics, domain skills, and interface limitations.", choices:[{label:"Yes, the synthetic role parameters are clearly formulated",next:6,action:"Proceed"},{label:"No, we are using standard template prompts",next:"recalibrate",action:"Stop"}] },
+    6: { title:"Can you calibrate your synthetic agent against past SaaS releases?", desc:"Before querying on new features, run tests where you already have physical user research data. Does the synthetic agent replicate those existing results accurately?", choices:[{label:"Yes, the agent replicates historical drop-off states reliably",next:7,action:"Proceed"},{label:"No, we haven't or cannot test against known baselines",next:"recalibrate",action:"Stop"}] },
+    7: { title:"Are you planning a human + synthetic hybrid research approach?", desc:"Relying 100% on synthetic data is risky. A proper governance framework ensures critical features are validated by real customer beta testers or design partners.", choices:[{label:"Yes, we have human check loops integrated",next:8,action:"Proceed"},{label:"No, this is planned as a synthetic-only verification",next:"humans-only",action:"Stop"}] },
+    8: { title:"Have you set clear SaaS guardrails and dashboard labels?", desc:"Outputs must be transparently tagged as AI-simulated, and version histories must be tracked to prevent model updates from skewing outputs.", choices:[{label:"Yes, compliance labeling and drift reviews are defined",next:"success",action:"Proceed"},{label:"No, we don't have explicit tagging/label systems active",next:"brainstorm-only",action:"Stop"}] }
+};
+
+const resultOutcomes = {
+    "reframe":       { title:"Reframe Your Core Question First",       bg:"bg-rose-50 border-rose-200",       icon:"help-circle",   iconBg:"bg-rose-100 text-rose-600",       desc:"The risk profile of this decision is too high or your parameters are too loose. You must scale down the scope of your core question or reframe it into safer, lower-stake queries before evaluating with synthetic testing." },
+    "discovery":     { title:"Initiate Human Discovery First",         bg:"bg-indigo-50 border-indigo-200",   icon:"compass",       iconBg:"bg-indigo-100 text-indigo-600",   desc:"The question you are asking requires exploratory research and generative intuition. Synthetics are terrible at identifying original human behaviors. Run live customer interviews, surveys, or usability groups first." },
+    "humans-only":   { title:"Real Customers Only Here",               bg:"bg-amber-50 border-amber-200",     icon:"users-2",       iconBg:"bg-amber-100 text-amber-600",     desc:"Your process triggered a critical safety check: either you lack grounding baseline user data, or your workflow excludes human interaction. You MUST conduct this research cycle using only physical human validation." },
+    "recalibrate":   { title:"Recalibration & Fine-Tuning Required",   bg:"bg-slate-100 border-slate-300",    icon:"refresh-cw",    iconBg:"bg-slate-200 text-slate-700",     desc:"You must halt research. You need to gather more empirical customer files, build more targeted prompts, and run verification baseline matches before using these models for active decision-making." },
+    "brainstorm-only":{ title:"Use as Brainstorm Only",                bg:"bg-violet-50 border-violet-200",   icon:"brain",         iconBg:"bg-violet-100 text-violet-600",   desc:"Since guardrails and transparency tags are not integrated, these simulated results may lead to misalignment. You may use this generation for divergent team brainstorming only, but not for formal product validation." },
+    "success":       { title:"Check Passed: Ready for Synthetic SaaS Users!", bg:"bg-emerald-50 border-emerald-200", icon:"shield-check", iconBg:"bg-emerald-100 text-emerald-600", desc:"Excellent! Your team has established logical bounds, grounded the inputs with verified historical research data, planned human validation checkpoints, and configured transparent system labels. Proceed with testing." }
+};
+
+// ===================== VIEW SWITCHING =====================
+function switchView(view) {
+    const views = { map:'view-map', wizard:'view-wizard', sandbox:'view-sandbox', rationale:'view-rationale' };
+    const btns  = { map:'btn-map', wizard:'btn-wizard', sandbox:'btn-sandbox', rationale:'btn-rationale' };
+    Object.values(views).forEach(id => document.getElementById(id).classList.add('hidden'));
+    Object.values(btns).forEach(id => {
+        const b = document.getElementById(id);
+        b.classList.remove('bg-white','text-slate-900','shadow-sm');
+        b.classList.add('text-slate-600');
+    });
+    document.getElementById(views[view]).classList.remove('hidden');
+    const activeBtn = document.getElementById(btns[view]);
+    activeBtn.classList.add('bg-white','text-slate-900','shadow-sm');
+    activeBtn.classList.remove('text-slate-600');
+
+    // Bug fix #3: only restart wizard if at step 1 with no answers
+    if (view === 'wizard' && currentStep === 1 && Object.keys(answersLog).length === 0) {
+        restartWizard();
+    }
+}
+
+function switchRationaleMode(mode) {
+    const btnStd   = document.getElementById('btn-toggle-std');
+    const btnAgent = document.getElementById('btn-toggle-agent');
+    const tableStd = document.getElementById('table-standard-lifecycle');
+    const tableAgent = document.getElementById('table-agentic-lifecycle');
+    if (mode === 'std') {
+        btnStd.classList.add('bg-white','text-slate-900','shadow-sm');   btnStd.classList.remove('text-slate-600');
+        btnAgent.classList.remove('bg-white','text-slate-900','shadow-sm'); btnAgent.classList.add('text-slate-600');
+        tableStd.classList.remove('hidden'); tableAgent.classList.add('hidden');
+    } else {
+        btnAgent.classList.add('bg-white','text-slate-900','shadow-sm'); btnAgent.classList.remove('text-slate-600');
+        btnStd.classList.remove('bg-white','text-slate-900','shadow-sm'); btnStd.classList.add('text-slate-600');
+        tableAgent.classList.remove('hidden'); tableStd.classList.add('hidden');
+    }
+}
+
+// ===================== MAP INSPECTOR =====================
+function highlightStep(stepNum) {
+    for (let i = 1; i <= 8; i++) {
+        const card = document.getElementById(`card-${i}`);
+        const dot  = document.getElementById(`dot-${i}`);
+        if (card) card.className = "bg-slate-50 border border-slate-200 hover:border-blue-500 p-4 rounded-xl transition-all shadow-sm";
+        if (dot)  dot.className  = "absolute -left-[35px] sm:-left-[51px] w-6 h-6 rounded-full border-4 border-slate-200 bg-white group-hover:border-blue-500 transition-all flex items-center justify-center text-[10px] font-bold text-slate-500";
+    }
+    const card = document.getElementById(`card-${stepNum}`);
+    const dot  = document.getElementById(`dot-${stepNum}`);
+    if (card) card.className = "bg-white border-2 border-blue-600 p-4 rounded-xl transition-all shadow-md scale-[1.01]";
+    if (dot)  dot.className  = "absolute -left-[35px] sm:-left-[51px] w-6 h-6 rounded-full border-4 border-blue-500 bg-blue-500 flex items-center justify-center text-[10px] font-bold text-white shadow";
+
+    const s = stepsData[stepNum];
+    document.getElementById('inspector-placeholder').classList.add('hidden');
+    document.getElementById('inspector-content').classList.remove('hidden');
+    document.getElementById('inspect-num').innerText       = `Step ${stepNum}`;
+    document.getElementById('inspect-type').innerText      = s.type;
+    document.getElementById('inspect-title').innerText     = s.title;
+    document.getElementById('inspect-objective').innerText = s.objective;
+    document.getElementById('inspect-risk').innerText      = s.risk;
+    document.getElementById('inspect-std-phase').innerText  = s.stdPhase;
+    document.getElementById('inspect-std-text').innerText   = s.stdText;
+    document.getElementById('inspect-agent-phase').innerText = s.agentPhase;
+    document.getElementById('inspect-agent-text').innerText  = s.agentText;
+
+    const guideList = document.getElementById('inspect-guide');
+    guideList.innerHTML = '';
+    s.guide.forEach(item => {
+        const li = document.createElement('li');
+        li.className = "flex items-start gap-2";
+        li.innerHTML = `<i data-lucide="check-circle-2" class="w-4 h-4 text-blue-500 shrink-0 mt-0.5"></i><span>${item}</span>`;
+        guideList.appendChild(li);
+    });
+    lucide.createIcons();
+}
+
+// ===================== WIZARD =====================
+let currentStep  = 1;
+let answersLog   = {};
+let stepHistory  = [];  // for back button
+
+function renderStepTracker() {
+    const tracker = document.getElementById('wizard-step-tracker');
+    if (!tracker) return;
+    tracker.innerHTML = '';
+    for (let i = 1; i <= 8; i++) {
+        const dot = document.createElement('div');
+        dot.className = 'flex flex-col items-center gap-1';
+        let circleClass, inner;
+        if (answersLog[i]) {
+            // completed
+            circleClass = 'w-7 h-7 rounded-full bg-emerald-500 text-white flex items-center justify-center text-[10px] font-bold shadow';
+            inner = `<i data-lucide="check" class="w-3.5 h-3.5"></i>`;
+        } else if (i === currentStep) {
+            // active
+            circleClass = 'w-7 h-7 rounded-full bg-blue-600 text-white flex items-center justify-center text-[10px] font-bold shadow ring-2 ring-blue-300';
+            inner = String(i);
+        } else {
+            // future
+            circleClass = 'w-7 h-7 rounded-full bg-slate-200 text-slate-500 flex items-center justify-center text-[10px] font-bold';
+            inner = String(i);
+        }
+        dot.innerHTML = `<div class="${circleClass}">${inner}</div>`;
+        tracker.appendChild(dot);
+    }
+    lucide.createIcons();
+}
+
+function restartWizard() {
+    currentStep  = 1;
+    answersLog   = {};
+    stepHistory  = [];
+    document.getElementById('wizard-question-container').classList.remove('hidden');
+    document.getElementById('wizard-result-container').classList.add('hidden');
+    renderWizardStep();
+}
+
+function renderWizardStep() {
+    const stepData = wizardSteps[currentStep];
+    if (!stepData) return;
+
+    document.getElementById('wizard-progress').innerText       = `Step ${currentStep} of 8`;
+    document.getElementById('progress-bar-fill').style.width   = `${(currentStep / 8) * 100}%`;
+    document.getElementById('wizard-step-badge').innerText     = `Step ${currentStep}`;
+    document.getElementById('wizard-step-type').innerText      = stepsData[currentStep].type;
+    document.getElementById('wizard-question-title').innerText = stepData.title;
+    document.getElementById('wizard-question-desc').innerText  = stepData.desc;
+
+    // back button
+    const backBtn = document.getElementById('wizard-back-btn');
+    if (backBtn) backBtn.disabled = (stepHistory.length === 0);
+
+    const choicesContainer = document.getElementById('wizard-choices');
+    choicesContainer.innerHTML = '';
+    // Add fade animation
+    choicesContainer.classList.remove('question-fade');
+    void choicesContainer.offsetWidth; // reflow
+    choicesContainer.classList.add('question-fade');
+
+    stepData.choices.forEach(choice => {
+        const card = document.createElement('div');
+        card.className = "border border-slate-200 hover:border-blue-600 rounded-xl p-4 cursor-pointer transition-all bg-white hover:bg-slate-50 relative group flex justify-between items-center";
+        card.onclick = () => handleWizardAnswer(choice);
+        card.innerHTML = `
+            <div class="space-y-1 pr-6">
+                <p class="font-semibold text-slate-900 text-sm">${choice.label}</p>
+                <span class="text-[10px] text-slate-400 font-medium uppercase tracking-wider">${choice.action} Decision</span>
+            </div>
+            <div class="w-6 h-6 rounded-full border border-slate-200 group-hover:border-blue-500 group-hover:bg-blue-50 flex items-center justify-center shrink-0">
+                <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-slate-400 group-hover:text-blue-600"></i>
+            </div>`;
+        choicesContainer.appendChild(card);
+    });
+
+    renderStepTracker();
+    lucide.createIcons();
+}
+
+function handleWizardAnswer(choice) {
+    answersLog[currentStep] = choice.label;
+    stepHistory.push(currentStep);
+    const target = choice.next;
+    if (typeof target === 'number') {
+        currentStep = target;
+        renderWizardStep();
+    } else {
+        showResult(target);
+    }
+}
+
+function wizardGoBack() {
+    if (stepHistory.length === 0) return;
+    const prevStep = stepHistory.pop();
+    delete answersLog[prevStep];
+    currentStep = prevStep;
+    document.getElementById('wizard-question-container').classList.remove('hidden');
+    document.getElementById('wizard-result-container').classList.add('hidden');
+    renderWizardStep();
+}
+
+function showResult(outcomeKey) {
+    const outcome = resultOutcomes[outcomeKey];
+    if (!outcome) return;
+
+    document.getElementById('wizard-question-container').classList.add('hidden');
+    const resContainer = document.getElementById('wizard-result-container');
+    resContainer.classList.remove('hidden');
+    resContainer.className = `p-6 rounded-2xl border ${outcome.bg} transition-all space-y-6 max-w-2xl mx-auto`;
+
+    const iconWrap = document.getElementById('result-icon-container');
+    iconWrap.className = `w-16 h-16 mx-auto rounded-full flex items-center justify-center ${outcome.iconBg}`;
+    iconWrap.innerHTML = `<i data-lucide="${outcome.icon}" class="w-8 h-8"></i>`;
+
+    document.getElementById('result-title').innerText       = outcome.title;
+    document.getElementById('result-description').innerText = outcome.desc;
+
+    const summaryBox = document.getElementById('result-summary');
+    summaryBox.innerHTML = '';
+    for (let s = 1; s <= 8; s++) {
+        if (answersLog[s]) {
+            const row = document.createElement('div');
+            row.className = "flex items-center justify-between border-b border-slate-100 pb-1.5 last:border-0";
+            row.innerHTML = `<span class="text-slate-500 font-medium text-[11px] sm:text-xs">Gate ${s}: ${stepsData[s].title}</span><span class="text-blue-700 font-bold bg-blue-50 px-2 py-0.5 rounded text-[10px]">${answersLog[s]}</span>`;
+            summaryBox.appendChild(row);
+        }
+    }
+    if (outcomeKey !== 'success') {
+        const failedGate = Object.keys(answersLog).length + 1;
+        if (failedGate <= 8) {
+            const failedRow = document.createElement('div');
+            failedRow.className = "flex items-center justify-between text-rose-700 bg-rose-50 p-2 rounded mt-2 border border-rose-100 font-semibold text-[11px] sm:text-xs";
+            failedRow.innerHTML = `<span>Gate ${failedGate} Failure Point:</span><span class="uppercase text-[9px] tracking-wider">${outcome.title}</span>`;
+            summaryBox.appendChild(failedRow);
+        }
+    }
+
+    // Show AI next steps only on success (Enhancement #9)
+    const aiContainer = document.getElementById('ai-next-steps-container');
+    if (outcomeKey === 'success') {
+        aiContainer.classList.remove('hidden');
+    } else {
+        aiContainer.classList.add('hidden');
+    }
+
+    renderStepTracker();
+    lucide.createIcons();
+}
+
+// Enhancement #8: Download Report
+function downloadWizardReport() {
+    const lines = ['SaaS Governance Assessment Report', '================================', `Date: ${new Date().toLocaleString()}`, ''];
+    const resultTitle = document.getElementById('result-title').innerText;
+    const resultDesc  = document.getElementById('result-description').innerText;
+    lines.push(`Outcome: ${resultTitle}`, `Summary: ${resultDesc}`, '', 'Gate Evaluation Path:', '-------------------');
+    for (let s = 1; s <= 8; s++) {
+        if (answersLog[s]) lines.push(`Gate ${s} (${stepsData[s].title}): ${answersLog[s]}`);
+    }
+    lines.push('', 'Generated by SaaS Synthetic Users Governance Simulator');
+    const blob = new Blob([lines.join('\n')], { type: 'text/plain' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'governance-assessment-report.txt';
+    a.click();
+    URL.revokeObjectURL(a.href);
+}
+
+// Enhancement #9: AI Next Steps
+async function getAiNextSteps() {
+    const btn = document.getElementById('ai-next-steps-btn');
+    const origHtml = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = `<i data-lucide="loader" class="w-4 h-4 animate-spin"></i> Generating AI Plan...`;
+    lucide.createIcons();
+
+    const pathSummary = Object.entries(answersLog).map(([step, ans]) => `Step ${step} (${stepsData[step].title}): ${ans}`).join('\n');
+    const prompt = `A SaaS product manager just passed all 8 governance gates for synthetic user testing. Here is their assessment path:\n${pathSummary}\n\nGenerate a concrete, tailored 5-step action plan they should follow next to successfully run their synthetic user research program. Be specific and practical.`;
+
+    try {
+        const result = await callGeminiAPI(prompt, "You are a SaaS product operations expert. Provide actionable, numbered guidance.");
+        openGlobalModal('AI-Powered Next Steps', 'Tailored 5-step action plan based on your assessment', `<div class="prose prose-sm max-w-none"><pre class="whitespace-pre-wrap text-sm text-slate-700 font-sans leading-relaxed">${result}</pre></div>`, 'sparkles');
+    } catch(e) {
+        console.error(e);
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = origHtml;
+        lucide.createIcons();
+    }
+}
+</script>
+<script>
+// ===================== GEMINI API =====================
+async function fetchWithBackoff(url, options, maxRetries = 3) {
+    let delay = 1000;
+    for (let i = 0; i < maxRetries; i++) {
+        try {
+            const response = await fetch(url, options);
+            if (response.ok) return response;
+            if (response.status === 429 || response.status >= 500) {
+                console.warn(`Gemini API status ${response.status}. Retry in ${delay}ms`);
+            } else {
+                throw new Error(`Gemini API failed: ${response.status}`);
+            }
+        } catch(err) {
+            if (i === maxRetries - 1) throw err;
+        }
+        await new Promise(r => setTimeout(r, delay));
+        delay *= 2;
+    }
+    throw new Error("Failed to contact Gemini API after max retries.");
+}
+
+// Enhancement #17: accept optional conversationHistory for multi-turn
+async function callGeminiAPI(userPrompt, systemInstructionText = "", structuredJsonSchema = null, conversationHistory = null) {
+    const customKey = document.getElementById('custom-api-key').value.trim();
+    const apiKey    = customKey || "";
+    // Bug fix #1: correct model name
+    const apiUrl    = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+    let contents;
+    if (conversationHistory && conversationHistory.length > 0) {
+        contents = conversationHistory;
+    } else {
+        contents = [{ role: "user", parts: [{ text: userPrompt }] }];
+    }
+
+    const payload = { contents };
+    if (systemInstructionText) payload.systemInstruction = { parts: [{ text: systemInstructionText }] };
+    if (structuredJsonSchema)  payload.generationConfig  = { responseMimeType: "application/json", responseSchema: structuredJsonSchema };
+
+    try {
+        const response = await fetchWithBackoff(apiUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+        const result = await response.json();
+        const text = result?.candidates?.[0]?.content?.parts?.[0]?.text;
+        if (!text) throw new Error("Empty response from Gemini API.");
+        return text;
+    } catch(error) {
+        console.error("Gemini error:", error);
+        showToast("AI Request Failed", error.message, "error");
+        throw error;
+    }
+}
+
+// ===================== TOAST (Enhancement #19: close button) =====================
+function showToast(title, message, type = "info") {
+    const container = document.getElementById('toast-container');
+    const toast = document.createElement('div');
+    const colorClasses = { success:"bg-emerald-50 border-emerald-200 text-emerald-900", error:"bg-rose-50 border-rose-200 text-rose-900", info:"bg-indigo-50 border-indigo-200 text-indigo-900" };
+    const iconType     = { success:"check-circle", error:"alert-triangle", info:"info" };
+    toast.className = `p-4 rounded-xl shadow-lg border text-xs max-w-sm w-80 pointer-events-auto transition-all duration-300 transform translate-y-2 opacity-0 flex gap-3 ${colorClasses[type]}`;
+    toast.innerHTML = `
+        <div class="shrink-0"><i data-lucide="${iconType[type]}" class="w-5 h-5"></i></div>
+        <div class="flex-1"><h5 class="font-bold">${title}</h5><p class="mt-0.5 opacity-90">${message}</p></div>
+        <button onclick="this.closest('.pointer-events-auto').remove()" class="shrink-0 opacity-60 hover:opacity-100 transition-opacity leading-none text-base font-bold">&times;</button>`;
+    container.appendChild(toast);
+    lucide.createIcons();
+    setTimeout(() => toast.classList.remove('translate-y-2','opacity-0'), 10);
+    setTimeout(() => { toast.classList.add('translate-y-2','opacity-0'); setTimeout(() => toast.remove(), 300); }, 4500);
+}
+
+function openGlobalModal(title, subtitle, contentHtml, icon = "info") {
+    document.getElementById('modal-title').innerText    = title;
+    document.getElementById('modal-subtitle').innerText = subtitle;
+    document.getElementById('modal-content').innerHTML  = contentHtml;
+    document.getElementById('modal-header-icon').innerHTML = `<i data-lucide="${icon}" class="w-6 h-6"></i>`;
+    document.getElementById('global-modal').classList.remove('hidden');
+    lucide.createIcons();
+}
+function closeGlobalModal() { document.getElementById('global-modal').classList.add('hidden'); }
+</script>
+<script>
+// ===================== AI RISK SCREENER =====================
+async function runAiRiskScreener() {
+    const inputVal = document.getElementById('ai-screener-input').value.trim();
+    if (!inputVal) { showToast("Input Required","Please describe your SaaS hypothesis first.","error"); return; }
+    const btn = document.getElementById('ai-screener-btn');
+    const origHtml = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = `<i data-lucide="loader" class="w-4 h-4 animate-spin"></i> Processing...`;
+    lucide.createIcons();
+
+    const systemPrompt = `You are a SaaS Product Operations Auditor specializing in synthetic user validation. Analyze the user's proposed feature and evaluate it across 8 SaaS checkpoints:\n1) Clarify SaaS product decision\n2) Check risk level\n3) Fit the question\n4) Confirm real SaaS usage data\n5) Define synthetic user persona/role\n6) Calibrate on historical SaaS results\n7) Plan human + synthetic hybrid loop\n8) Set compliance guardrails & tags\nProvide structured JSON with scores and actionable PM guidance.`;
+
+    const jsonSchema = {
+        type:"OBJECT",
+        properties:{
+            overallScore:{ type:"NUMBER" },
+            verdict:{ type:"STRING" },
+            criticalFailureNode:{ type:"STRING" },
+            checks:{ type:"ARRAY", items:{ type:"OBJECT", properties:{ stepNumber:{type:"NUMBER"}, title:{type:"STRING"}, status:{type:"STRING"}, details:{type:"STRING"}, operationalRecommendation:{type:"STRING"} }, required:["stepNumber","title","status","details","operationalRecommendation"] } }
+        },
+        required:["overallScore","verdict","criticalFailureNode","checks"]
+    };
+
+    try {
+        const raw  = await callGeminiAPI(`Evaluate this SaaS hypothesis: "${inputVal}"`, systemPrompt, jsonSchema);
+        const data = JSON.parse(raw);
+
+        let html = `<div class="mb-6 p-4 rounded-xl border flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 ${data.verdict==='Pass'?'bg-emerald-50 border-emerald-200 text-emerald-900':data.verdict==='Warn'?'bg-amber-50 border-amber-200 text-amber-900':'bg-rose-50 border-rose-200 text-rose-900'}">
+            <div><span class="text-[10px] font-bold uppercase tracking-widest opacity-80">Automated Audit Verdict</span><h4 class="text-2xl font-black">${data.verdict.toUpperCase()}</h4><p class="text-xs mt-1">SaaS Readiness Rating: <strong>${data.overallScore}/100</strong></p></div>
+            <div class="text-xs sm:text-right"><span class="text-[10px] font-bold uppercase tracking-widest block opacity-80">Primary SaaS Bottleneck</span><span class="font-bold text-rose-700 bg-white border border-rose-100 px-2.5 py-1 rounded-md inline-block mt-1">${data.criticalFailureNode}</span></div>
+        </div><h4 class="font-bold text-slate-900 text-sm mb-3">8-Gate Compliance Breakdown:</h4><div class="space-y-4">`;
+
+        data.checks.forEach(chk => {
+            const sc = chk.status.toLowerCase().includes("pass") ? "bg-emerald-100 text-emerald-800 border-emerald-200" :
+                       chk.status.toLowerCase().includes("risk") || chk.status.toLowerCase().includes("fail") ? "bg-rose-100 text-rose-800 border-rose-200 font-bold" :
+                       "bg-amber-100 text-amber-800 border-amber-200";
+            html += `<div class="p-3.5 border border-slate-100 rounded-xl bg-slate-50/50 space-y-2">
+                <div class="flex items-center justify-between flex-wrap gap-2">
+                    <span class="font-bold text-slate-900 text-xs sm:text-sm flex items-center gap-2"><span class="w-5 h-5 rounded bg-slate-200 text-slate-800 flex items-center justify-center text-[11px] font-mono">${chk.stepNumber}</span>${chk.title}</span>
+                    <span class="text-[10px] uppercase font-bold border px-2 py-0.5 rounded-full ${sc}">${chk.status}</span>
+                </div>
+                <p class="text-xs text-slate-600 leading-relaxed">${chk.details}</p>
+                <div class="bg-white p-2.5 rounded-lg border border-slate-100/80 text-[11px]"><strong class="text-slate-800 font-semibold block mb-0.5">SaaS Governance Strategy:</strong><span class="text-slate-500 leading-relaxed">${chk.operationalRecommendation}</span></div>
+            </div>`;
+        });
+        html += `</div>`;
+        openGlobalModal("SaaS Audit Compliance Report","Continuous automated SaaS risk screening analysis.",html, data.verdict==='Pass'?'shield-check':'shield-alert');
+    } catch(err) { console.error(err); }
+    finally {
+        btn.disabled = false; btn.innerHTML = origHtml; lucide.createIcons();
+    }
+}
+</script>
+<script>
+// ===================== SANDBOX =====================
+let sandboxPersonaActive = false;
+let syntheticSystemInstruction = "";
+let chatLogs = [];
+let conversationHistory = []; // Enhancement #17: multi-turn history
+
+// Enhancement #10: Quick Templates
+function applyTemplate(tpl) {
+    const templates = {
+        'enterprise-mfa': {
+            decision: "Enforcing mandatory two-factor authentication (MFA) for all enterprise admin accounts as part of a new security policy rollout.",
+            audience: "Enterprise IT Administrator at a Fortune 500 financial services firm, managing 500+ user accounts, responsible for compliance and access control.",
+            data: "Internal audit: 23% of admins disabled MFA within 48 hours of rollout. Helpdesk tickets increased 340% during MFA enforcement week. Average setup time 4.2 minutes caused significant friction.",
+            expertise: "highly specialized security administrator with full IAM privileges",
+            bias: "fully cooperative rational enterprise corporate user",
+            companySize: "Enterprise (2000+ employees)",
+            industry: "Finance/Banking industry"
+        },
+        'free-tier-limits': {
+            decision: "Reducing free tier seat limit from 5 users to 3 users to encourage upgrades to paid plans.",
+            audience: "Solo developer or small startup founder on the free tier, building a side project, highly price-sensitive with no budget authority.",
+            data: "Conversion data: 67% of free accounts never exceed 2 seats. Top 15% use 4-5 seats. Support logs show seat limit is top cancellation reason. Average free tenure 8 months before churn.",
+            expertise: "standard daily active worker with low interface privileges",
+            bias: "severe cognitive load friction, low patience, zero toleration for workflow delays",
+            companySize: "Startup (1-50 employees)",
+            industry: "SaaS/Tech industry"
+        },
+        'smb-upgrade': {
+            decision: "Introducing a new Mid-Market pricing tier at $299/month between SMB ($99) and Enterprise ($999) plans with additional analytics features.",
+            audience: "Finance Director or CFO at a 150-person e-commerce company evaluating whether to upgrade from SMB to the new Mid-Market tier.",
+            data: "Sales calls: 42% of SMB accounts ask for advanced reporting not in their tier. Average deal cycle 3 weeks for SMB upgrades. Price sensitivity threshold around $250-350/month based on 50 customer interviews.",
+            expertise: "standard daily active worker with low interface privileges",
+            bias: "fully cooperative rational enterprise corporate user",
+            companySize: "SMB (51-500 employees)",
+            industry: "E-commerce industry"
+        }
+    };
+    const t = templates[tpl];
+    if (!t) return;
+    document.getElementById('architect-decision').value = t.decision;
+    document.getElementById('architect-audience').value = t.audience;
+    document.getElementById('architect-data').value     = t.data;
+    document.getElementById('architect-expertise').value = t.expertise;
+    document.getElementById('architect-bias').value     = t.bias;
+    // Set company size
+    const csEl = document.getElementById('architect-company-size');
+    Array.from(csEl.options).forEach(o => { if (o.value === t.companySize) o.selected = true; });
+    // Set industry
+    const indEl = document.getElementById('architect-industry');
+    Array.from(indEl.options).forEach(o => { if (o.value === t.industry) o.selected = true; });
+    showToast("Template Applied", "All fields pre-filled with scenario data.", "success");
+}
+
+// Enhancement #16: Prompt quality badge
+function updatePromptQualityBadge() {
+    const promptEl = document.getElementById('sandbox-system-prompt');
+    const badgeEl  = document.getElementById('prompt-quality-badge');
+    const text = promptEl.value.trim();
+    if (!text) { badgeEl.classList.add('hidden'); return; }
+    const wordCount = text.split(/\s+/).filter(Boolean).length;
+    badgeEl.classList.remove('hidden','bg-amber-100','text-amber-800','bg-emerald-100','text-emerald-800');
+    if (wordCount < 50) {
+        badgeEl.className = "text-[11px] font-semibold px-2.5 py-1 rounded-full w-fit bg-amber-100 text-amber-800 border border-amber-200";
+        badgeEl.textContent = `⚠️ Short prompt (${wordCount} words) - consider adding more constraints`;
+    } else if (wordCount <= 150) {
+        badgeEl.className = "text-[11px] font-semibold px-2.5 py-1 rounded-full w-fit bg-emerald-100 text-emerald-800 border border-emerald-200";
+        badgeEl.textContent = `✓ Good length (${wordCount} words)`;
+    } else {
+        badgeEl.className = "text-[11px] font-semibold px-2.5 py-1 rounded-full w-fit bg-emerald-100 text-emerald-800 border border-emerald-200";
+        badgeEl.textContent = `✓✓ Detailed prompt (${wordCount} words)`;
+    }
+}
+
+async function generateSystemPrompt() {
+    const decision   = document.getElementById('architect-decision').value.trim();
+    const audience   = document.getElementById('architect-audience').value.trim();
+    const dataBase   = document.getElementById('architect-data').value.trim();
+    const expertise  = document.getElementById('architect-expertise').value;
+    const bias       = document.getElementById('architect-bias').value;
+    const compSize   = document.getElementById('architect-company-size').value;
+    const industry   = document.getElementById('architect-industry').value;
+
+    if (!decision || !audience || !dataBase) {
+        showToast("Missing Configuration","SaaS Decision, target persona, and real baseline data are required.","error"); return;
+    }
+
+    const btn = document.getElementById('build-persona-btn');
+    const origHtml = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = `<i data-lucide="loader" class="w-4 h-4 animate-spin"></i> Crafting SaaS Agent...`;
+    lucide.createIcons();
+
+    const promptRequest = `Construct a robust System Instruction prompt for an LLM that will mimic a synthetic SaaS user persona representing:
+- Role/User Profile: ${audience}
+- Testing SaaS Decision Context: ${decision}
+- Level of system rights/permissions: ${expertise}
+- Behavioral rules to apply: ${bias}
+- Company Size Context: ${compSize}
+- Industry Vertical: ${industry}
+- Grounding Constraints (Real Baseline usage logs): ${dataBase}
+
+Your designed prompt MUST explicitly define:
+1. Core SaaS usage demographics, role permissions, and platform constraints.
+2. The exact interface elements or pricing flows they struggle with based strictly on the provided human grounding baseline logs.
+3. Strict guardrails against AI-isms: This persona MUST NOT offer friendly assistant advice, MUST NOT agree instantly to software changes, and must show genuine friction, software confusion, or user impatience.
+4. Output formatting constraint: Keep reactions concise, expressing frustration, satisfaction, or confusion as a real SaaS client would.`;
+
+    try {
+        const responseText = await callGeminiAPI(promptRequest, "You are a senior cognitive engineer and SaaS onboarding specialist. Create exceptionally realistic, highly-constrained user simulation prompts.");
+        document.getElementById('sandbox-system-prompt').value = responseText;
+        syntheticSystemInstruction = responseText;
+        sandboxPersonaActive = true;
+        conversationHistory = [];
+        chatLogs = [];
+
+        updatePromptQualityBadge();
+
+        document.getElementById('sandbox-chat-input').disabled    = false;
+        document.getElementById('sandbox-chat-send-btn').disabled  = false;
+        document.getElementById('audit-btn').disabled              = false;
+        document.getElementById('export-chat-btn').disabled        = true; // no chat yet
+        document.getElementById('chat-persona-subtitle').innerText = `Active Model Mimic: ${audience}`;
+        document.getElementById('chat-persona-subtitle').className = "text-[10px] text-blue-400 font-bold";
+
+        document.getElementById('sandbox-messages').innerHTML = `
+            <div class="bg-blue-950/40 border border-blue-800 text-blue-200 p-4 rounded-lg text-center space-y-1">
+                <p class="font-bold">SaaS Simulation Setup Complete!</p>
+                <p class="text-[11px]">The synthetic profile is loaded. Ask direct questions about pricing tiers, signup friction, or feature locations.</p>
+            </div>`;
+        showToast("Architect Configured","Your SaaS synthetic persona has been calibrated. Chat Sandbox is live!","success");
+    } catch(err) { console.error(err); }
+    finally { btn.disabled = false; btn.innerHTML = origHtml; lucide.createIcons(); }
+}
+
+// Listen for edits to prompt (Enhancement #12+#16)
+document.addEventListener('DOMContentLoaded', () => {
+    const promptEl = document.getElementById('sandbox-system-prompt');
+    if (promptEl) {
+        promptEl.addEventListener('input', () => {
+            syntheticSystemInstruction = promptEl.value;
+            updatePromptQualityBadge();
+        });
+    }
+});
+
+function clearSandboxConfig() {
+    ['architect-decision','architect-audience','architect-data','sandbox-system-prompt'].forEach(id => { document.getElementById(id).value = ""; });
+    document.getElementById('prompt-quality-badge').classList.add('hidden');
+    resetChat();
+    showToast("Sandbox Config Cleared","Console variables have been reset.","info");
+}
+
+function resetChat() {
+    chatLogs = []; conversationHistory = []; sandboxPersonaActive = false;
+    document.getElementById('sandbox-chat-input').disabled    = true;
+    document.getElementById('sandbox-chat-send-btn').disabled  = true;
+    document.getElementById('audit-btn').disabled              = true;
+    document.getElementById('export-chat-btn').disabled        = true;
+    document.getElementById('chat-persona-subtitle').innerText = "Persona inactive. Configure a persona on the left to launch simulation.";
+    document.getElementById('chat-persona-subtitle').className = "text-[10px] text-slate-400";
+    document.getElementById('sandbox-messages').innerHTML = `
+        <div class="bg-slate-800/50 text-slate-300 p-4 rounded-lg border border-slate-800 text-center space-y-1">
+            <p class="font-bold text-slate-200">Simulation Waiting Room</p>
+            <p class="text-[11px]">Fill in the configuration parameters on the left and click <strong>Build SaaS Persona Prompt</strong>.</p>
+        </div>`;
+    lucide.createIcons();
+}
+
+// Enhancement #17: proper multi-turn Gemini format
+async function sendSandboxMessage() {
+    const inputEl = document.getElementById('sandbox-chat-input');
+    const userMsg = inputEl.value.trim();
+    if (!userMsg || !sandboxPersonaActive) return;
+    inputEl.value = "";
+
+    appendMessage("Product Manager", userMsg, "user");
+    chatLogs.push(`Product Manager: ${userMsg}`);
+
+    // Add user message to conversation history
+    conversationHistory.push({ role: "user", parts: [{ text: userMsg }] });
+
+    // Enhancement #15: typing dots indicator
+    const loadingId = appendTypingIndicator();
+
+    try {
+        // Build full history including system framing as first user message
+        const fullHistory = [
+            { role: "user", parts: [{ text: `[SYSTEM INSTRUCTION - follow exactly]:\n${syntheticSystemInstruction}\n\n[BEGIN SESSION]\nYou are now acting as this synthetic SaaS user. Stay in character completely.` }] },
+            { role: "model", parts: [{ text: "Understood. I am ready to respond as this synthetic SaaS user persona. I will stay in character and provide realistic, grounded responses based on my defined constraints." }] },
+            ...conversationHistory
+        ];
+
+        const aiReply = await callGeminiAPI("", "", null, fullHistory);
+        document.getElementById(loadingId).remove();
+        appendMessage("Simulated User", aiReply, "synthetic");
+        chatLogs.push(`Simulated User: ${aiReply}`);
+        // Add model response to history
+        conversationHistory.push({ role: "model", parts: [{ text: aiReply }] });
+        // Enable export once there are messages
+        document.getElementById('export-chat-btn').disabled = false;
+    } catch(err) {
+        document.getElementById(loadingId).remove();
+        appendMessage("System Error","Failed to retrieve simulated response.","error");
+    }
+}
+
+// Enhancement #15: animated typing dots
+function appendTypingIndicator() {
+    const container = document.getElementById('sandbox-messages');
+    const wrapper   = document.createElement('div');
+    const uid = `msg-${Date.now()}`;
+    wrapper.id = uid;
+    wrapper.className = "flex justify-start gap-2 w-full";
+    wrapper.innerHTML = `
+        <div class="max-w-[85%] space-y-1">
+            <div class="text-[9px] text-slate-400 font-bold px-1 uppercase tracking-wider">Simulated User</div>
+            <div class="p-3 text-xs leading-relaxed bg-slate-800 text-slate-200 rounded-t-xl rounded-br-xl mr-12 border border-slate-700/50 flex items-center gap-2">
+                <span class="text-[11px] text-slate-400 italic">Thinking</span>
+                <span class="typing-dots"><span></span><span></span><span></span></span>
+            </div>
+        </div>`;
+    container.appendChild(wrapper);
+    container.scrollTop = container.scrollHeight;
+    return uid;
+}
+
+// Enhancement #14: simple markdown in synthetic messages
+function renderSimpleMarkdown(text) {
+    return text
+        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.+?)\*/g,     '<em>$1</em>')
+        .replace(/\n/g,            '<br>');
+}
+
+function appendMessage(sender, text, type) {
+    const container = document.getElementById('sandbox-messages');
+    const wrapper   = document.createElement('div');
+    const uid = `msg-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+    wrapper.id = uid;
+
+    let bubbleClass = "", alignment = "justify-start", displayText = text;
+
+    if (type === 'user') {
+        alignment   = "justify-end";
+        bubbleClass = "bg-blue-600 text-white rounded-t-xl rounded-bl-xl ml-12";
+    } else if (type === 'synthetic') {
+        bubbleClass = "bg-slate-800 text-slate-200 rounded-t-xl rounded-br-xl mr-12 border border-slate-700/50";
+        displayText = renderSimpleMarkdown(text);
+    } else {
+        bubbleClass = "bg-slate-900/60 text-slate-400 rounded p-2 italic text-center text-[10px]";
+    }
+
+    wrapper.className = `flex ${alignment} gap-2 w-full`;
+    wrapper.innerHTML = `
+        <div class="max-w-[85%] space-y-1">
+            <div class="text-[9px] text-slate-400 font-bold px-1 uppercase tracking-wider">${sender}</div>
+            <div class="p-3 text-xs leading-relaxed ${bubbleClass}">${displayText}</div>
+        </div>`;
+
+    container.appendChild(wrapper);
+    container.scrollTop = container.scrollHeight;
+    lucide.createIcons();
+    return uid;
+}
+
+// Enhancement #2: modern clipboard copy
+function copyGeneratedPrompt() {
+    const text = document.getElementById('sandbox-system-prompt').value;
+    if (!text) { showToast("Nothing to Copy","Generate a prompt first.","error"); return; }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text)
+            .then(() => showToast("Copied!","SaaS system prompt written to clipboard.","success"))
+            .catch(() => fallbackCopy(text));
+    } else { fallbackCopy(text); }
+}
+function fallbackCopy(text) {
+    const ta = document.createElement('textarea');
+    ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); showToast("Copied!","SaaS system prompt written to clipboard.","success"); }
+    catch(e) { showToast("Copy Failed","Please copy manually.","error"); }
+    document.body.removeChild(ta);
+}
+
+// Enhancement #13: Export Chat
+function exportChatTranscript() {
+    if (!chatLogs.length) return;
+    const lines = ['SaaS Simulation Chat Transcript', '================================', `Date: ${new Date().toLocaleString()}`, ''];
+    chatLogs.forEach(l => lines.push(l));
+    lines.push('', 'Generated by SaaS Synthetic Users Governance Simulator');
+    const blob = new Blob([lines.join('\n')], { type: 'text/plain' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'chat-transcript.txt';
+    a.click();
+    URL.revokeObjectURL(a.href);
+}
+</script>
+<script>
+// ===================== AUDIT =====================
+async function auditChatSession() {
+    if (chatLogs.length < 2) { showToast("Audit Pre-requisites Unmet","You must exchange at least two messages before auditing.","error"); return; }
+    const auditBtn = document.getElementById('audit-btn');
+    const origHtml = auditBtn.innerHTML;
+    auditBtn.disabled = true;
+    auditBtn.innerHTML = `<i data-lucide="loader" class="w-3.5 h-3.5 animate-spin"></i> Scanning Logs...`;
+    lucide.createIcons();
+
+    const baselineData = document.getElementById('architect-data').value.trim();
+    const promptRequest = `Audit the following simulated customer interview conversation against Step 6 (Calibrate on known results) and Step 8 (Set compliance guardrails & tags).
+
+Real SaaS Customer Baseline Grounding Data:
+"${baselineData}"
+
+Active Conversation Transcript:
+${chatLogs.join("\n")}
+
+Evaluate:
+- Did the synthetic user drift from the grounded baseline?
+- Did the synthetic user exhibit LLM sycophancy?
+- Calculate a Drift Index percentage 0-100 (0=perfect match, 100=extreme hallucination).
+- List warnings and decide if this setup is safe for SaaS product validation.`;
+
+    const auditSystemPrompt = "You are a compliance validator and senior SaaS researcher. Evaluate conversational telemetry strictly for cognitive bias and calibration drift.";
+    const jsonSchema = {
+        type:"OBJECT",
+        properties:{
+            driftIndex:{type:"NUMBER"},
+            complianceStatus:{type:"STRING"},
+            sycophancyCheck:{type:"STRING"},
+            detectedBiases:{type:"ARRAY",items:{type:"STRING"}},
+            auditHighlights:{type:"ARRAY",items:{type:"OBJECT",properties:{concept:{type:"STRING"},assessment:{type:"STRING"}},required:["concept","assessment"]}},
+            operationalAdjustments:{type:"STRING"}
+        },
+        required:["driftIndex","complianceStatus","sycophancyCheck","detectedBiases","auditHighlights","operationalAdjustments"]
+    };
+
+    try {
+        const raw     = await callGeminiAPI(promptRequest, auditSystemPrompt, jsonSchema);
+        const results = JSON.parse(raw);
+
+        let html = `<div class="mb-6 p-4 rounded-xl border flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 ${results.complianceStatus==='Compliant'?'bg-emerald-50 border-emerald-200 text-emerald-900':results.complianceStatus==='Warning'?'bg-amber-50 border-amber-200 text-amber-900':'bg-rose-50 border-rose-200 text-rose-900'}">
+            <div><span class="text-[10px] font-bold uppercase tracking-widest opacity-80">Audit Compliance Rating</span><h4 class="text-2xl font-black">${results.complianceStatus.toUpperCase()}</h4><p class="text-xs mt-1">Calibration Drift index: <strong class="text-rose-600">${results.driftIndex}%</strong> (Lower is safer)</p></div>
+            <div class="text-xs"><span class="text-[10px] font-bold uppercase tracking-widest block opacity-80">Sycophancy Trap Assessment</span><span class="font-semibold text-slate-800 bg-white border border-slate-100 px-2 py-1 rounded inline-block mt-1">${results.sycophancyCheck}</span></div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="p-3 bg-slate-50 border border-slate-100 rounded-lg"><h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Detected Algorithmic Biases:</h4><ul class="space-y-1 text-xs text-slate-600">`;
+
+        results.detectedBiases.forEach(b => { html += `<li class="flex items-center gap-1.5"><i data-lucide="alert-circle" class="w-3.5 h-3.5 text-rose-500"></i> ${b}</li>`; });
+
+        html += `</ul></div>
+            <div class="p-3 bg-slate-50 border border-slate-100 rounded-lg"><h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">SaaS Adjustment Strategy:</h4><p class="text-xs text-slate-600 leading-relaxed">${results.operationalAdjustments}</p></div>
+        </div>
+        <h4 class="font-bold text-slate-900 text-sm mt-4 mb-2">Key Diagnostic Audit Notes:</h4>
+        <div class="space-y-2">`;
+
+        results.auditHighlights.forEach(hl => {
+            html += `<div class="p-2.5 border border-slate-100 bg-slate-50/40 rounded"><span class="text-xs font-bold text-slate-800 block">${hl.concept}</span><span class="text-[11px] text-slate-500 leading-relaxed mt-0.5 block">${hl.assessment}</span></div>`;
+        });
+        html += `</div>`;
+
+        openGlobalModal("SaaS Calibration & Drift Audit","Telemetry analysis based on Steps 4, 6 & 8 constraints.",html, results.complianceStatus==='Compliant'?'shield-check':'shield-alert');
+    } catch(err) { console.error(err); }
+    finally { auditBtn.disabled = false; auditBtn.innerHTML = origHtml; lucide.createIcons(); }
+}
+
+// ===================== BOOTSTRAPPER =====================
+window.addEventListener('DOMContentLoaded', () => {
+    // Set footer year (Enhancement #21)
+    const yearEl = document.getElementById('footer-year');
+    if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+    // Enhancement #18: ensure map button has active styling on load
+    // switchView calls handle this, but on initial load map is already shown via HTML
+    // so we just ensure lucide renders and highlight step 1
+    lucide.createIcons();
+    highlightStep(1);
+
+    // Render initial wizard tracker
+    renderStepTracker();
+    renderWizardStep();
+});
+</script>
+</body>
+</html>
