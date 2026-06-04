@@ -23,5 +23,5 @@ Make sure you have the following installed:
 
 1. **Clone the repository:**
    ```bash
-   git clone [https://github.com/vivistar/synth.git]([https://github.com/your-username/your-repo-name.git](https://github.com/vivistar/synth.git))
+   git clone [https://github.com/vivistar/synth.git]([https://github.com/vivistar/synth.git](https://github.com/vivistar/synth.git))
    cd your-repo-name
