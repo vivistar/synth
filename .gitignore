@@ -1,0 +1,4 @@
+# .gitignore
+.env.example
+node_modules/
+__pycache__/
