@@ -25,3 +25,20 @@ Make sure you have the following installed:
    ```bash
    git clone [https://github.com/vivistar/synth.git]([https://github.com/vivistar/synth.git](https://github.com/vivistar/synth.git))
    cd your-repo-name
+
+npm install
+# OR if Python: pip install -r requirements.txt
+
+npm install
+# OR if Python: pip install -r requirements.txt 
+npm run dev
+# OR if Python: python main.py
+
+### Security Note
+Never commit your .env file to GitHub. A .gitignore file has been included in this repository to prevent your secret API keys from being exposed.
+### Pro-Tip for Git Collaboration
+Before you commit, create a file called `.env.example` in your repository. Inside, put the structure of your environment variables *without* the actual keys:
+```env
+# .env.example
+GEMINI_API_KEY=your_api_key_here
+
