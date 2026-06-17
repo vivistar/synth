@@ -1,44 +1,108 @@
-# synth
-SaaS Synthetic Users Readiness Check | Governance &amp; Calibration Simulator for SaaS Product Managers
+# SaaS Synthetic Users Readiness Check
 
-AI-Assisted Governance for SaaS Cohorts
-Prevent synthetic user feedback loops from creating product distortion or inaccurate growth metrics. Use this 8-step SaaS governance framework to evaluate feature viability, architect enterprise buyer prompts, and calibrate synthetic cohorts against real subscription telemetry data.
+**Governance & Calibration Simulator for SaaS Product Managers**
 
-## 🚀 Features
-* 8-step SaaS governance framework to evaluate feature viability, architect enterprise buyer prompts, and calibrate synthetic cohorts against real subscription telemetry data.
-* Powered by Google Gemini AI
+> An interactive, AI-assisted governance tool that helps SaaS teams evaluate whether synthetic user research is appropriate for a given product decision — and how to run it safely.
+
+[![License: CC BY-SA 4.0](https://img.shields.io/badge/License-CC%20BY--SA%204.0-blue.svg)](https://creativecommons.org/licenses/by-sa/4.0/)
+[![Made by PRIME ISO Services](https://img.shields.io/badge/Made%20by-PRIME%20ISO%20Services%2C%20LLC-0f172a)](https://github.com/vivistar/synth)
+[![Powered by Gemini](https://img.shields.io/badge/Powered%20by-Google%20Gemini%202.0-4285F4)](https://ai.google.dev/)
 
 ---
 
-## 🛠️ Getting Started
+## What It Does
 
-Follow these instructions to get a copy of the project up and running on your local machine.
+Synthetic AI users can accelerate SaaS research — but misused, they create feedback loops that distort product metrics, inflate conversion assumptions, and mislead stakeholders. This tool exists to prevent that.
 
-### Prerequisites
-Make sure you have the following installed:
-* [Node.js](https://nodejs.org/) (v18 or higher) **
-* A Google Gemini API Key (Get one at [Google AI Studio](https://aistudio.google.com/))
+It guides product managers through an **8-gate governance framework** that determines:
 
-### 📦 Installation & Setup
+- Whether a given SaaS decision is safe to evaluate with synthetic users at all
+- What baseline data is required to ground the simulation
+- How to architect a realistic, bias-resistant synthetic persona prompt
+- How to detect calibration drift and sycophancy in AI-generated interviews
+- How to set compliance guardrails so synthetic data is never mistaken for real user research
 
-1. **Clone the repository:**
-   ```bash
-   git clone [https://github.com/vivistar/synth.git]([https://github.com/vivistar/synth.git](https://github.com/vivistar/synth.git))
-   cd your-repo-name
+### Four Modules
 
-npm install
-# OR if Python: pip install -r requirements.txt
+| Module | What it does |
+|---|---|
+| **Interactive Map** | Visual 8-step pipeline with a step inspector — click any gate to see its operational guide and lifecycle rationale |
+| **Run Simulator** | Step-by-step wizard that walks your team through each governance checkpoint and produces a pass/warn/fail verdict |
+| **AI Sandbox & Prompt Architect** | Generates a SaaS-specific synthetic persona system prompt, then lets you interview that persona live via Gemini |
+| **Lifecycle Rationale** | Strategic matrix showing where synthetic users are and aren't appropriate across standard and agentic product lifecycles |
 
-npm install
-# OR if Python: pip install -r requirements.txt 
-npm run dev
-# OR if Python: python main.py
+---
 
-### Security Note
-Never commit your .env file to GitHub. A .gitignore file has been included in this repository to prevent your secret API keys from being exposed.
-### Pro-Tip for Git Collaboration
-Before you commit, create a file called `.env.example` in your repository. Inside, put the structure of your environment variables *without* the actual keys:
-```env
-# .env.example
-GEMINI_API_KEY=your_api_key_here
+## Usage
 
+**No installation required.** This is a fully static, single-file HTML application.
+
+### Option 1 — Run directly in Google AI Studio (recommended)
+
+Open `index.html` inside [Google AI Studio Canvas](https://aistudio.google.com/). The Gemini credential is supplied automatically — no API key setup needed.
+
+### Option 2 — Open locally
+
+```bash
+git clone https://github.com/vivistar/synth.git
+cd synth
+# Then open index.html in any modern browser
+open index.html
+```
+
+No build step. No `npm install`. No server required.
+
+### Option 3 — Host statically
+
+Drop `index.html`, `terms.html`, `privacy.html`, and `trust.html` onto any static host (GitHub Pages, Netlify, Vercel, Cloudflare Pages). Add your Gemini API key via the in-app settings field.
+
+> **Important:** The Gemini canvas credential only works inside Google AI Studio. On a self-hosted domain, users must supply their own API key, or you must inject one at build time. See [Trust Center](trust.html) for key security guidance.
+
+---
+
+## API Key
+
+The app works without any configuration inside AI Studio. For standalone use:
+
+1. Get a free key at [Google AI Studio](https://aistudio.google.com/app/apikey)
+2. Paste it into the **Optional Custom Key** field in the top banner
+3. Click the 🛡 icon next to the field for security hardening instructions
+
+The key is held only in browser memory and is never transmitted to PRIME ISO or any third party. See [Trust Center](trust.html) for full details.
+
+---
+
+## Attribution & License
+
+This project is released under the **Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)** license.
+
+**You are free to:**
+- Use, share, and adapt this tool for any purpose, including commercially
+
+**You must:**
+- Credit **PRIME ISO Services, LLC** as the original creator
+- Keep the "A PRIME ISO Services, LLC product" notice visible in the footer
+- Include a link back to this repository: `https://github.com/vivistar/synth`
+- State clearly if you have modified the tool
+
+See the full [LICENSE](LICENSE) file for details and the [Creative Commons deed](https://creativecommons.org/licenses/by-sa/4.0/) for a human-readable summary.
+
+---
+
+## Legal & Trust
+
+| Document | Purpose |
+|---|---|
+| [Terms of Service](terms.html) | Permitted/prohibited use, AI disclaimer, liability |
+| [Privacy Policy](privacy.html) | No-collection posture, Gemini data flow, GDPR/CCPA |
+| [Trust Center](trust.html) | Architecture, AI transparency, compliance posture, vulnerability disclosure |
+
+---
+
+## Contributing
+
+Found a bug or want to improve the governance framework? Open an issue or pull request. All contributions must retain the CC BY-SA 4.0 license and the PRIME ISO attribution.
+
+---
+
+*A **PRIME ISO Services, LLC** product — governance tooling for AI-assisted SaaS research.*

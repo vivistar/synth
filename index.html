@@ -44,9 +44,8 @@
         <div class="flex items-center gap-3">
             <div class="p-2 bg-blue-100 text-blue-700 rounded-lg"><i data-lucide="shield-check" class="w-6 h-6"></i></div>
             <div>
-                <h1 class="text-xl font-bold text-slate-900 tracking-tight flex items-center gap-2">
+                <h1 class="text-xl font-bold text-slate-900 tracking-tight">
                     SaaS Synthetic Users Readiness Check
-                    <span class="bg-blue-100 text-blue-800 text-[10px] font-semibold px-2 py-0.5 rounded-full border border-blue-200">SaaS Edition</span>
                 </h1>
                 <p class="text-xs text-slate-500">Governance &amp; Calibration Simulator for SaaS Product Managers</p>
             </div>
@@ -79,6 +78,9 @@
         <div class="flex items-center gap-2">
             <label for="custom-api-key" class="font-semibold">Optional Custom Key:</label>
             <input type="password" id="custom-api-key" placeholder="AIzaSy..." class="bg-white border border-indigo-200 rounded px-2 py-0.5 w-40 text-slate-700 outline-none focus:border-indigo-500">
+            <button onclick="showKeySecurityInfo()" title="How is my key kept secure?" class="text-indigo-300 hover:text-white transition-colors">
+                <i data-lucide="shield-check" class="w-4 h-4"></i>
+            </button>
         </div>
     </div>
 </div>
@@ -591,6 +593,12 @@
     <div class="max-w-7xl mx-auto px-4 text-center text-slate-500 text-xs space-y-2">
         <p class="font-medium">SaaS Synthetic Users Governance Simulator &bull; Powered by Gemini 2.0 &bull; <span id="footer-year"></span></p>
         <p>Always align synthetic persona configurations with physical customer telemetry, support tickets, and direct feedback channels.</p>
+        <p class="pt-1">A <strong class="text-slate-700">PRIME ISO Services, LLC</strong> product &bull;
+            <a href="terms.html" class="hover:text-slate-800 underline underline-offset-2 transition-colors">Terms of Service</a> &bull;
+            <a href="privacy.html" class="hover:text-slate-800 underline underline-offset-2 transition-colors">Privacy Policy</a> &bull;
+            <a href="trust.html" class="hover:text-slate-800 underline underline-offset-2 transition-colors">Trust Center</a>
+        </p>
+        <p>Licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" class="hover:text-slate-800 underline underline-offset-2 transition-colors">CC BY-SA 4.0</a> &bull; <a href="https://github.com/vivistar/synth" target="_blank" class="hover:text-slate-800 underline underline-offset-2 transition-colors">github.com/vivistar/synth</a></p>
     </div>
 </footer>
 <script>
@@ -1396,6 +1404,69 @@ Evaluate:
         openGlobalModal("SaaS Calibration & Drift Audit","Telemetry analysis based on Steps 4, 6 & 8 constraints.",html, results.complianceStatus==='Compliant'?'shield-check':'shield-alert');
     } catch(err) { console.error(err); }
     finally { auditBtn.disabled = false; auditBtn.innerHTML = origHtml; lucide.createIcons(); }
+}
+
+// ===================== API KEY SECURITY INFO =====================
+function showKeySecurityInfo() {
+    const html = `
+        <div class="space-y-5 text-sm">
+
+            <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-4 flex gap-3">
+                <i data-lucide="shield-check" class="w-5 h-5 text-emerald-600 shrink-0 mt-0.5"></i>
+                <div>
+                    <p class="font-bold text-emerald-900 mb-1">Your key never leaves your browser</p>
+                    <p class="text-emerald-800 text-xs leading-relaxed">This app is a fully static, client-side HTML file. There is no backend server, no database, and no intermediary. When you type a key into the field, it exists only in that browser input — nothing stores or transmits it except the direct call to Google's API.</p>
+                </div>
+            </div>
+
+            <div>
+                <h4 class="font-bold text-slate-900 mb-3 flex items-center gap-2"><i data-lucide="list-checks" class="w-4 h-4 text-blue-600"></i> How the key is handled</h4>
+                <div class="space-y-2.5">
+                    ${[
+                        ["In-memory only", "The key lives in the browser's DOM (the <code class='bg-slate-100 px-1 rounded text-[11px]'>password</code> input field) for the duration of your session. It is never written to <code class='bg-slate-100 px-1 rounded text-[11px]'>localStorage</code>, <code class='bg-slate-100 px-1 rounded text-[11px]'>sessionStorage</code>, cookies, or any persistent store."],
+                        ["Direct to Google only", "It is appended as a URL query parameter to calls made directly to <code class='bg-slate-100 px-1 rounded text-[11px]'>generativelanguage.googleapis.com</code> over HTTPS — the same endpoint Google's own tools use. No third party ever sees it."],
+                        ["Cleared on tab close", "Because nothing is persisted, closing or refreshing the tab permanently removes the key from memory. You will need to re-enter it next session."],
+                        ["Hidden in the UI", "The input uses <code class='bg-slate-100 px-1 rounded text-[11px]'>type=\"password\"</code> so the key is masked from shoulder-surfers and screen recordings."],
+                        ["Never logged", "No part of this app sends analytics, telemetry, or error reports to any service. The key is not included in any console output or error message."]
+                    ].map(([title, body]) => `
+                        <div class="flex gap-3 p-3 bg-slate-50 border border-slate-100 rounded-lg">
+                            <i data-lucide="check-circle-2" class="w-4 h-4 text-blue-500 shrink-0 mt-0.5"></i>
+                            <div><p class="font-semibold text-slate-900 text-xs mb-0.5">${title}</p><p class="text-xs text-slate-600 leading-relaxed">${body}</p></div>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+
+            <div>
+                <h4 class="font-bold text-slate-900 mb-3 flex items-center gap-2"><i data-lucide="key" class="w-4 h-4 text-amber-600"></i> How to use your custom key securely</h4>
+                <ol class="space-y-2.5 list-none">
+                    ${[
+                        ["Create a dedicated key", "In <a href='https://aistudio.google.com/app/apikey' target='_blank' class='text-blue-600 underline underline-offset-2'>Google AI Studio</a>, create a new API key specifically for this tool rather than reusing a key shared across projects. That way you can revoke it independently if needed."],
+                        ["Restrict the key by HTTP referrer", "In the Google Cloud Console, open the key's settings and add an HTTP referrer restriction (e.g. <code class='bg-slate-100 px-1 rounded text-[11px]'>https://your-domain.com/*</code>). This means the key is rejected if used from any other origin — even if it were somehow leaked."],
+                        ["Set a quota limit", "In Google Cloud Console → APIs & Services → Quotas, cap the daily request count on this key. This bounds any accidental or malicious spend to a safe ceiling."],
+                        ["Rotate periodically", "Delete and recreate the key every 30–90 days. Because the key is not stored anywhere in this app, rotating it requires only pasting the new value into the field."],
+                        ["Use an environment variable in production", "If you self-host this file behind a build tool or server, inject the key via an environment variable at build time rather than entering it manually — keeping it out of your browser history entirely."]
+                    ].map(([title, body], i) => `
+                        <li class="flex gap-3 p-3 bg-slate-50 border border-slate-100 rounded-lg">
+                            <span class="w-5 h-5 rounded-full bg-amber-100 text-amber-700 text-[11px] font-bold flex items-center justify-center shrink-0 mt-0.5">${i+1}</span>
+                            <div><p class="font-semibold text-slate-900 text-xs mb-0.5">${title}</p><p class="text-xs text-slate-600 leading-relaxed">${body}</p></div>
+                        </li>
+                    `).join('')}
+                </ol>
+            </div>
+
+            <div class="bg-indigo-50 border border-indigo-100 rounded-xl p-4 flex gap-3 text-xs text-indigo-900">
+                <i data-lucide="info" class="w-4 h-4 text-indigo-500 shrink-0 mt-0.5"></i>
+                <p><strong>No key entered?</strong> Behavior depends on how you're running the app. <strong>Inside Google AI Studio Canvas</strong>, a session-scoped credential is supplied automatically — no key needed and no billing liability on your account. <strong>Outside AI Studio</strong> (local file, self-hosted, or forked deployment), no fallback credential exists and all AI features will silently fail until you provide your own key.</p>
+            </div>
+        </div>
+    `;
+    openGlobalModal(
+        "API Key Security",
+        "How your optional Gemini API key is handled and how to protect it",
+        html,
+        "shield-check"
+    );
 }
 
 // ===================== BOOTSTRAPPER =====================
