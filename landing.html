@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Synthetic Users Readiness Check — PRIME ISO Services, LLC</title>
+    <meta name="description" content="An open-source AI governance tool for SaaS product managers. Evaluate whether synthetic user research is safe for your product decisions using an 8-gate framework.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #3b82f6 0%, #6366f1 50%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero-glow {
+            background: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(99,102,241,0.15) 0%, transparent 70%);
+        }
+        .card-hover {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 32px rgba(0,0,0,0.08);
+        }
+        .gate-line {
+            background: linear-gradient(to bottom, #e2e8f0, #e2e8f0);
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(16px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .fade-up { animation: fadeUp 0.5s ease forwards; }
+        .fade-up-1 { animation-delay: 0.05s; opacity: 0; }
+        .fade-up-2 { animation-delay: 0.15s; opacity: 0; }
+        .fade-up-3 { animation-delay: 0.25s; opacity: 0; }
+        .fade-up-4 { animation-delay: 0.35s; opacity: 0; }
+    </style>
+</head>
+<body class="bg-white text-slate-800 min-h-screen">
+
+    <!-- Nav -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-100">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+                <div class="p-1.5 bg-blue-600 rounded-lg">
+                    <i data-lucide="shield-check" class="w-4 h-4 text-white"></i>
+                </div>
+                <span class="font-bold text-slate-900 text-sm tracking-tight">SaaS Synthetic Users Readiness Check</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <a href="https://github.com/vivistar/synth" target="_blank" class="flex items-center gap-1.5 text-xs font-semibold text-slate-600 hover:text-slate-900 transition-colors">
+                    <i data-lucide="github" class="w-4 h-4"></i>
+                    <span class="hidden sm:inline">GitHub</span>
+                </a>
+                <a href="index.html" class="flex items-center gap-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-4 py-2 rounded-lg transition-colors">
+                    Open App <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero-glow pt-28 pb-20 px-4">
+        <div class="max-w-4xl mx-auto text-center space-y-6">
+
+            <div class="fade-up fade-up-1 inline-flex items-center gap-2 bg-indigo-50 border border-indigo-100 text-indigo-700 text-xs font-semibold px-4 py-1.5 rounded-full">
+                <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+                Open Source · CC BY-SA 4.0 · Powered by Gemini 2.0
+            </div>
+
+            <h1 class="fade-up fade-up-2 text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight text-slate-900">
+                Should you trust<br>
+                <span class="gradient-text">synthetic users</span><br>
+                with this decision?
+            </h1>
+
+            <p class="fade-up fade-up-3 text-lg text-slate-500 max-w-2xl mx-auto leading-relaxed">
+                An interactive governance tool for SaaS product managers. Run your product decision through an 8-gate readiness check before letting AI-simulated users influence your roadmap.
+            </p>
+
+            <div class="fade-up fade-up-4 flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+                <a href="index.html" class="w-full sm:w-auto flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-bold text-sm px-8 py-3.5 rounded-xl transition-colors shadow-lg shadow-blue-500/20">
+                    <i data-lucide="play-circle" class="w-5 h-5"></i> Launch the App
+                </a>
+                <a href="https://github.com/vivistar/synth" target="_blank" class="w-full sm:w-auto flex items-center justify-center gap-2 border-2 border-slate-200 hover:border-slate-300 bg-white text-slate-700 hover:text-slate-900 font-bold text-sm px-8 py-3.5 rounded-xl transition-all">
+                    <i data-lucide="github" class="w-5 h-5"></i> View on GitHub
+                </a>
+            </div>
+
+            <!-- Social proof strip -->
+            <p class="fade-up fade-up-4 text-xs text-slate-400 pt-2">
+                A <strong class="text-slate-600">PRIME ISO Services, LLC</strong> product &bull; Free to use, fork, and adapt
+            </p>
+        </div>
+    </section>
+
+    <!-- Problem / Solution -->
+    <section class="py-16 px-4 bg-slate-950 text-white">
+        <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div class="space-y-5">
+                <span class="inline-block bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">The Problem</span>
+                <h2 class="text-2xl font-extrabold tracking-tight">Synthetic users are powerful — and easy to misuse.</h2>
+                <div class="space-y-3 text-sm text-slate-300 leading-relaxed">
+                    <p>AI-simulated user feedback can accelerate research by 10×. But when applied to the wrong decisions, they create feedback loops that distort product metrics, inflate conversion assumptions, and mislead entire roadmap cycles.</p>
+                    <p>Most teams don't know where the line is — they either over-trust synthetic data or dismiss it entirely.</p>
+                </div>
+            </div>
+            <div class="space-y-5">
+                <span class="inline-block bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">The Solution</span>
+                <h2 class="text-2xl font-extrabold tracking-tight">An 8-gate governance check that tells you exactly where you stand.</h2>
+                <div class="space-y-3 text-sm text-slate-300 leading-relaxed">
+                    <p>Before running a synthetic user study, walk your decision through eight sequential gates — from risk assessment and data grounding to calibration, hybrid loops, and compliance labeling.</p>
+                    <p>You get a clear verdict: proceed, adjust, or use real customers only.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Four Modules -->
+    <section class="py-20 px-4">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-12 space-y-3">
+                <span class="inline-block bg-blue-50 border border-blue-100 text-blue-700 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Four Modules</span>
+                <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight">Everything in one self-contained file.</h2>
+                <p class="text-slate-500 text-sm max-w-xl mx-auto">No installation. No server. Open <code class="bg-slate-100 px-1.5 py-0.5 rounded text-slate-700">index.html</code> in any browser and you're running.</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+
+                <div class="card-hover bg-white border border-slate-200 rounded-2xl p-6 space-y-3 shadow-sm">
+                    <div class="w-10 h-10 bg-blue-100 text-blue-700 rounded-xl flex items-center justify-center">
+                        <i data-lucide="git-commit" class="w-5 h-5"></i>
+                    </div>
+                    <h3 class="font-bold text-slate-900">Interactive Map</h3>
+                    <p class="text-sm text-slate-500 leading-relaxed">Visual 8-step pipeline. Click any gate to see its operational guide, trigger scenarios, and lifecycle rationale — what phase of the SaaS lifecycle it maps to and what agentic AI phase it serves.</p>
+                </div>
+
+                <div class="card-hover bg-white border border-slate-200 rounded-2xl p-6 space-y-3 shadow-sm">
+                    <div class="w-10 h-10 bg-indigo-100 text-indigo-700 rounded-xl flex items-center justify-center">
+                        <i data-lucide="sparkles" class="w-5 h-5"></i>
+                    </div>
+                    <h3 class="font-bold text-slate-900">Run Simulator</h3>
+                    <p class="text-sm text-slate-500 leading-relaxed">Step-by-step wizard with a yes/no choice at each gate. Navigate forward and back, watch the visual step tracker update, and receive a detailed pass / warn / fail verdict with a downloadable report.</p>
+                </div>
+
+                <div class="card-hover bg-white border border-slate-200 rounded-2xl p-6 space-y-3 shadow-sm">
+                    <div class="w-10 h-10 bg-violet-100 text-violet-700 rounded-xl flex items-center justify-center">
+                        <i data-lucide="terminal" class="w-5 h-5"></i>
+                    </div>
+                    <h3 class="font-bold text-slate-900">AI Sandbox & Prompt Architect</h3>
+                    <p class="text-sm text-slate-500 leading-relaxed">Configure a SaaS persona with real baseline data, company size, and industry. Gemini generates a bias-resistant system prompt. Then interview the simulated user live and audit for calibration drift and sycophancy.</p>
+                </div>
+
+                <div class="card-hover bg-white border border-slate-200 rounded-2xl p-6 space-y-3 shadow-sm">
+                    <div class="w-10 h-10 bg-emerald-100 text-emerald-700 rounded-xl flex items-center justify-center">
+                        <i data-lucide="layout-grid" class="w-5 h-5"></i>
+                    </div>
+                    <h3 class="font-bold text-slate-900">Lifecycle Rationale</h3>
+                    <p class="text-sm text-slate-500 leading-relaxed">A strategic positioning matrix — toggle between Standard Product Lifecycle and AI/Agentic Lifecycle to see where synthetic users genuinely help and where you must rely on real human feedback.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 8 Gates strip -->
+    <section class="py-16 px-4 bg-slate-50 border-y border-slate-100">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-10 space-y-2">
+                <span class="inline-block bg-slate-200 text-slate-700 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">The 8 Gates</span>
+                <h2 class="text-2xl font-extrabold text-slate-900 tracking-tight">Every decision runs the same gauntlet.</h2>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3" id="gates-grid">
+                <!-- Rendered by JS below -->
+            </div>
+            <p class="text-center text-xs text-slate-400 mt-6">Gates marked <span class="text-rose-500 font-semibold">red</span> are decision branches — fail one and you're routed to a safer path. <span class="text-amber-500 font-semibold">Amber</span> gates are calibration checks.</p>
+        </div>
+    </section>
+
+    <!-- Contribute CTA -->
+    <section class="py-20 px-4">
+        <div class="max-w-4xl mx-auto">
+            <div class="bg-slate-950 rounded-3xl p-8 sm:p-12 text-white relative overflow-hidden">
+                <div class="absolute -right-16 -bottom-16 opacity-5 pointer-events-none">
+                    <i data-lucide="github" class="w-64 h-64"></i>
+                </div>
+                <div class="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    <div class="space-y-4">
+                        <span class="inline-block bg-white/10 border border-white/10 text-white/80 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Open Source</span>
+                        <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">This tool belongs to the community.</h2>
+                        <p class="text-slate-300 text-sm leading-relaxed">
+                            The full source is a single HTML file — no build toolchain, no dependencies to install. Fork it, adapt it, translate it, or embed it in your own platform. All we ask is that you keep the PRIME ISO attribution and release your version under the same CC BY-SA 4.0 license.
+                        </p>
+                        <div class="flex flex-wrap gap-2 text-xs">
+                            <span class="bg-white/10 px-2.5 py-1 rounded-full font-mono">HTML</span>
+                            <span class="bg-white/10 px-2.5 py-1 rounded-full font-mono">Tailwind CSS</span>
+                            <span class="bg-white/10 px-2.5 py-1 rounded-full font-mono">Gemini 2.0</span>
+                            <span class="bg-white/10 px-2.5 py-1 rounded-full font-mono">Zero dependencies</span>
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="bg-white/5 border border-white/10 rounded-2xl p-5 space-y-4">
+                            <h3 class="font-bold text-sm text-white/90 flex items-center gap-2">
+                                <i data-lucide="git-fork" class="w-4 h-4 text-blue-400"></i> Ways to contribute
+                            </h3>
+                            <ul class="space-y-2.5 text-xs text-slate-300">
+                                <li class="flex gap-2"><i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-blue-400 shrink-0 mt-0.5"></i> Improve the governance framework logic</li>
+                                <li class="flex gap-2"><i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-blue-400 shrink-0 mt-0.5"></i> Add new SaaS persona templates</li>
+                                <li class="flex gap-2"><i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-blue-400 shrink-0 mt-0.5"></i> Translate to other languages</li>
+                                <li class="flex gap-2"><i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-blue-400 shrink-0 mt-0.5"></i> Report bugs or edge cases</li>
+                                <li class="flex gap-2"><i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-blue-400 shrink-0 mt-0.5"></i> Share how you're using it</li>
+                            </ul>
+                            <a href="https://github.com/vivistar/synth" target="_blank" class="flex items-center justify-center gap-2 w-full bg-white hover:bg-slate-100 text-slate-900 font-bold text-xs py-3 rounded-xl transition-colors mt-2">
+                                <i data-lucide="github" class="w-4 h-4"></i>
+                                github.com/vivistar/synth
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick start -->
+    <section class="py-16 px-4 bg-slate-50 border-t border-slate-100">
+        <div class="max-w-3xl mx-auto text-center space-y-8">
+            <div class="space-y-2">
+                <h2 class="text-2xl font-extrabold text-slate-900 tracking-tight">Get started in 30 seconds.</h2>
+                <p class="text-slate-500 text-sm">Three ways to run the tool — pick the one that fits your context.</p>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-left">
+
+                <div class="bg-white border border-slate-200 rounded-2xl p-5 space-y-3 shadow-sm">
+                    <div class="flex items-center gap-2">
+                        <span class="w-6 h-6 bg-blue-600 text-white text-xs font-black rounded-full flex items-center justify-center shrink-0">1</span>
+                        <p class="font-bold text-xs text-slate-900 uppercase tracking-wider">AI Studio Canvas</p>
+                    </div>
+                    <p class="text-xs text-slate-500 leading-relaxed">Open <code class="bg-slate-100 px-1 rounded">index.html</code> inside <a href="https://aistudio.google.com/" target="_blank" class="text-blue-600 underline underline-offset-2">Google AI Studio</a>. Gemini credentials are supplied automatically — no key needed.</p>
+                    <span class="inline-block bg-emerald-50 text-emerald-700 text-[10px] font-bold px-2 py-0.5 rounded-full border border-emerald-100">Recommended</span>
+                </div>
+
+                <div class="bg-white border border-slate-200 rounded-2xl p-5 space-y-3 shadow-sm">
+                    <div class="flex items-center gap-2">
+                        <span class="w-6 h-6 bg-slate-700 text-white text-xs font-black rounded-full flex items-center justify-center shrink-0">2</span>
+                        <p class="font-bold text-xs text-slate-900 uppercase tracking-wider">Local File</p>
+                    </div>
+                    <div class="bg-slate-950 rounded-lg p-3 text-[11px] font-mono text-slate-300 space-y-1">
+                        <p>git clone github.com/</p>
+                        <p class="text-slate-400">&nbsp;&nbsp;vivistar/synth</p>
+                        <p>open index.html</p>
+                    </div>
+                    <p class="text-xs text-slate-500">Add your own Gemini API key in the banner.</p>
+                </div>
+
+                <div class="bg-white border border-slate-200 rounded-2xl p-5 space-y-3 shadow-sm">
+                    <div class="flex items-center gap-2">
+                        <span class="w-6 h-6 bg-violet-600 text-white text-xs font-black rounded-full flex items-center justify-center shrink-0">3</span>
+                        <p class="font-bold text-xs text-slate-900 uppercase tracking-wider">Static Host</p>
+                    </div>
+                    <p class="text-xs text-slate-500 leading-relaxed">Drop the HTML files onto GitHub Pages, Netlify, Vercel, or Cloudflare Pages. Users supply their own API key via the in-app field.</p>
+                    <span class="inline-block bg-violet-50 text-violet-700 text-[10px] font-bold px-2 py-0.5 rounded-full border border-violet-100">Self-hosted</span>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="py-20 px-4 text-center space-y-6">
+        <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight">Ready to run your first governance check?</h2>
+        <p class="text-slate-500 text-sm max-w-md mx-auto">No signup. No installation. Just open the app and walk your decision through the 8 gates.</p>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+            <a href="index.html" class="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm px-8 py-3.5 rounded-xl transition-colors shadow-lg shadow-blue-500/20">
+                <i data-lucide="play-circle" class="w-5 h-5"></i> Launch the App
+            </a>
+            <a href="https://github.com/vivistar/synth" target="_blank" class="flex items-center gap-2 border-2 border-slate-200 hover:border-slate-300 text-slate-700 font-bold text-sm px-8 py-3.5 rounded-xl transition-all">
+                <i data-lucide="star" class="w-4 h-4"></i> Star on GitHub
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-100 py-8">
+        <div class="max-w-6xl mx-auto px-4 text-center text-slate-400 text-xs space-y-2">
+            <p class="font-medium">SaaS Synthetic Users Governance Simulator &bull; Powered by Gemini 2.0</p>
+            <p>
+                A <strong class="text-slate-600">PRIME ISO Services, LLC</strong> product &bull;
+                <a href="terms.html" class="hover:text-slate-700 underline underline-offset-2">Terms of Service</a> &bull;
+                <a href="privacy.html" class="hover:text-slate-700 underline underline-offset-2">Privacy Policy</a> &bull;
+                <a href="trust.html" class="hover:text-slate-700 underline underline-offset-2">Trust Center</a>
+            </p>
+            <p>
+                Licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" class="hover:text-slate-700 underline underline-offset-2">CC BY-SA 4.0</a> &bull;
+                <a href="https://github.com/vivistar/synth" target="_blank" class="hover:text-slate-700 underline underline-offset-2">github.com/vivistar/synth</a>
+            </p>
+            <p id="footer-year"></p>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+        document.getElementById('footer-year').textContent = '© ' + new Date().getFullYear() + ' PRIME ISO Services, LLC. All rights reserved.';
+
+        // Render the 8 gates grid from template literal (Tailwind needs literal class names to purge correctly)
+        const gatesData = [
+            ["1", "Clarify the SaaS decision", "blue"],
+            ["2", "Check revenue & churn risk", "rose"],
+            ["3", "Fit the question to SaaS mechanics", "rose"],
+            ["4", "Confirm real usage data", "rose"],
+            ["5", "Define the synthetic persona", "blue"],
+            ["6", "Calibrate on historical results", "amber"],
+            ["7", "Plan the human + synthetic loop", "amber"],
+            ["8", "Set compliance guardrails", "violet"]
+        ];
+        const colorMap = {
+            blue:   { bg: "bg-blue-100",   text: "text-blue-700" },
+            rose:   { bg: "bg-rose-100",   text: "text-rose-700" },
+            amber:  { bg: "bg-amber-100",  text: "text-amber-700" },
+            violet: { bg: "bg-violet-100", text: "text-violet-700" }
+        };
+        const gatesGrid = document.getElementById('gates-grid');
+        if (gatesGrid) {
+            gatesGrid.innerHTML = gatesData.map(([n, label, color]) => {
+                const c = colorMap[color];
+                return `<div class="bg-white border border-slate-200 rounded-xl p-4 flex items-start gap-3 shadow-sm">
+                    <span class="w-7 h-7 rounded-lg ${c.bg} ${c.text} text-xs font-black flex items-center justify-center shrink-0">${n}</span>
+                    <p class="text-xs font-semibold text-slate-700 leading-snug mt-0.5">${label}</p>
+                </div>`;
+            }).join('');
+        }
+    </script>
+</body>
+</html>
