@@ -1457,7 +1457,7 @@ function showKeySecurityInfo() {
 
             <div class="bg-indigo-50 border border-indigo-100 rounded-xl p-4 flex gap-3 text-xs text-indigo-900">
                 <i data-lucide="info" class="w-4 h-4 text-indigo-500 shrink-0 mt-0.5"></i>
-                <p><strong>No key entered?</strong> The app falls back to the Gemini Canvas integration credential automatically. That credential is scoped to this canvas session only and carries no billing liability on your account.</p>
+                <p><strong>No key entered?</strong> Behavior depends on how you're running the app. <strong>Inside Google AI Studio Canvas</strong>, a session-scoped credential is supplied automatically — no key needed and no billing liability on your account. <strong>Outside AI Studio</strong> (local file, self-hosted, or forked deployment), no fallback credential exists and all AI features will silently fail until you provide your own key.</p>
             </div>
         </div>
     `;

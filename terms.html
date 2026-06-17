@@ -112,7 +112,7 @@
                 <li>Your use of the Google Gemini API via your Custom Key is subject to Google's Terms of Service and usage policies;</li>
                 <li>PRIME ISO is not responsible for any charges, data exposure, or service disruptions arising from your use or misuse of a Custom Key.</li>
             </ul>
-            <p>If no Custom Key is provided, the Service may use a session-scoped integration credential. This credential is not associated with your account and carries no billing liability to you.</p>
+            <p>If no Custom Key is provided, behavior depends on the deployment context. When running inside Google AI Studio Canvas, a session-scoped credential is supplied automatically; it is not associated with your account and carries no billing liability to you. In all other contexts — including local file use, self-hosted deployments, or forks distributed under CC BY-SA 4.0 — no fallback credential is available and AI-dependent features will not function without a user-supplied key.</p>
 
             <h2>8. AI-Generated Content Disclaimer</h2>
             <p>The Service uses artificial intelligence to generate governance assessments, persona prompts, simulated user interactions, and analytical reports. You expressly acknowledge that:</p>
