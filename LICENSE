@@ -1,8 +1,9 @@
-Creative Commons Attribution 4.0 International (CC BY 4.0)
+Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
 
 Copyright (c) 2026 PRIME ISO Services, LLC
 
-This work is licensed under the Creative Commons Attribution 4.0 International License.
+This work is licensed under the Creative Commons Attribution-ShareAlike 4.0
+International License.
 
 You are free to:
   Share  — copy and redistribute the material in any medium or format
@@ -10,11 +11,17 @@ You are free to:
             even commercially
 
 Under the following terms:
-  Attribution — You must give appropriate credit to PRIME ISO Services, LLC,
-                provide a link to https://github.com/vivistar/synth, and
-                indicate if changes were made. You may do so in any reasonable
-                manner, but not in any way that suggests PRIME ISO Services, LLC
-                endorses you or your use.
+  Attribution   — You must give appropriate credit to PRIME ISO Services, LLC,
+                  provide a link to https://github.com/vivistar/synth, and
+                  indicate if changes were made. You may do so in any reasonable
+                  manner, but not in any way that suggests PRIME ISO Services,
+                  LLC endorses you or your use.
+
+  ShareAlike    — If you remix, transform, or build upon the material, you must
+                  distribute your contributions under the same CC BY-SA 4.0
+                  license as the original. You may not apply legal terms or
+                  technological measures that restrict others from doing anything
+                  the license permits.
 
 Attribution requirements in practice:
   1. The "A PRIME ISO Services, LLC product" notice must remain visible in
@@ -22,9 +29,10 @@ Attribution requirements in practice:
   2. A link to the original repository (https://github.com/vivistar/synth)
      must be included in the footer or an About section.
   3. If you distribute a modified version, you must state clearly that
-     changes were made and list the nature of those changes.
+     changes were made, list the nature of those changes, and release the
+     modified version under CC BY-SA 4.0.
 
 No additional restrictions — You may not apply legal terms or technological
 measures that legally restrict others from doing anything this license permits.
 
-Full license text: https://creativecommons.org/licenses/by/4.0/legalcode
+Full license text: https://creativecommons.org/licenses/by-sa/4.0/legalcode

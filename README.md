@@ -4,7 +4,7 @@
 
 > An interactive, AI-assisted governance tool that helps SaaS teams evaluate whether synthetic user research is appropriate for a given product decision — and how to run it safely.
 
-[![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-blue.svg)](https://creativecommons.org/licenses/by/4.0/)
+[![License: CC BY-SA 4.0](https://img.shields.io/badge/License-CC%20BY--SA%204.0-blue.svg)](https://creativecommons.org/licenses/by-sa/4.0/)
 [![Made by PRIME ISO Services](https://img.shields.io/badge/Made%20by-PRIME%20ISO%20Services%2C%20LLC-0f172a)](https://github.com/vivistar/synth)
 [![Powered by Gemini](https://img.shields.io/badge/Powered%20by-Google%20Gemini%202.0-4285F4)](https://ai.google.dev/)
 
@@ -74,7 +74,7 @@ The key is held only in browser memory and is never transmitted to PRIME ISO or 
 
 ## Attribution & License
 
-This project is released under the **Creative Commons Attribution 4.0 International (CC BY 4.0)** license.
+This project is released under the **Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)** license.
 
 **You are free to:**
 - Use, share, and adapt this tool for any purpose, including commercially
@@ -85,7 +85,7 @@ This project is released under the **Creative Commons Attribution 4.0 Internatio
 - Include a link back to this repository: `https://github.com/vivistar/synth`
 - State clearly if you have modified the tool
 
-See the full [LICENSE](LICENSE) file for details and the [Creative Commons deed](https://creativecommons.org/licenses/by/4.0/) for a human-readable summary.
+See the full [LICENSE](LICENSE) file for details and the [Creative Commons deed](https://creativecommons.org/licenses/by-sa/4.0/) for a human-readable summary.
 
 ---
 
@@ -101,7 +101,7 @@ See the full [LICENSE](LICENSE) file for details and the [Creative Commons deed]
 
 ## Contributing
 
-Found a bug or want to improve the governance framework? Open an issue or pull request. All contributions must retain the CC BY 4.0 license and the PRIME ISO attribution.
+Found a bug or want to improve the governance framework? Open an issue or pull request. All contributions must retain the CC BY-SA 4.0 license and the PRIME ISO attribution.
 
 ---
 
