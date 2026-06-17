@@ -303,7 +303,7 @@
     </footer>
 
     <script>
-        lucide.createIcons();
+        document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('footer-year').textContent = '© ' + new Date().getFullYear() + ' PRIME ISO Services, LLC. All rights reserved.';
 
         // Render the 8 gates grid from template literal (Tailwind needs literal class names to purge correctly)
@@ -333,6 +333,8 @@
                 </div>`;
             }).join('');
         }
+        lucide.createIcons();
+        }); // end DOMContentLoaded
     </script>
 </body>
 </html>
