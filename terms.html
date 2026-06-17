@@ -57,10 +57,20 @@
         <div class="bg-white border border-slate-200 rounded-2xl p-8 shadow-sm prose">
 
             <h2>1. Parties and Acceptance</h2>
-            <p>These Terms of Service ("Terms") constitute a legally binding agreement between you ("User," "you," or "your") and <strong>PRIME ISO Services, LLC</strong> ("PRIME ISO," "we," "us," or "our"), a limited liability company, governing your use of the SaaS Synthetic Users Readiness Check application and all associated tools, features, and content (collectively, the "Service").</p>
+            <p>These Terms of Service ("Terms") constitute a legally binding agreement between you ("User," "you," or "your") and <strong>PRIME ISO Services, LLC</strong> ("PRIME ISO," "we," "us," or "our"), a limited liability company, governing your use of the SaaS Synthetic Users Readiness Check application and all associated tools, features, and content (collectively, the "Service"). These Terms address conduct obligations, AI output liability, API key responsibilities, and the limitation of liability framework. Rights to use, share, and adapt the Service are separately and independently governed by the CC BY 4.0 open license described in §2.</p>
             <p>By accessing or using the Service in any manner, you represent that you have read, understood, and agree to be bound by these Terms and our <a href="privacy.html">Privacy Policy</a>. If you do not agree, you must immediately discontinue use of the Service.</p>
 
-            <h2>2. Description of the Service</h2>
+            <h2>2. Open Source License</h2>
+            <p>The source code and content of the Service are made available under the <strong>Creative Commons Attribution 4.0 International License (CC BY 4.0)</strong>, a copy of which is included in the repository at <a href="https://github.com/vivistar/synth/blob/main/LICENSE" target="_blank">github.com/vivistar/synth</a>. The CC BY 4.0 license is a separate, independent grant that exists alongside and is not superseded by these Terms.</p>
+            <p>Under CC BY 4.0, you are irrevocably free to:</p>
+            <ul>
+                <li><strong>Share</strong> — copy and redistribute the Service in any medium or format;</li>
+                <li><strong>Adapt</strong> — remix, transform, and build upon the Service for any purpose, including commercially;</li>
+            </ul>
+            <p>provided that you give appropriate credit to <strong>PRIME ISO Services, LLC</strong>, include a link to <a href="https://github.com/vivistar/synth" target="_blank">github.com/vivistar/synth</a>, and indicate if changes were made. These Terms govern your <em>conduct obligations</em> — how you may behave while using the Service, your AI output responsibilities, your API key obligations, and the liability framework between you and PRIME ISO. They do not restrict the rights granted by CC BY 4.0.</p>
+            <p>In the event of any conflict between these Terms and the CC BY 4.0 license with respect to the scope of rights to use, share, or adapt the Service, the CC BY 4.0 license shall control.</p>
+
+            <h2>3. Description of the Service</h2>
             <p>The Service is an interactive, AI-assisted governance simulator designed to help SaaS product managers evaluate the appropriateness and reliability of synthetic user research within their product development and operations workflows. The Service includes:</p>
             <ul>
                 <li>An 8-step SaaS governance readiness flowchart and interactive map;</li>
@@ -70,32 +80,31 @@
             </ul>
             <p>The Service integrates with the Google Gemini API to provide AI-generated analysis, assessments, and simulated user interactions. PRIME ISO does not operate or control the underlying AI model.</p>
 
-            <h2>3. Eligibility</h2>
+            <h2>4. Eligibility</h2>
             <p>You must be at least 18 years of age and have the legal authority to enter into these Terms on behalf of yourself or the organization you represent. By using the Service, you represent and warrant that you meet these requirements.</p>
 
-            <h2>4. Permitted Use</h2>
-            <p>Subject to these Terms, PRIME ISO grants you a limited, non-exclusive, non-transferable, revocable license to access and use the Service solely for your internal business purposes related to SaaS product research, governance planning, and team education.</p>
-            <p>You agree to use the Service only for lawful purposes and in a manner that does not infringe the rights of others. Permitted uses include:</p>
+            <h2>5. Permitted Use</h2>
+            <p>Your rights to use, share, and adapt the Service are governed by CC BY 4.0 (see §2). These Terms impose no additional restrictions on those rights. You agree to exercise those rights only for lawful purposes and in a manner that does not infringe the rights of others. Examples of permitted use include:</p>
             <ul>
                 <li>Evaluating whether synthetic user research is appropriate for a given product decision;</li>
-                <li>Generating AI-assisted governance reports for internal review;</li>
+                <li>Generating AI-assisted governance reports for internal or external review;</li>
                 <li>Educating product teams on the risks and appropriate applications of synthetic users;</li>
-                <li>Prototyping synthetic user interview scripts for subsequent human validation.</li>
+                <li>Adapting, forking, or redistributing the Service — commercially or otherwise — in compliance with CC BY 4.0 attribution requirements;</li>
+                <li>Embedding the Service within other tools or workflows, provided attribution is maintained.</li>
             </ul>
 
-            <h2>5. Prohibited Use</h2>
-            <p>You may not use the Service to:</p>
+            <h2>6. Prohibited Conduct</h2>
+            <p>The following restrictions apply to your <em>conduct</em> while using the Service, regardless of the rights granted by CC BY 4.0. You may not:</p>
             <ul>
-                <li>Replace, misrepresent, or fraudulently substitute AI-generated outputs for verified human research data without appropriate disclosure;</li>
-                <li>Produce synthetic data intended to deceive regulators, investors, customers, or other stakeholders;</li>
-                <li>Violate any applicable law, regulation, or third-party right;</li>
-                <li>Reverse-engineer, decompile, or attempt to extract source code or proprietary logic;</li>
-                <li>Resell, sublicense, or commercially distribute the Service or its outputs without written authorization from PRIME ISO;</li>
-                <li>Transmit malicious code, interfere with the operation of the Service, or conduct unauthorized security testing;</li>
-                <li>Use the Service in any context that creates a legal or regulatory obligation on PRIME ISO without prior written agreement.</li>
+                <li>Replace, misrepresent, or fraudulently substitute AI-generated outputs for verified human research data without appropriate disclosure to affected parties;</li>
+                <li>Produce or distribute synthetic data intended to deceive regulators, investors, customers, or other stakeholders;</li>
+                <li>Violate any applicable law, regulation, or third-party right in connection with your use of the Service;</li>
+                <li>Transmit malicious code or interfere with the integrity or operation of any deployment of the Service;</li>
+                <li>Remove or obscure the CC BY 4.0 attribution notices required by the license;</li>
+                <li>Use the Service in any manner that creates a legal or regulatory obligation on PRIME ISO without prior written agreement.</li>
             </ul>
 
-            <h2>6. API Keys and Third-Party Services</h2>
+            <h2>7. API Keys and Third-Party Services</h2>
             <p>The Service integrates with the Google Gemini API. You may optionally provide your own Google API key ("Custom Key"). By providing a Custom Key, you acknowledge and agree that:</p>
             <ul>
                 <li>Your Custom Key is processed entirely within your browser session and is never transmitted to PRIME ISO servers;</li>
@@ -105,7 +114,7 @@
             </ul>
             <p>If no Custom Key is provided, the Service may use a session-scoped integration credential. This credential is not associated with your account and carries no billing liability to you.</p>
 
-            <h2>7. AI-Generated Content Disclaimer</h2>
+            <h2>8. AI-Generated Content Disclaimer</h2>
             <p>The Service uses artificial intelligence to generate governance assessments, persona prompts, simulated user interactions, and analytical reports. You expressly acknowledge that:</p>
             <ul>
                 <li>AI-generated outputs are probabilistic and may contain errors, hallucinations, or outdated information;</li>
@@ -114,33 +123,35 @@
                 <li>PRIME ISO makes no warranty that AI outputs will accurately reflect real user behavior, market conditions, or regulatory requirements.</li>
             </ul>
 
-            <h2>8. Intellectual Property</h2>
-            <p>All aspects of the Service — including its design, framework architecture, governance methodology, and associated content — are the intellectual property of PRIME ISO Services, LLC and are protected by applicable intellectual property laws. You are granted no ownership interest in the Service by these Terms.</p>
+            <h2>9. Intellectual Property</h2>
+            <p>The Service and its underlying governance methodology, design, and content are the copyright of <strong>PRIME ISO Services, LLC</strong>. Copyright is retained by PRIME ISO. However, PRIME ISO has chosen to make the Service available under the CC BY 4.0 open license (see §2), which grants you broad rights to use, share, and adapt the work without requiring further permission from PRIME ISO, subject to the attribution requirements of that license.</p>
+            <p>These Terms do not grant you any trademark rights in the PRIME ISO Services, LLC name, logo, or brand. You may not use PRIME ISO's name to imply endorsement of a derivative work without explicit written permission.</p>
             <p>AI-generated outputs produced through your use of the Service ("Output Content") are owned by you, subject to any restrictions imposed by the underlying AI provider's terms. PRIME ISO retains no rights to Output Content and does not store it.</p>
 
-            <h2>9. Privacy</h2>
+            <h2>10. Privacy</h2>
             <p>Your use of the Service is governed by our <a href="privacy.html">Privacy Policy</a>, which is incorporated into these Terms by reference. Because the Service is a client-side application, PRIME ISO does not collect, store, or process personal data entered into the tool. Please review the Privacy Policy for full details.</p>
 
-            <h2>10. Disclaimers of Warranty</h2>
+            <h2>11. Disclaimers of Warranty</h2>
             <p>THE SERVICE IS PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT WARRANTIES OF ANY KIND, EXPRESS OR IMPLIED. TO THE FULLEST EXTENT PERMITTED BY APPLICABLE LAW, PRIME ISO DISCLAIMS ALL WARRANTIES, INCLUDING BUT NOT LIMITED TO IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, ACCURACY, AND NON-INFRINGEMENT. PRIME ISO DOES NOT WARRANT THAT THE SERVICE WILL BE UNINTERRUPTED, ERROR-FREE, OR FREE OF HARMFUL COMPONENTS.</p>
 
-            <h2>11. Limitation of Liability</h2>
+            <h2>12. Limitation of Liability</h2>
             <p>TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, IN NO EVENT SHALL PRIME ISO SERVICES, LLC, ITS MEMBERS, OFFICERS, EMPLOYEES, OR AGENTS BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, INCLUDING BUT NOT LIMITED TO LOSS OF PROFITS, DATA, GOODWILL, OR BUSINESS OPPORTUNITIES, ARISING OUT OF OR IN CONNECTION WITH YOUR USE OF THE SERVICE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.</p>
             <p>IN NO EVENT SHALL PRIME ISO'S TOTAL CUMULATIVE LIABILITY TO YOU EXCEED ONE HUNDRED UNITED STATES DOLLARS (USD $100.00).</p>
 
-            <h2>12. Indemnification</h2>
+            <h2>13. Indemnification</h2>
             <p>You agree to indemnify, defend, and hold harmless PRIME ISO Services, LLC and its members, officers, employees, and agents from and against any claims, damages, losses, liabilities, costs, and expenses (including reasonable attorneys' fees) arising out of or relating to: (a) your use of the Service; (b) your violation of these Terms; (c) your violation of any applicable law or third-party right; or (d) any AI-generated output you use in a product or business context.</p>
 
-            <h2>13. Modifications to the Service and Terms</h2>
-            <p>PRIME ISO reserves the right to modify, suspend, or discontinue the Service at any time without notice. We may also update these Terms from time to time. The "Last Updated" date at the top of this page indicates when the most recent revision was made. Continued use of the Service after a revision constitutes acceptance of the updated Terms.</p>
+            <h2>14. Modifications to the Service and Terms</h2>
+            <p>PRIME ISO may update or discontinue any hosted or canonical version of the Service at any time without notice. We may also update these Terms from time to time. The "Last Updated" date at the top of this page indicates when the most recent revision was made. Continued use of PRIME ISO's distribution of the Service after a revision constitutes acceptance of the updated Terms.</p>
+            <p>Importantly, the CC BY 4.0 license is <strong>irrevocable</strong>. Once a version of the Service has been published under CC BY 4.0, PRIME ISO cannot rescind those license rights with respect to that version, even if these Terms are later revised or the Service is discontinued. Any version you have already obtained under CC BY 4.0 remains licensed under those terms in perpetuity.</p>
 
-            <h2>14. Governing Law and Dispute Resolution</h2>
+            <h2>15. Governing Law and Dispute Resolution</h2>
             <p>These Terms shall be governed by and construed in accordance with the laws of the State of Delaware, United States, without regard to its conflict of law provisions. Any dispute arising under these Terms shall be resolved by binding arbitration administered under the rules of the American Arbitration Association, with proceedings conducted in English. Nothing in this section prevents either party from seeking injunctive relief in a court of competent jurisdiction.</p>
 
-            <h2>15. Severability and Entire Agreement</h2>
-            <p>If any provision of these Terms is found to be unenforceable, it shall be modified to the minimum extent necessary to make it enforceable, and all remaining provisions shall remain in full force and effect. These Terms, together with the <a href="privacy.html">Privacy Policy</a>, constitute the entire agreement between you and PRIME ISO regarding the Service and supersede all prior agreements.</p>
+            <h2>16. Severability and Entire Agreement</h2>
+            <p>If any provision of these Terms is found to be unenforceable, it shall be modified to the minimum extent necessary to make it enforceable, and all remaining provisions shall remain in full force and effect. These Terms, together with the <a href="privacy.html">Privacy Policy</a>, constitute the entire agreement between you and PRIME ISO regarding your <em>conduct obligations</em> in connection with the Service. They do not supersede, modify, or limit the rights independently granted to you by the CC BY 4.0 license, which operates as a separate and parallel legal instrument.</p>
 
-            <h2>16. Contact</h2>
+            <h2>17. Contact</h2>
             <p>If you have questions about these Terms, please contact PRIME ISO Services, LLC at:</p>
             <div class="bg-slate-50 border border-slate-100 rounded-xl p-4 mt-2 text-xs text-slate-700 not-prose space-y-1">
                 <p class="font-bold text-slate-900">PRIME ISO Services, LLC</p>
