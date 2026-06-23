@@ -926,9 +926,6 @@ async function fetchWithBackoff(url, options, maxRetries = 3) {
 // Enhancement #17: accept optional conversationHistory for multi-turn
 async function callGeminiAPI(userPrompt, systemInstructionText = "", structuredJsonSchema = null, conversationHistory = null) {
     const customKey = document.getElementById('custom-api-key').value.trim();
-    const apiKey    = customKey || "";
-    // Bug fix #1: correct model name
-    const apiUrl    = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
     let contents;
     if (conversationHistory && conversationHistory.length > 0) {
@@ -942,11 +939,34 @@ async function callGeminiAPI(userPrompt, systemInstructionText = "", structuredJ
     if (structuredJsonSchema)  payload.generationConfig  = { responseMimeType: "application/json", responseSchema: structuredJsonSchema };
 
     try {
-        const response = await fetchWithBackoff(apiUrl, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-        });
+        let response;
+        if (customKey) {
+            // User-supplied key: call Gemini directly
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${customKey}`;
+            response = await fetchWithBackoff(apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+        } else {
+            // Route through Vercel serverless proxy (reads GEMINI_API_KEY server-side)
+            const proxyResponse = await fetchWithBackoff('/api/gemini', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ payload, model: 'gemini-2.0-flash' })
+            });
+            // If proxy not available (e.g. local file:// context), fall back to Canvas credential
+            if (proxyResponse.status === 404 || proxyResponse.status === 405) {
+                const canvasUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=`;
+                response = await fetchWithBackoff(canvasUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+            } else {
+                response = proxyResponse;
+            }
+        }
         const result = await response.json();
         const text = result?.candidates?.[0]?.content?.parts?.[0]?.text;
         if (!text) throw new Error("Empty response from Gemini API.");
