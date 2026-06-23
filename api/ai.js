@@ -11,7 +11,7 @@ module.exports = async function handler(req, res) {
         return res.status(500).json({ error: 'OPENROUTER_API_KEY not configured' });
     }
 
-    const { messages, model = 'google/gemini-2.0-flash-001', response_format } = req.body;
+    const { messages, model = 'google/gemini-2.0-flash-exp:free', response_format } = req.body;
     if (!messages) {
         return res.status(400).json({ error: 'Missing messages' });
     }
