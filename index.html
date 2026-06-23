@@ -73,11 +73,11 @@
                 <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
                 <span class="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
             </span>
-            <p><strong>Gemini Integration Active:</strong> The Canvas automatically supplies credentials. To use a custom key, click settings on the right.</p>
+            <p><strong>AI Integration Active:</strong> Powered by OpenRouter. To use your own API key, click settings on the right.</p>
         </div>
         <div class="flex items-center gap-2">
             <label for="custom-api-key" class="font-semibold">Optional Custom Key:</label>
-            <input type="password" id="custom-api-key" placeholder="AIzaSy..." class="bg-white border border-indigo-200 rounded px-2 py-0.5 w-40 text-slate-700 outline-none focus:border-indigo-500">
+            <input type="password" id="custom-api-key" placeholder="sk-or-..." class="bg-white border border-indigo-200 rounded px-2 py-0.5 w-40 text-slate-700 outline-none focus:border-indigo-500">
             <button onclick="showKeySecurityInfo()" title="How is my key kept secure?" class="text-indigo-300 hover:text-white transition-colors">
                 <i data-lucide="shield-check" class="w-4 h-4"></i>
             </button>
@@ -270,7 +270,7 @@
     <div class="relative z-10">
         <span class="bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 px-2 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-wider">SaaS Diagnostic Screener</span>
         <h4 class="font-bold text-lg mt-2 mb-2 flex items-center gap-2"><i data-lucide="zap" class="text-amber-400"></i> SaaS Risk Screener</h4>
-        <p class="text-xs text-indigo-200 mb-4 leading-relaxed">Type your SaaS feature, pricing, or onboarding hypothesis. Gemini will run it against the 8-gate SaaS governance model to analyze feasibility issues.</p>
+        <p class="text-xs text-indigo-200 mb-4 leading-relaxed">Type your SaaS feature, pricing, or onboarding hypothesis. The AI will run it against the 8-gate SaaS governance model to analyze feasibility issues.</p>
         <textarea id="ai-screener-input" placeholder="e.g. We want to test a synthetic user cohort representing corporate IT directors to evaluate moving our enterprise self-serve plan limit from 10 users to 50 users." class="w-full h-24 bg-slate-900/80 border border-indigo-700/50 rounded-lg p-2.5 text-xs text-slate-100 placeholder-slate-400 focus:outline-none focus:border-indigo-400 transition mb-3 resize-none"></textarea>
         <button id="ai-screener-btn" onclick="runAiRiskScreener()" class="w-full bg-blue-600 hover:bg-blue-500 active:bg-blue-700 disabled:opacity-60 disabled:cursor-not-allowed text-white text-xs font-semibold py-2.5 rounded-lg transition duration-200 flex items-center justify-center gap-1.5 shadow-sm">
             <i data-lucide="cpu" class="w-4 h-4"></i> Run SaaS Gate Assessment
@@ -591,7 +591,7 @@
 <!-- Footer (Enhancement #21) -->
 <footer class="bg-white border-t border-slate-200 mt-16 py-8">
     <div class="max-w-7xl mx-auto px-4 text-center text-slate-500 text-xs space-y-2">
-        <p class="font-medium">SaaS Synthetic Users Governance Simulator &bull; Powered by Gemini 2.0 &bull; <span id="footer-year"></span></p>
+        <p class="font-medium">SaaS Synthetic Users Governance Simulator &bull; Powered by OpenRouter &bull; <span id="footer-year"></span></p>
         <p>Always align synthetic persona configurations with physical customer telemetry, support tickets, and direct feedback channels.</p>
         <p class="pt-1">A <strong class="text-slate-700">PRIME ISO Services, LLC</strong> product &bull;
             <a href="terms.html" class="hover:text-slate-800 underline underline-offset-2 transition-colors">Terms of Service</a> &bull;
@@ -902,7 +902,9 @@ async function getAiNextSteps() {
 }
 </script>
 <script>
-// ===================== GEMINI API =====================
+// ===================== AI API (OpenRouter) =====================
+const DEFAULT_MODEL = 'google/gemini-2.0-flash-001';
+
 async function fetchWithBackoff(url, options, maxRetries = 3) {
     let delay = 1000;
     for (let i = 0; i < maxRetries; i++) {
@@ -910,9 +912,9 @@ async function fetchWithBackoff(url, options, maxRetries = 3) {
             const response = await fetch(url, options);
             if (response.ok) return response;
             if (response.status === 429 || response.status >= 500) {
-                console.warn(`Gemini API status ${response.status}. Retry in ${delay}ms`);
+                console.warn(`AI API status ${response.status}. Retry in ${delay}ms`);
             } else {
-                throw new Error(`Gemini API failed: ${response.status}`);
+                throw new Error(`AI API failed: ${response.status}`);
             }
         } catch(err) {
             if (i === maxRetries - 1) throw err;
@@ -920,59 +922,63 @@ async function fetchWithBackoff(url, options, maxRetries = 3) {
         await new Promise(r => setTimeout(r, delay));
         delay *= 2;
     }
-    throw new Error("Failed to contact Gemini API after max retries.");
+    throw new Error("Failed to contact AI API after max retries.");
 }
 
-// Enhancement #17: accept optional conversationHistory for multi-turn
+// Converts Gemini-style conversationHistory [{role, parts:[{text}]}]
+// to OpenAI-style messages [{role, content}] for OpenRouter compatibility.
+function toOpenRouterMessages(userPrompt, systemInstructionText, conversationHistory) {
+    const messages = [];
+    if (systemInstructionText) {
+        messages.push({ role: 'system', content: systemInstructionText });
+    }
+    if (conversationHistory && conversationHistory.length > 0) {
+        for (const turn of conversationHistory) {
+            const role = turn.role === 'model' ? 'assistant' : turn.role;
+            const content = turn.parts?.map(p => p.text).join('') ?? turn.content ?? '';
+            messages.push({ role, content });
+        }
+    } else {
+        messages.push({ role: 'user', content: userPrompt });
+    }
+    return messages;
+}
+
+// accept optional conversationHistory for multi-turn
 async function callGeminiAPI(userPrompt, systemInstructionText = "", structuredJsonSchema = null, conversationHistory = null) {
     const customKey = document.getElementById('custom-api-key').value.trim();
-
-    let contents;
-    if (conversationHistory && conversationHistory.length > 0) {
-        contents = conversationHistory;
-    } else {
-        contents = [{ role: "user", parts: [{ text: userPrompt }] }];
-    }
-
-    const payload = { contents };
-    if (systemInstructionText) payload.systemInstruction = { parts: [{ text: systemInstructionText }] };
-    if (structuredJsonSchema)  payload.generationConfig  = { responseMimeType: "application/json", responseSchema: structuredJsonSchema };
+    const messages  = toOpenRouterMessages(userPrompt, systemInstructionText, conversationHistory);
+    const body      = { messages, model: DEFAULT_MODEL };
+    if (structuredJsonSchema) body.response_format = { type: 'json_object' };
 
     try {
         let response;
         if (customKey) {
-            // User-supplied key: call Gemini directly
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${customKey}`;
-            response = await fetchWithBackoff(apiUrl, {
+            // User-supplied OpenRouter key: call OpenRouter directly
+            response = await fetchWithBackoff('https://openrouter.ai/api/v1/chat/completions', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${customKey}`,
+                    'HTTP-Referer': 'https://github.com/vivistar/synth',
+                    'X-Title': 'Synth — Synthetic Users Governance Simulator',
+                },
+                body: JSON.stringify(body)
             });
         } else {
-            // Route through Vercel serverless proxy (reads GEMINI_API_KEY server-side)
-            const proxyResponse = await fetchWithBackoff('/api/gemini', {
+            // Route through Vercel serverless proxy (reads OPENROUTER_API_KEY server-side)
+            response = await fetchWithBackoff('/api/ai', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ payload, model: 'gemini-2.0-flash' })
+                body: JSON.stringify(body)
             });
-            // If proxy not available (e.g. local file:// context), fall back to Canvas credential
-            if (proxyResponse.status === 404 || proxyResponse.status === 405) {
-                const canvasUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=`;
-                response = await fetchWithBackoff(canvasUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-            } else {
-                response = proxyResponse;
-            }
         }
         const result = await response.json();
-        const text = result?.candidates?.[0]?.content?.parts?.[0]?.text;
-        if (!text) throw new Error("Empty response from Gemini API.");
+        const text = result?.choices?.[0]?.message?.content;
+        if (!text) throw new Error("Empty response from AI.");
         return text;
     } catch(error) {
-        console.error("Gemini error:", error);
+        console.error("AI error:", error);
         showToast("AI Request Failed", error.message, "error");
         throw error;
     }
@@ -1228,7 +1234,7 @@ function resetChat() {
     lucide.createIcons();
 }
 
-// Enhancement #17: proper multi-turn Gemini format
+// Enhancement #17: proper multi-turn format
 async function sendSandboxMessage() {
     const inputEl = document.getElementById('sandbox-chat-input');
     const userMsg = inputEl.value.trim();
@@ -1434,8 +1440,8 @@ function showKeySecurityInfo() {
             <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-4 flex gap-3">
                 <i data-lucide="shield-check" class="w-5 h-5 text-emerald-600 shrink-0 mt-0.5"></i>
                 <div>
-                    <p class="font-bold text-emerald-900 mb-1">Your key never leaves your browser</p>
-                    <p class="text-emerald-800 text-xs leading-relaxed">This app is a fully static, client-side HTML file. There is no backend server, no database, and no intermediary. When you type a key into the field, it exists only in that browser input — nothing stores or transmits it except the direct call to Google's API.</p>
+                    <p class="font-bold text-emerald-900 mb-1">Your key is handled securely</p>
+                    <p class="text-emerald-800 text-xs leading-relaxed">When you enter a custom OpenRouter key, it is sent directly from your browser to OpenRouter over HTTPS — it never passes through any intermediary server. When no custom key is provided, the app routes requests through a Vercel serverless function that holds the key server-side, invisible to the browser.</p>
                 </div>
             </div>
 
@@ -1444,7 +1450,7 @@ function showKeySecurityInfo() {
                 <div class="space-y-2.5">
                     ${[
                         ["In-memory only", "The key lives in the browser's DOM (the <code class='bg-slate-100 px-1 rounded text-[11px]'>password</code> input field) for the duration of your session. It is never written to <code class='bg-slate-100 px-1 rounded text-[11px]'>localStorage</code>, <code class='bg-slate-100 px-1 rounded text-[11px]'>sessionStorage</code>, cookies, or any persistent store."],
-                        ["Direct to Google only", "It is appended as a URL query parameter to calls made directly to <code class='bg-slate-100 px-1 rounded text-[11px]'>generativelanguage.googleapis.com</code> over HTTPS — the same endpoint Google's own tools use. No third party ever sees it."],
+                        ["Direct to OpenRouter only", "If you supply a key, it is sent directly to <code class='bg-slate-100 px-1 rounded text-[11px]'>openrouter.ai</code> over HTTPS in the Authorization header. No third party sees it."],
                         ["Cleared on tab close", "Because nothing is persisted, closing or refreshing the tab permanently removes the key from memory. You will need to re-enter it next session."],
                         ["Hidden in the UI", "The input uses <code class='bg-slate-100 px-1 rounded text-[11px]'>type=\"password\"</code> so the key is masked from shoulder-surfers and screen recordings."],
                         ["Never logged", "No part of this app sends analytics, telemetry, or error reports to any service. The key is not included in any console output or error message."]
@@ -1461,11 +1467,11 @@ function showKeySecurityInfo() {
                 <h4 class="font-bold text-slate-900 mb-3 flex items-center gap-2"><i data-lucide="key" class="w-4 h-4 text-amber-600"></i> How to use your custom key securely</h4>
                 <ol class="space-y-2.5 list-none">
                     ${[
-                        ["Create a dedicated key", "In <a href='https://aistudio.google.com/app/apikey' target='_blank' class='text-blue-600 underline underline-offset-2'>Google AI Studio</a>, create a new API key specifically for this tool rather than reusing a key shared across projects. That way you can revoke it independently if needed."],
-                        ["Restrict the key by HTTP referrer", "In the Google Cloud Console, open the key's settings and add an HTTP referrer restriction (e.g. <code class='bg-slate-100 px-1 rounded text-[11px]'>https://your-domain.com/*</code>). This means the key is rejected if used from any other origin — even if it were somehow leaked."],
-                        ["Set a quota limit", "In Google Cloud Console → APIs & Services → Quotas, cap the daily request count on this key. This bounds any accidental or malicious spend to a safe ceiling."],
-                        ["Rotate periodically", "Delete and recreate the key every 30–90 days. Because the key is not stored anywhere in this app, rotating it requires only pasting the new value into the field."],
-                        ["Use an environment variable in production", "If you self-host this file behind a build tool or server, inject the key via an environment variable at build time rather than entering it manually — keeping it out of your browser history entirely."]
+                        ["Create a dedicated key", "In <a href='https://openrouter.ai/keys' target='_blank' class='text-blue-600 underline underline-offset-2'>OpenRouter → Keys</a>, create a new key specifically for this tool rather than reusing one shared across projects. That way you can revoke it independently if needed."],
+                        ["Set a credit limit", "In OpenRouter's key settings, set a hard credit limit. This bounds your maximum spend even if the key were somehow exposed."],
+                        ["Restrict allowed models (optional)", "OpenRouter lets you pin a key to specific model IDs. Restricting to <code class='bg-slate-100 px-1 rounded text-[11px]'>google/gemini-2.0-flash-001</code> prevents the key from being used against expensive models."],
+                        ["Rotate periodically", "Delete and recreate the key every 30–90 days. Because nothing is stored in this app, rotation only requires pasting the new value into the field."],
+                        ["Use an environment variable in production", "If you self-host via Vercel (or another platform), set <code class='bg-slate-100 px-1 rounded text-[11px]'>OPENROUTER_API_KEY</code> as an environment variable so the key stays server-side and never touches the browser at all."]
                     ].map(([title, body], i) => `
                         <li class="flex gap-3 p-3 bg-slate-50 border border-slate-100 rounded-lg">
                             <span class="w-5 h-5 rounded-full bg-amber-100 text-amber-700 text-[11px] font-bold flex items-center justify-center shrink-0 mt-0.5">${i+1}</span>
@@ -1477,13 +1483,13 @@ function showKeySecurityInfo() {
 
             <div class="bg-indigo-50 border border-indigo-100 rounded-xl p-4 flex gap-3 text-xs text-indigo-900">
                 <i data-lucide="info" class="w-4 h-4 text-indigo-500 shrink-0 mt-0.5"></i>
-                <p><strong>No key entered?</strong> Behavior depends on how you're running the app. <strong>Inside Google AI Studio Canvas</strong>, a session-scoped credential is supplied automatically — no key needed and no billing liability on your account. <strong>Outside AI Studio</strong> (local file, self-hosted, or forked deployment), no fallback credential exists and all AI features will silently fail until you provide your own key.</p>
+                <p><strong>No key entered?</strong> When deployed on Vercel, the app automatically uses the <code class='bg-slate-100 px-1 rounded text-[11px]'>OPENROUTER_API_KEY</code> environment variable set in your Vercel project — no key needed from the user. Running locally without a key will cause AI features to fail; add your key to the field or set the env var in a <code class='bg-slate-100 px-1 rounded text-[11px]'>.env</code> file.</p>
             </div>
         </div>
     `;
     openGlobalModal(
         "API Key Security",
-        "How your optional Gemini API key is handled and how to protect it",
+        "How your optional OpenRouter API key is handled and how to protect it",
         html,
         "shield-check"
     );
