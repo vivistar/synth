@@ -1,3 +1,5 @@
+const https = require('https');
+
 module.exports = async function handler(req, res) {
     if (req.method !== 'POST') {
         return res.status(405).json({ error: 'Method not allowed' });
@@ -13,23 +15,43 @@ module.exports = async function handler(req, res) {
         return res.status(400).json({ error: 'Missing messages' });
     }
 
-    const body = { model, messages };
-    if (response_format) body.response_format = response_format;
+    const body = JSON.stringify(
+        response_format ? { model, messages, response_format } : { model, messages }
+    );
 
-    try {
-        const upstream = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+    return new Promise((resolve) => {
+        const options = {
+            hostname: 'openrouter.ai',
+            path: '/api/v1/chat/completions',
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'Content-Length': Buffer.byteLength(body),
                 'Authorization': `Bearer ${apiKey}`,
                 'HTTP-Referer': 'https://github.com/vivistar/synth',
                 'X-Title': 'Synth — Synthetic Users Governance Simulator',
             },
-            body: JSON.stringify(body),
+        };
+
+        const request = https.request(options, (upstream) => {
+            let data = '';
+            upstream.on('data', (chunk) => { data += chunk; });
+            upstream.on('end', () => {
+                try {
+                    res.status(upstream.statusCode).json(JSON.parse(data));
+                } catch (e) {
+                    res.status(502).json({ error: 'Invalid JSON from upstream', detail: data });
+                }
+                resolve();
+            });
         });
-        const data = await upstream.json();
-        return res.status(upstream.status).json(data);
-    } catch (err) {
-        return res.status(502).json({ error: 'Upstream request failed', detail: err.message });
-    }
+
+        request.on('error', (err) => {
+            res.status(502).json({ error: 'Upstream request failed', detail: err.message });
+            resolve();
+        });
+
+        request.write(body);
+        request.end();
+    });
 };
