@@ -7,6 +7,7 @@ module.exports = async function handler(req, res) {
 
     const apiKey = process.env.OPENROUTER_API_KEY;
     if (!apiKey) {
+        console.error('[ai] OPENROUTER_API_KEY is not set');
         return res.status(500).json({ error: 'OPENROUTER_API_KEY not configured' });
     }
 
@@ -18,6 +19,8 @@ module.exports = async function handler(req, res) {
     const body = JSON.stringify(
         response_format ? { model, messages, response_format } : { model, messages }
     );
+
+    console.log('[ai] Sending to OpenRouter, model:', model, 'messages:', messages.length);
 
     return new Promise((resolve) => {
         const options = {
@@ -37,16 +40,19 @@ module.exports = async function handler(req, res) {
             let data = '';
             upstream.on('data', (chunk) => { data += chunk; });
             upstream.on('end', () => {
+                console.log('[ai] OpenRouter status:', upstream.statusCode, 'body:', data.slice(0, 300));
                 try {
                     res.status(upstream.statusCode).json(JSON.parse(data));
                 } catch (e) {
-                    res.status(502).json({ error: 'Invalid JSON from upstream', detail: data });
+                    console.error('[ai] JSON parse error:', e.message, 'raw:', data.slice(0, 300));
+                    res.status(502).json({ error: 'Invalid JSON from upstream', detail: data.slice(0, 500) });
                 }
                 resolve();
             });
         });
 
         request.on('error', (err) => {
+            console.error('[ai] HTTPS request error:', err.message);
             res.status(502).json({ error: 'Upstream request failed', detail: err.message });
             resolve();
         });
