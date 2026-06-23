@@ -903,7 +903,7 @@ async function getAiNextSteps() {
 </script>
 <script>
 // ===================== AI API (OpenRouter) =====================
-const DEFAULT_MODEL = 'openai/gpt-4o-mini';
+const DEFAULT_MODEL = 'google/gemini-2.0-flash-exp:free';
 
 async function fetchWithBackoff(url, options, maxRetries = 3) {
     let delay = 1000;
