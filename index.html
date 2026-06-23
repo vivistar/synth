@@ -911,7 +911,13 @@ async function fetchWithBackoff(url, options, maxRetries = 3) {
         try {
             const response = await fetch(url, options);
             if (response.ok) return response;
-            if (response.status === 429 || response.status >= 500) {
+            if (response.status === 429) {
+                console.warn(`Rate limited. Retry in ${delay}ms`);
+            } else if (response.status === 500) {
+                // Proxy misconfiguration (e.g. missing env var) — don't retry, surface clearly
+                const body = await response.json().catch(() => ({}));
+                throw new Error(body.error || `Server error (500). Check OPENROUTER_API_KEY is set in Vercel.`);
+            } else if (response.status >= 500) {
                 console.warn(`AI API status ${response.status}. Retry in ${delay}ms`);
             } else {
                 throw new Error(`AI API failed: ${response.status}`);
