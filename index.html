@@ -515,18 +515,37 @@
                 <i data-lucide="monitor" class="w-3.5 h-3.5"></i> Usability Tester
             </span>
             <h3 class="text-xl font-bold text-slate-900">Synthetic Usability Evaluator</h3>
-            <p class="text-xs text-slate-500 mt-1">Simulate how a specific user persona would experience any interface. Provide the URL and describe what's on screen — the AI thinks aloud as that persona.</p>
+            <p class="text-xs text-slate-500 mt-1">Paste a screenshot or describe the interface — the AI thinks aloud as your chosen persona.</p>
         </div>
 
         <div>
-            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Interface URL</label>
+            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Interface URL <span class="text-slate-400 normal-case font-normal">(optional, for reference)</span></label>
             <input type="url" id="usability-url" placeholder="https://app.example.com/onboarding" class="w-full text-xs p-2.5 border border-slate-200 rounded-lg focus:outline-none focus:border-violet-500 font-mono">
-            <p class="text-[10px] text-slate-400 mt-1">The AI cannot visit this URL — describe the interface below.</p>
+        </div>
+
+        <!-- Screenshot upload/paste zone -->
+        <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Screenshot <span class="text-slate-400 normal-case font-normal">(paste, drag &amp; drop, or upload)</span></label>
+            <div id="usability-drop-zone"
+                 ondragover="event.preventDefault();this.classList.add('border-violet-400','bg-violet-50')"
+                 ondragleave="this.classList.remove('border-violet-400','bg-violet-50')"
+                 ondrop="handleUsabilityImageDrop(event)"
+                 onclick="document.getElementById('usability-file-input').click()"
+                 class="relative border-2 border-dashed border-slate-200 rounded-xl p-4 text-center cursor-pointer hover:border-violet-300 hover:bg-violet-50 transition-all group">
+                <input type="file" id="usability-file-input" accept="image/*" class="hidden" onchange="handleUsabilityFileSelect(event)">
+                <div id="usability-drop-hint" class="space-y-1">
+                    <i data-lucide="image-plus" class="w-8 h-8 text-slate-300 group-hover:text-violet-400 mx-auto transition-colors"></i>
+                    <p class="text-xs text-slate-400">Click to upload or drag &amp; drop</p>
+                    <p class="text-[10px] text-slate-300">Or press <kbd class="bg-slate-100 border border-slate-200 rounded px-1 py-0.5 font-mono">Ctrl+V</kbd> anywhere to paste a screenshot</p>
+                </div>
+                <img id="usability-preview" src="" alt="Screenshot preview" class="hidden max-h-48 mx-auto rounded-lg shadow-sm object-contain">
+                <button id="usability-clear-img" onclick="clearUsabilityImage(event)" class="hidden absolute top-2 right-2 bg-slate-700 hover:bg-slate-900 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center font-bold leading-none">&times;</button>
+            </div>
         </div>
 
         <div>
-            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Describe the Interface</label>
-            <textarea id="usability-description" rows="4" placeholder="e.g. This is a SaaS onboarding screen. At the top is a progress bar showing step 2 of 5. Below is a form with fields: Company Name, Team Size (dropdown), and Primary Use Case (dropdown). There's a 'Continue' button at the bottom right and a 'Skip for now' link in small gray text." class="w-full text-xs p-2.5 border border-slate-200 rounded-lg focus:outline-none focus:border-violet-500"></textarea>
+            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Additional Description <span class="text-slate-400 normal-case font-normal">(optional if screenshot provided)</span></label>
+            <textarea id="usability-description" rows="3" placeholder="Add any context not visible in the screenshot — e.g. error states, hover effects, copy on previous screen, or what happens after clicking a button." class="w-full text-xs p-2.5 border border-slate-200 rounded-lg focus:outline-none focus:border-violet-500"></textarea>
         </div>
 
         <div>
@@ -2008,12 +2027,74 @@ const USABILITY_PERSONA_PRESETS = {
 
 let usabilitySystemPrompt = '';
 let usabilityHistory = [];
+let usabilityImageBase64 = null;
+let usabilityImageMime = 'image/png';
 
 function applyUsabilityPersonaPreset(val) {
     if (val && USABILITY_PERSONA_PRESETS[val]) {
         document.getElementById('usability-persona').value = USABILITY_PERSONA_PRESETS[val];
     }
 }
+
+function setUsabilityImage(dataUrl, mimeType) {
+    usabilityImageBase64 = dataUrl.split(',')[1];
+    usabilityImageMime = mimeType || 'image/png';
+    const preview = document.getElementById('usability-preview');
+    const hint    = document.getElementById('usability-drop-hint');
+    const clearBtn = document.getElementById('usability-clear-img');
+    preview.src = dataUrl;
+    preview.classList.remove('hidden');
+    hint.classList.add('hidden');
+    clearBtn.classList.remove('hidden');
+}
+
+function clearUsabilityImage(e) {
+    if (e) e.stopPropagation();
+    usabilityImageBase64 = null;
+    const preview = document.getElementById('usability-preview');
+    const hint    = document.getElementById('usability-drop-hint');
+    const clearBtn = document.getElementById('usability-clear-img');
+    preview.src = '';
+    preview.classList.add('hidden');
+    hint.classList.remove('hidden');
+    clearBtn.classList.add('hidden');
+    document.getElementById('usability-file-input').value = '';
+}
+
+function handleUsabilityFileSelect(event) {
+    const file = event.target.files[0];
+    if (!file || !file.type.startsWith('image/')) return;
+    const reader = new FileReader();
+    reader.onload = e => setUsabilityImage(e.target.result, file.type);
+    reader.readAsDataURL(file);
+}
+
+function handleUsabilityImageDrop(event) {
+    event.preventDefault();
+    document.getElementById('usability-drop-zone').classList.remove('border-violet-400','bg-violet-50');
+    const file = event.dataTransfer.files[0];
+    if (!file || !file.type.startsWith('image/')) return;
+    const reader = new FileReader();
+    reader.onload = e => setUsabilityImage(e.target.result, file.type);
+    reader.readAsDataURL(file);
+}
+
+// Global paste handler for screenshots
+document.addEventListener('paste', function(e) {
+    if (!document.getElementById('view-usability').classList.contains('hidden')) {
+        const items = e.clipboardData?.items;
+        if (!items) return;
+        for (const item of items) {
+            if (item.type.startsWith('image/')) {
+                const file = item.getAsFile();
+                const reader = new FileReader();
+                reader.onload = ev => setUsabilityImage(ev.target.result, item.type);
+                reader.readAsDataURL(file);
+                break;
+            }
+        }
+    }
+});
 
 async function runUsabilityEvaluation() {
     const url         = document.getElementById('usability-url').value.trim();
@@ -2022,8 +2103,8 @@ async function runUsabilityEvaluation() {
     const persona     = document.getElementById('usability-persona').value.trim();
     const dimensions  = [...document.querySelectorAll('.usability-dimension:checked')].map(c => c.value);
 
-    if (!description) { showToast('Missing info', 'Please describe the interface.', 'error'); return; }
-    if (!persona)      { showToast('Missing info', 'Please describe or select a persona.', 'error'); return; }
+    if (!usabilityImageBase64 && !description) { showToast('Missing info', 'Please paste a screenshot or describe the interface.', 'error'); return; }
+    if (!persona) { showToast('Missing info', 'Please describe or select a persona.', 'error'); return; }
 
     const btn = document.getElementById('usability-run-btn');
     btn.disabled = true;
@@ -2037,8 +2118,9 @@ async function runUsabilityEvaluation() {
 
     const evalPrompt = `You are evaluating the following interface:
 URL: ${url || '(not provided)'}
-Interface description: ${description}
+${description ? `Additional context: ${description}` : ''}
 Task you are trying to accomplish: ${task || '(general exploration)'}
+${usabilityImageBase64 ? 'A screenshot of the interface is attached — evaluate based on what you can see in the image.' : ''}
 
 Provide a structured usability evaluation covering these dimensions: ${dimensions.join(', ')}.
 
@@ -2064,7 +2146,40 @@ ${dimensions.map(d => `- **${d}**: [rating/5] — [explanation]`).join('\n')}
 (Low / Medium / High) — and why`;
 
     try {
-        const result = await callGeminiAPI(evalPrompt, usabilitySystemPrompt);
+        let result;
+        if (usabilityImageBase64) {
+            // Vision call — build OpenRouter multimodal message directly
+            const customKey = document.getElementById('custom-api-key').value.trim();
+            const visionMessages = [
+                { role: 'system', content: usabilitySystemPrompt },
+                { role: 'user', content: [
+                    { type: 'text', text: evalPrompt },
+                    { type: 'image_url', image_url: { url: `data:${usabilityImageMime};base64,${usabilityImageBase64}` } }
+                ]}
+            ];
+            const visionBody = { messages: visionMessages, model: DEFAULT_MODEL };
+            let response;
+            if (customKey) {
+                response = await fetchWithBackoff('https://openrouter.ai/api/v1/chat/completions', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${customKey}`, 'HTTP-Referer': 'https://github.com/vivistar/synth', 'X-Title': 'Synth - Synthetic Users Governance Simulator' },
+                    body: JSON.stringify(visionBody)
+                });
+            } else {
+                response = await fetchWithBackoff('/api/ai', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(visionBody)
+                });
+            }
+            const json = await response.json();
+            if (!response.ok) throw new Error(json?.error?.message || json?.error || `API error ${response.status}`);
+            result = json?.choices?.[0]?.message?.content;
+            if (!result) throw new Error('Empty response from AI.');
+        } else {
+            result = await callGeminiAPI(evalPrompt, usabilitySystemPrompt);
+        }
+
         usabilityHistory = [
             { role: 'user',  parts: [{ text: evalPrompt }] },
             { role: 'model', parts: [{ text: result }] },
@@ -2142,6 +2257,7 @@ function clearUsabilityForm() {
     document.getElementById('copy-usability-btn').classList.add('hidden');
     document.getElementById('usability-chat-input').disabled = true;
     document.getElementById('usability-chat-send').disabled = true;
+    clearUsabilityImage();
     usabilityHistory = [];
     usabilitySystemPrompt = '';
 }
