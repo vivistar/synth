@@ -953,9 +953,18 @@ function toOpenRouterMessages(userPrompt, systemInstructionText, conversationHis
 // accept optional conversationHistory for multi-turn
 async function callGeminiAPI(userPrompt, systemInstructionText = "", structuredJsonSchema = null, conversationHistory = null) {
     const customKey = document.getElementById('custom-api-key').value.trim();
-    const messages  = toOpenRouterMessages(userPrompt, systemInstructionText, conversationHistory);
+
+    // For Gemini models, response_format is unsupported — inject JSON instruction into system prompt instead
+    let effectiveSystem = systemInstructionText;
+    if (structuredJsonSchema && DEFAULT_MODEL.startsWith('google/')) {
+        effectiveSystem = (effectiveSystem ? effectiveSystem + '\n\n' : '') +
+            'Respond with valid JSON only. No markdown, no code fences, no explanation — raw JSON that matches this schema: ' +
+            JSON.stringify(structuredJsonSchema);
+    }
+
+    const messages  = toOpenRouterMessages(userPrompt, effectiveSystem, conversationHistory);
     const body      = { messages, model: DEFAULT_MODEL };
-    if (structuredJsonSchema) body.response_format = { type: 'json_object' };
+    if (structuredJsonSchema && !DEFAULT_MODEL.startsWith('google/')) body.response_format = { type: 'json_object' };
 
     try {
         let response;
