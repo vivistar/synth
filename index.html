@@ -60,6 +60,9 @@
             <button id="btn-sandbox" onclick="switchView('sandbox')" class="px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-all duration-200 text-slate-600 hover:text-slate-900">
                 <span class="flex items-center gap-1.5"><i data-lucide="terminal" class="w-4 h-4"></i> AI Sandbox &amp; Prompt Architect</span>
             </button>
+            <button id="btn-usability" onclick="switchView('usability')" class="px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-all duration-200 text-slate-600 hover:text-slate-900">
+                <span class="flex items-center gap-1.5"><i data-lucide="monitor" class="w-4 h-4"></i> Usability Tester</span>
+            </button>
             <button id="btn-rationale" onclick="switchView('rationale')" class="px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-all duration-200 text-slate-600 hover:text-slate-900">
                 <span class="flex items-center gap-1.5"><i data-lucide="layout-grid" class="w-4 h-4"></i> Lifecycle Rationale</span>
             </button>
@@ -92,9 +95,14 @@
         <span class="bg-blue-500/20 text-blue-300 border border-blue-500/30 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider">Synthetic User Management</span>
         <h2 class="text-3xl font-extrabold mt-3 tracking-tight">Prevent AI Distortion in Your Product Strategy</h2>
         <p class="text-slate-300 mt-2 text-base leading-relaxed">Simulated feedback is powerful, but unchecked AI cohorts can easily skew your product strategy. Bridge the gap between synthetic testing and actual human behavior. This 8-step framework helps you safely run AI cohorts, ensuring your simulated insights are anchored in reality, not AI hallucinations.</p>
-        <button onclick="showBuildSyntheticUsersGuide()" class="mt-5 inline-flex items-center gap-2 bg-blue-500/20 hover:bg-blue-500/30 border border-blue-400/40 hover:border-blue-400/70 text-blue-200 hover:text-white px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200">
-            <i data-lucide="users" class="w-4 h-4"></i> How to Build Synthetic Users
-        </button>
+        <div class="mt-5 flex flex-wrap gap-3">
+            <button onclick="showBuildSyntheticUsersGuide()" class="inline-flex items-center gap-2 bg-blue-500/20 hover:bg-blue-500/30 border border-blue-400/40 hover:border-blue-400/70 text-blue-200 hover:text-white px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200">
+                <i data-lucide="users" class="w-4 h-4"></i> How to Build Synthetic Users
+            </button>
+            <button onclick="showUsabilityGuide()" class="inline-flex items-center gap-2 bg-violet-500/20 hover:bg-violet-500/30 border border-violet-400/40 hover:border-violet-400/70 text-violet-200 hover:text-white px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200">
+                <i data-lucide="monitor" class="w-4 h-4"></i> Usability Evaluation Guide
+            </button>
+        </div>
     </div>
 </div>
 
@@ -495,6 +503,117 @@
 </div>
 </div>
 </div>
+<!-- VIEW 5: USABILITY TESTER -->
+<div id="view-usability" class="hidden space-y-6">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+
+<!-- Left: Config -->
+<div class="lg:col-span-5 space-y-4">
+    <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm space-y-5">
+        <div>
+            <span class="bg-violet-100 text-violet-800 text-xs px-2.5 py-1 rounded-full font-bold uppercase tracking-wider flex items-center gap-1 w-fit mb-2">
+                <i data-lucide="monitor" class="w-3.5 h-3.5"></i> Usability Tester
+            </span>
+            <h3 class="text-xl font-bold text-slate-900">Synthetic Usability Evaluator</h3>
+            <p class="text-xs text-slate-500 mt-1">Simulate how a specific user persona would experience any interface. Provide the URL and describe what's on screen — the AI thinks aloud as that persona.</p>
+        </div>
+
+        <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Interface URL</label>
+            <input type="url" id="usability-url" placeholder="https://app.example.com/onboarding" class="w-full text-xs p-2.5 border border-slate-200 rounded-lg focus:outline-none focus:border-violet-500 font-mono">
+            <p class="text-[10px] text-slate-400 mt-1">The AI cannot visit this URL — describe the interface below.</p>
+        </div>
+
+        <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Describe the Interface</label>
+            <textarea id="usability-description" rows="4" placeholder="e.g. This is a SaaS onboarding screen. At the top is a progress bar showing step 2 of 5. Below is a form with fields: Company Name, Team Size (dropdown), and Primary Use Case (dropdown). There's a 'Continue' button at the bottom right and a 'Skip for now' link in small gray text." class="w-full text-xs p-2.5 border border-slate-200 rounded-lg focus:outline-none focus:border-violet-500"></textarea>
+        </div>
+
+        <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Task to Evaluate</label>
+            <input type="text" id="usability-task" placeholder="e.g. Complete onboarding and reach the dashboard" class="w-full text-xs p-2.5 border border-slate-200 rounded-lg focus:outline-none focus:border-violet-500">
+        </div>
+
+        <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Persona</label>
+            <select id="usability-persona-preset" onchange="applyUsabilityPersonaPreset(this.value)" class="w-full text-xs p-2 border border-slate-200 rounded-lg outline-none focus:border-violet-500 mb-2">
+                <option value="">— Choose a quick persona or write your own below —</option>
+                <option value="revops">Mid-market RevOps Manager (non-technical, evaluation committee)</option>
+                <option value="developer">Senior Developer (technical, skeptical of friction)</option>
+                <option value="smb-founder">SMB Founder (time-poor, wears many hats)</option>
+                <option value="enterprise-buyer">Enterprise IT Buyer (security-first, slow to commit)</option>
+                <option value="cs-manager">Customer Success Manager (power user, high expectations)</option>
+            </select>
+            <textarea id="usability-persona" rows="3" placeholder="Describe your synthetic user persona — role, goals, tech comfort level, frustrations, and any relevant context." class="w-full text-xs p-2.5 border border-slate-200 rounded-lg focus:outline-none focus:border-violet-500"></textarea>
+        </div>
+
+        <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Evaluation Dimensions</label>
+            <div class="grid grid-cols-2 gap-2">
+                ${['First impressions','Navigation clarity','Terminology & labels','Task completion likelihood','Cognitive load','Trust & credibility','Mobile/accessibility concerns','Conversion friction'].map((d,i) => `
+                <label class="flex items-center gap-2 text-xs text-slate-600 cursor-pointer">
+                    <input type="checkbox" class="usability-dimension rounded" value="${d}" ${i < 6 ? 'checked' : ''}> ${d}
+                </label>`).join('')}
+            </div>
+        </div>
+
+        <div class="pt-2 border-t border-slate-100 flex gap-3">
+            <button id="usability-run-btn" onclick="runUsabilityEvaluation()" class="flex-1 bg-violet-600 hover:bg-violet-700 disabled:opacity-60 disabled:cursor-not-allowed text-white font-semibold text-xs py-2.5 px-4 rounded-lg transition-all flex items-center justify-center gap-1.5 shadow">
+                <i data-lucide="play" class="w-4 h-4"></i> Run Evaluation
+            </button>
+            <button onclick="clearUsabilityForm()" class="border border-slate-200 hover:bg-slate-50 text-slate-600 font-semibold text-xs py-2.5 px-4 rounded-lg transition-all flex items-center gap-1">
+                <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i> Clear
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Right: Results + Follow-up chat -->
+<div class="lg:col-span-7 space-y-6">
+    <!-- Report panel -->
+    <div id="usability-report-panel" class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+        <div class="bg-slate-900 px-5 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+                <div class="w-3 h-3 rounded-full bg-violet-500 pulse-soft"></div>
+                <h4 class="text-xs font-bold tracking-wider uppercase text-violet-300">Usability Evaluation Report</h4>
+            </div>
+            <button onclick="copyUsabilityReport()" id="copy-usability-btn" class="hidden text-[10px] text-slate-300 hover:text-white font-semibold flex items-center gap-1 transition-colors">
+                <i data-lucide="copy" class="w-3.5 h-3.5"></i> Copy Report
+            </button>
+        </div>
+        <div id="usability-report-body" class="p-6 text-xs text-slate-500 italic min-h-[300px]">
+            Configure a persona and interface on the left, then click <strong>Run Evaluation</strong> to generate a structured think-aloud report.
+        </div>
+    </div>
+
+    <!-- Follow-up chat -->
+    <div class="bg-slate-900 text-slate-100 border border-slate-800 rounded-xl shadow-lg flex flex-col" style="height:380px">
+        <div class="px-5 py-3.5 border-b border-slate-800 bg-slate-950 rounded-t-xl flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <div class="w-3 h-3 rounded-full bg-violet-500 pulse-soft"></div>
+                <div>
+                    <h4 class="text-xs font-bold tracking-wider uppercase text-violet-400">Follow-up Probe</h4>
+                    <p id="usability-chat-subtitle" class="text-[10px] text-slate-400">Run an evaluation first, then ask the persona follow-up questions.</p>
+                </div>
+            </div>
+            <button onclick="resetUsabilityChat()" class="text-slate-400 hover:text-slate-100 transition-colors">
+                <i data-lucide="trash-2" class="w-4 h-4"></i>
+            </button>
+        </div>
+        <div id="usability-messages" class="flex-1 overflow-y-auto p-4 space-y-3 text-xs">
+            <div class="bg-slate-800/50 text-slate-400 p-3 rounded-lg text-center text-[11px]">Follow-up chat activates after the evaluation runs.</div>
+        </div>
+        <div class="p-3 bg-slate-950 rounded-b-xl border-t border-slate-800 flex gap-2">
+            <input type="text" id="usability-chat-input" disabled onkeydown="if(event.key==='Enter')sendUsabilityMessage()" placeholder="Ask the persona a follow-up question..." class="flex-1 bg-slate-900 border border-slate-800 rounded-lg px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-violet-500 placeholder-slate-500">
+            <button id="usability-chat-send" disabled onclick="sendUsabilityMessage()" class="bg-violet-600 hover:bg-violet-500 disabled:opacity-60 disabled:cursor-not-allowed text-white font-bold text-xs px-4 py-2.5 rounded-lg transition-colors flex items-center gap-1">
+                Send <i data-lucide="send" class="w-3.5 h-3.5"></i>
+            </button>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+
 <!-- VIEW 4: RATIONALE -->
 <div id="view-rationale" class="hidden space-y-8">
 <div class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm">
@@ -639,7 +758,7 @@ const resultOutcomes = {
 
 // ===================== VIEW SWITCHING =====================
 function switchView(view) {
-    const views = { map:'view-map', wizard:'view-wizard', sandbox:'view-sandbox', rationale:'view-rationale' };
+    const views = { map:'view-map', wizard:'view-wizard', sandbox:'view-sandbox', usability:'view-usability', rationale:'view-rationale' };
     const btns  = { map:'btn-map', wizard:'btn-wizard', sandbox:'btn-sandbox', rationale:'btn-rationale' };
     Object.values(views).forEach(id => document.getElementById(id).classList.add('hidden'));
     Object.values(btns).forEach(id => {
@@ -1872,6 +1991,252 @@ function showKeySecurityInfo() {
         html,
         "shield-check"
     );
+}
+
+// ===================== USABILITY TESTER =====================
+const USABILITY_PERSONA_PRESETS = {
+    revops: "You are a mid-market RevOps Manager at a 150-person B2B SaaS company. You are non-technical, evaluation decisions are made by committee, and you're skeptical of tools that can't prove ROI quickly. You're time-constrained and frustrated by complex onboarding. You have moderate tech literacy — comfortable with Salesforce and HubSpot but not with APIs or developer tooling.",
+    developer: "You are a senior software engineer at a 60-person startup. You are highly technical, impatient with friction, and quick to judge whether a tool respects your time. You read documentation before tutorials, and you immediately look for an API or CLI. You'll abandon a tool that buries technical details behind marketing copy.",
+    "smb-founder": "You are the founder of a 12-person e-commerce company. You wear many hats — you're simultaneously the CEO, head of ops, and sometimes do customer support. You're time-poor, budget-conscious, and evaluate tools based on how fast you can see value. You have low tolerance for lengthy setup flows.",
+    "enterprise-buyer": "You are an IT Director at a 3,000-person financial services firm. Security and compliance come before everything else. You will not approve a tool that doesn't have SSO, a DPA, and SOC 2 documentation readily available. You evaluate slowly and involve legal, procurement, and InfoSec before any commitment.",
+    "cs-manager": "You are a Customer Success Manager at a mid-size SaaS company. You use 6–8 tools daily and have very high expectations for UI clarity and workflow efficiency. You're frustrated by tools that require too many clicks, hide key actions in menus, or don't surface the information you need at a glance.",
+};
+
+let usabilitySystemPrompt = '';
+let usabilityHistory = [];
+
+function applyUsabilityPersonaPreset(val) {
+    if (val && USABILITY_PERSONA_PRESETS[val]) {
+        document.getElementById('usability-persona').value = USABILITY_PERSONA_PRESETS[val];
+    }
+}
+
+async function runUsabilityEvaluation() {
+    const url         = document.getElementById('usability-url').value.trim();
+    const description = document.getElementById('usability-description').value.trim();
+    const task        = document.getElementById('usability-task').value.trim();
+    const persona     = document.getElementById('usability-persona').value.trim();
+    const dimensions  = [...document.querySelectorAll('.usability-dimension:checked')].map(c => c.value);
+
+    if (!description) { showToast('Missing info', 'Please describe the interface.', 'error'); return; }
+    if (!persona)      { showToast('Missing info', 'Please describe or select a persona.', 'error'); return; }
+
+    const btn = document.getElementById('usability-run-btn');
+    btn.disabled = true;
+    btn.innerHTML = `<i data-lucide="loader" class="w-4 h-4 animate-spin"></i> Evaluating...`;
+    lucide.createIcons();
+
+    const reportBody = document.getElementById('usability-report-body');
+    reportBody.innerHTML = `<div class="flex items-center gap-3 text-slate-400"><span class="typing-dots"><span></span><span></span><span></span></span><span>Thinking as your persona...</span></div>`;
+
+    usabilitySystemPrompt = `You are roleplaying as the following synthetic user persona:\n\n${persona}\n\nYou are being asked to evaluate a software interface. Think aloud as this persona — be specific, opinionated, and realistic. Surface real concerns this persona would have. Do not be generically positive. Stay completely in character throughout.`;
+
+    const evalPrompt = `You are evaluating the following interface:
+URL: ${url || '(not provided)'}
+Interface description: ${description}
+Task you are trying to accomplish: ${task || '(general exploration)'}
+
+Provide a structured usability evaluation covering these dimensions: ${dimensions.join(', ')}.
+
+Format your response as follows:
+
+## Think-Aloud Walkthrough
+(Narrate your first-person experience attempting the task — what you notice, what confuses you, what you'd click, where you'd pause or give up)
+
+## Dimension Ratings
+For each dimension, give a rating (1–5) and 1–2 sentence explanation:
+${dimensions.map(d => `- **${d}**: [rating/5] — [explanation]`).join('\n')}
+
+## Top 3 Usability Concerns
+(Ranked by severity — most critical first)
+1.
+2.
+3.
+
+## Recommended Fixes
+(Specific, actionable — what would make this interface work better for this persona)
+
+## Likelihood to Complete Task
+(Low / Medium / High) — and why`;
+
+    try {
+        const result = await callGeminiAPI(evalPrompt, usabilitySystemPrompt);
+        usabilityHistory = [
+            { role: 'user',  parts: [{ text: evalPrompt }] },
+            { role: 'model', parts: [{ text: result }] },
+        ];
+
+        // Render markdown-ish output
+        const html = result
+            .replace(/^## (.+)$/gm, '<h4 class="font-bold text-slate-900 mt-5 mb-2 flex items-center gap-2"><i data-lucide="chevron-right" class="w-4 h-4 text-violet-500"></i>$1</h4>')
+            .replace(/^### (.+)$/gm, '<h5 class="font-semibold text-slate-800 mt-3 mb-1">$1</h5>')
+            .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+            .replace(/^(\d+\.) /gm, '<br><strong>$1</strong> ')
+            .replace(/^- /gm, '• ')
+            .replace(/\n/g, '<br>');
+
+        reportBody.innerHTML = `<div class="text-xs text-slate-700 leading-relaxed">${html}</div>`;
+        lucide.createIcons();
+
+        document.getElementById('copy-usability-btn').classList.remove('hidden');
+        document.getElementById('usability-chat-input').disabled = false;
+        document.getElementById('usability-chat-send').disabled = false;
+        document.getElementById('usability-chat-subtitle').textContent = `Persona active — ask follow-up questions`;
+        document.getElementById('usability-messages').innerHTML = `<div class="bg-slate-800/50 text-slate-300 p-3 rounded-lg text-[11px] text-center">Evaluation complete. Ask the persona follow-up questions below.</div>`;
+    } catch(e) {
+        reportBody.innerHTML = `<p class="text-rose-500">Evaluation failed: ${e.message}</p>`;
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = `<i data-lucide="play" class="w-4 h-4"></i> Run Evaluation`;
+        lucide.createIcons();
+    }
+}
+
+function copyUsabilityReport() {
+    const text = document.getElementById('usability-report-body').innerText;
+    navigator.clipboard.writeText(text).then(
+        () => showToast('Copied!', 'Report copied to clipboard.', 'success'),
+        () => showToast('Copy failed', 'Select the text manually.', 'error')
+    );
+}
+
+async function sendUsabilityMessage() {
+    const input = document.getElementById('usability-chat-input');
+    const msg = input.value.trim();
+    if (!msg || !usabilitySystemPrompt) return;
+    input.value = '';
+
+    const messages = document.getElementById('usability-messages');
+    messages.innerHTML += `<div class="flex justify-end"><div class="bg-violet-600 text-white rounded-xl rounded-br-sm px-3.5 py-2.5 max-w-[80%] leading-relaxed">${msg}</div></div>`;
+    messages.innerHTML += `<div id="usability-typing" class="flex gap-2 items-start"><div class="w-7 h-7 rounded-full bg-violet-700 flex items-center justify-center shrink-0"><i data-lucide="user" class="w-3.5 h-3.5 text-white"></i></div><div class="bg-slate-800 px-3.5 py-2.5 rounded-xl rounded-tl-sm"><span class="typing-dots"><span></span><span></span><span></span></span></div></div>`;
+    lucide.createIcons();
+    messages.scrollTop = messages.scrollHeight;
+
+    usabilityHistory.push({ role: 'user', parts: [{ text: msg }] });
+
+    try {
+        const reply = await callGeminiAPI('', usabilitySystemPrompt, null, usabilityHistory);
+        usabilityHistory.push({ role: 'model', parts: [{ text: reply }] });
+        document.getElementById('usability-typing')?.remove();
+        messages.innerHTML += `<div class="flex gap-2 items-start"><div class="w-7 h-7 rounded-full bg-violet-700 flex items-center justify-center shrink-0"><i data-lucide="user" class="w-3.5 h-3.5 text-white"></i></div><div class="bg-slate-800 px-3.5 py-2.5 rounded-xl rounded-tl-sm max-w-[85%] leading-relaxed text-slate-100">${reply.replace(/\n/g,'<br>')}</div></div>`;
+        lucide.createIcons();
+    } catch(e) {
+        document.getElementById('usability-typing')?.remove();
+    }
+    messages.scrollTop = messages.scrollHeight;
+}
+
+function resetUsabilityChat() {
+    usabilityHistory = usabilityHistory.slice(0, 2);
+    document.getElementById('usability-messages').innerHTML = `<div class="bg-slate-800/50 text-slate-400 p-3 rounded-lg text-center text-[11px]">Chat cleared. Run evaluation again or continue asking questions.</div>`;
+}
+
+function clearUsabilityForm() {
+    ['usability-url','usability-description','usability-task','usability-persona'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('usability-persona-preset').value = '';
+    document.getElementById('usability-report-body').innerHTML = `Configure a persona and interface on the left, then click <strong>Run Evaluation</strong> to generate a structured think-aloud report.`;
+    document.getElementById('copy-usability-btn').classList.add('hidden');
+    document.getElementById('usability-chat-input').disabled = true;
+    document.getElementById('usability-chat-send').disabled = true;
+    usabilityHistory = [];
+    usabilitySystemPrompt = '';
+}
+
+// ===================== USABILITY GUIDE MODAL =====================
+function showUsabilityGuide() {
+    const html = `
+        <div class="space-y-5 text-sm">
+            <div class="bg-violet-50 border border-violet-200 rounded-xl p-4 flex gap-3">
+                <i data-lucide="info" class="w-5 h-5 text-violet-600 shrink-0 mt-0.5"></i>
+                <p class="text-violet-900 text-xs leading-relaxed">Synthetic usability evaluation uses AI personas to simulate how a specific user type would experience an interface — surfacing terminology mismatches, cognitive load, and navigation confusion before you run a single real session.</p>
+            </div>
+
+            <div>
+                <h4 class="font-bold text-slate-900 mb-3 flex items-center gap-2"><i data-lucide="list-checks" class="w-4 h-4 text-violet-600"></i> How to run a synthetic usability evaluation</h4>
+                <div class="space-y-2.5">
+                    ${[
+                        ["Describe the interface in plain text","The AI cannot visit URLs. Write what's visible: layout, labels, buttons, copy, form fields, and any instructions shown. The more specific, the more accurate the evaluation."],
+                        ["Define the task","Give the persona a clear goal — e.g. 'Complete account setup and reach the main dashboard.' Vague tasks produce vague evaluations."],
+                        ["Choose or write a persona","Use a preset (RevOps Manager, Developer, SMB Founder…) or write your own. The more specific the persona — goals, frustrations, tech literacy — the more realistic the output."],
+                        ["Select evaluation dimensions","Check only the dimensions that matter for this test. First impressions and task completion are useful for almost every test. Accessibility and mobile concerns are relevant only if that audience is in scope."],
+                        ["Probe with follow-up questions","After the report generates, use the Follow-up Probe chat to go deeper: 'What would make you trust this screen more?' or 'Where would you go if the Continue button didn't work?'"]
+                    ].map(([t,b]) => `
+                        <div class="flex gap-3 p-3 bg-slate-50 border border-slate-100 rounded-lg">
+                            <i data-lucide="check-circle-2" class="w-4 h-4 text-violet-500 shrink-0 mt-0.5"></i>
+                            <div><p class="font-semibold text-slate-900 text-xs mb-0.5">${t}</p><p class="text-xs text-slate-600 leading-relaxed">${b}</p></div>
+                        </div>`).join('')}
+                </div>
+            </div>
+
+            <div class="border border-slate-200 rounded-xl overflow-hidden">
+                <div class="flex items-center justify-between bg-slate-100 px-4 py-2.5">
+                    <span class="text-xs font-bold text-slate-700 uppercase tracking-wide">Template — Usability Evaluation Session Brief</span>
+                    <button onclick="copyTemplate('tpl-usability')" class="flex items-center gap-1.5 text-xs text-violet-600 hover:text-violet-800 font-semibold transition-colors">
+                        <i data-lucide="copy" class="w-3.5 h-3.5"></i> Copy
+                    </button>
+                </div>
+                <pre id="tpl-usability" class="p-4 text-[11px] leading-relaxed text-slate-700 bg-white overflow-x-auto whitespace-pre-wrap font-mono">## Usability Evaluation Session Brief
+
+**Product / Feature:** [Name of screen or flow being evaluated]
+**URL:** [URL — for reference only, describe the interface below]
+**Date:** [Date]
+**Evaluator:** [Your name]
+**Persona used:** [Persona name or preset]
+
+---
+
+### Interface Description
+[Describe exactly what is visible on screen: layout, headings, labels, button text,
+form fields, help text, error states, and any onboarding copy. Be specific.]
+
+Example:
+"The screen has a white background with a centered card. At the top is the logo.
+Below is the heading 'Set up your workspace' in 24px bold. Two required fields:
+'Workspace name' (text input) and 'Team size' (dropdown with options: Just me,
+2–10, 11–50, 51+). At the bottom right is a blue 'Continue' button. There is
+no back button or progress indicator visible."
+
+---
+
+### Task
+[What is the synthetic user trying to accomplish on this screen?]
+e.g. "Name their workspace and continue to the next step."
+
+---
+
+### Evaluation Dimensions Requested
+[ ] First impressions
+[ ] Navigation clarity
+[ ] Terminology & labels
+[ ] Task completion likelihood
+[ ] Cognitive load
+[ ] Trust & credibility
+[ ] Mobile / accessibility concerns
+[ ] Conversion friction
+
+---
+
+### Follow-up Questions to Probe After Report
+1. [e.g. "What would make you more confident before clicking Continue?"]
+2. [e.g. "What does 'workspace' mean to you — is that term clear?"]
+3. [e.g. "If the Continue button didn't work, what would you do next?"]
+
+---
+
+### Calibration Notes (fill in after comparing to real sessions)
+- Did synthetic concerns match real usability test findings? [Y / N / Partially]
+- Top synthetic concern that was confirmed by real users: [Finding]
+- Concerns raised synthetically that were NOT confirmed: [Finding]
+- New concerns from real users NOT raised synthetically: [Finding]</pre>
+            </div>
+
+            <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 flex gap-3">
+                <i data-lucide="alert-triangle" class="w-5 h-5 text-amber-600 shrink-0 mt-0.5"></i>
+                <p class="text-xs text-amber-900 leading-relaxed"><strong>Synthetic usability evaluation is not a substitute for real usability testing.</strong> Use it to prioritize which problems to investigate and to prepare sharper questions for real sessions — not to validate final design decisions.</p>
+            </div>
+        </div>
+    `;
+    openGlobalModal('Usability Evaluation Guide', 'How to run synthetic usability evaluations and interpret results', html, 'monitor');
 }
 
 // ===================== BOOTSTRAPPER =====================
