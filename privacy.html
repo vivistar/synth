@@ -45,7 +45,7 @@
                 <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full border border-emerald-200 uppercase tracking-wider">Privacy</span>
             </div>
             <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">Privacy Policy</h1>
-            <p class="text-slate-500 text-sm mt-2">Effective date: <strong class="text-slate-700">June 17, 2026</strong> &bull; Last updated: <strong class="text-slate-700">June 17, 2026</strong></p>
+            <p class="text-slate-500 text-sm mt-2">Effective date: <strong class="text-slate-700">June 17, 2026</strong> &bull; Last updated: <strong class="text-slate-700">June 24, 2026</strong></p>
             <p class="text-slate-500 text-sm mt-1">Issued by: <strong class="text-slate-700">PRIME ISO Services, LLC</strong></p>
         </div>
 
@@ -95,15 +95,16 @@
                 <li><strong>Wizard answers and governance scores</strong> — computed and rendered in-browser; no data leaves your device.</li>
             </ul>
 
-            <h2>4. Third-Party AI Services (Google Gemini)</h2>
-            <p>The Service makes API calls to <strong>Google Gemini</strong> (<code>generativelanguage.googleapis.com</code>) to generate AI-powered analyses and simulated personas. When these calls occur:</p>
+            <h2>4. Third-Party AI Services (OpenRouter)</h2>
+            <p>The Service routes AI requests through <strong>OpenRouter</strong> (<code>openrouter.ai</code>) to access large language models such as <code>openai/gpt-4o-mini</code>. When AI features are used:</p>
             <ul>
-                <li>The text prompts you generate — including scenario descriptions, persona configurations, and chat messages — are transmitted directly from your browser to Google's API endpoint over HTTPS.</li>
-                <li>Google processes these prompts in accordance with its own Privacy Policy and Terms of Service. PRIME ISO does not control, intercept, or receive copies of this data.</li>
-                <li>If you use a Custom API Key, all charges and data handling obligations associated with that key are governed by your agreement with Google.</li>
-                <li>If you use the default session-scoped credential, the session is anonymous and not linked to any PRIME ISO or personal account.</li>
+                <li>On PRIME ISO's canonical Vercel deployment, prompts are forwarded from your browser to a PRIME ISO-operated server-side proxy, which then transmits them to OpenRouter over HTTPS. PRIME ISO does not log or store prompt content on its proxy.</li>
+                <li>If you supply a custom OpenRouter API key, prompts are transmitted directly from your browser to OpenRouter, bypassing the proxy entirely. PRIME ISO does not receive or intercept those requests.</li>
+                <li>OpenRouter may in turn forward prompts to third-party model providers (e.g., OpenAI). Each provider's privacy policy governs their handling of prompt data.</li>
+                <li>If you use a Custom API Key, all charges and data handling obligations associated with that key are governed by your agreement with OpenRouter and the applicable model provider.</li>
             </ul>
-            <p>We strongly recommend reviewing <a href="https://policies.google.com/privacy" target="_blank">Google's Privacy Policy</a> and <a href="https://ai.google.dev/terms" target="_blank">Gemini API Terms</a> before submitting sensitive business data as prompt content.</p>
+            <p>We strongly recommend reviewing <a href="https://openrouter.ai/privacy" target="_blank">OpenRouter's Privacy Policy</a> before submitting sensitive business data as prompt content.</p>
+            <p>The Usability Tester feature supports image upload and paste. Any image you provide is encoded as a base64 data URI and included in the prompt payload sent to OpenRouter. Images are not stored by PRIME ISO.</p>
 
             <h2>5. Cookies and Tracking Technologies</h2>
             <p>The Service does not set first-party cookies, and PRIME ISO does not deploy any analytics, advertising, or behavioral tracking scripts. The application loads the following third-party CDN resources for functionality and visual rendering only:</p>
@@ -128,7 +129,7 @@
             </ul>
 
             <h2>8. Your Rights</h2>
-            <p>Because we do not collect or store personal data, most traditional data subject rights (access, deletion, portability) are satisfied by default — there is simply no data held about you to act upon. If you have concerns about data processed by Google Gemini on your behalf, please refer to Google's privacy controls and data deletion tools.</p>
+            <p>Because we do not collect or store personal data, most traditional data subject rights (access, deletion, portability) are satisfied by default — there is simply no data held about you to act upon. If you have concerns about data processed by OpenRouter or an underlying model provider on your behalf, please refer to their respective privacy controls and data deletion tools.</p>
             <p>Users in the European Economic Area (EEA), United Kingdom, or California may have additional rights under GDPR, UK GDPR, or CCPA respectively. Given that PRIME ISO collects no personal data, these regulations impose minimal obligations, but we remain committed to full compliance and welcome any inquiry.</p>
 
             <h2>9. Changes to This Policy</h2>
@@ -160,7 +161,7 @@
 
     <footer class="bg-white border-t border-slate-200 mt-16 py-8">
         <div class="max-w-7xl mx-auto px-4 text-center text-slate-500 text-xs space-y-2">
-            <p class="font-medium">SaaS Synthetic Users Governance Simulator &bull; Powered by Gemini 2.0</p>
+            <p class="font-medium">SaaS Synthetic Users Readiness Check &bull; Powered by OpenRouter</p>
             <p>A <strong class="text-slate-700">PRIME ISO Services, LLC</strong> product &bull;
                 <a href="terms.html" class="hover:text-slate-800 underline underline-offset-2">Terms of Service</a> &bull;
                 <a href="privacy.html" class="hover:text-slate-800 underline underline-offset-2">Privacy Policy</a> &bull;
