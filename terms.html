@@ -45,7 +45,7 @@
                 <span class="bg-blue-100 text-blue-800 text-xs font-bold px-3 py-1 rounded-full border border-blue-200 uppercase tracking-wider">Legal</span>
             </div>
             <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">Terms of Service</h1>
-            <p class="text-slate-500 text-sm mt-2">Effective date: <strong class="text-slate-700">June 17, 2026</strong> &bull; Last updated: <strong class="text-slate-700">June 17, 2026</strong></p>
+            <p class="text-slate-500 text-sm mt-2">Effective date: <strong class="text-slate-700">June 17, 2026</strong> &bull; Last updated: <strong class="text-slate-700">June 24, 2026</strong></p>
             <p class="text-slate-500 text-sm mt-1">Issued by: <strong class="text-slate-700">PRIME ISO Services, LLC</strong></p>
         </div>
 
@@ -71,14 +71,16 @@
             <p>In the event of any conflict between these Terms and the CC BY-SA 4.0 license with respect to the scope of rights to use, share, or adapt the Service, the CC BY-SA 4.0 license shall control.</p>
 
             <h2>3. Description of the Service</h2>
-            <p>The Service is an interactive, AI-assisted governance simulator designed to help SaaS product managers evaluate the appropriateness and reliability of synthetic user research within their product development and operations workflows. The Service includes:</p>
+            <p>The Service is an interactive, AI-assisted readiness check designed to help SaaS product managers evaluate the appropriateness and reliability of synthetic user research within their product development and operations workflows. The Service includes:</p>
             <ul>
                 <li>An 8-step SaaS governance readiness flowchart and interactive map;</li>
                 <li>A step-by-step wizard for assessing product checkpoint readiness;</li>
                 <li>An AI Sandbox and Prompt Architect for generating synthetic user personas;</li>
+                <li>A Usability Tester for AI-assisted interface evaluation using synthetic user perspectives, including support for image-based (screenshot) analysis;</li>
+                <li>A "How to Build Synthetic Users" guide with copy-paste prompt templates for product managers;</li>
                 <li>A Lifecycle Rationale view for strategic research positioning.</li>
             </ul>
-            <p>The Service integrates with the Google Gemini API to provide AI-generated analysis, assessments, and simulated user interactions. PRIME ISO does not operate or control the underlying AI model.</p>
+            <p>The Service integrates with the <strong>OpenRouter API</strong> (openrouter.ai) to route AI requests to supported large language models. By default, the Service uses <code>openai/gpt-4o-mini</code>. Users may optionally supply a custom OpenRouter API key to route requests through their own billing account. PRIME ISO does not operate or control the underlying AI models.</p>
 
             <h2>4. Eligibility</h2>
             <p>You must be at least 18 years of age and have the legal authority to enter into these Terms on behalf of yourself or the organization you represent. By using the Service, you represent and warrant that you meet these requirements.</p>
@@ -105,14 +107,14 @@
             </ul>
 
             <h2>7. API Keys and Third-Party Services</h2>
-            <p>The Service integrates with the Google Gemini API. You may optionally provide your own Google API key ("Custom Key"). By providing a Custom Key, you acknowledge and agree that:</p>
+            <p>The Service integrates with the <strong>OpenRouter API</strong> (openrouter.ai) to provide AI-generated analysis, persona simulation, and usability evaluation. When deployed on PRIME ISO's canonical Vercel hosting, AI requests are routed through a server-side proxy that uses a PRIME ISO-managed OpenRouter API key — your browser sends no key of its own to OpenRouter. You may optionally provide your own OpenRouter API key ("Custom Key") to route calls directly from your browser through your own billing account. By providing a Custom Key, you acknowledge and agree that:</p>
             <ul>
-                <li>Your Custom Key is processed entirely within your browser session and is never transmitted to PRIME ISO servers;</li>
+                <li>Your Custom Key is stored only in your browser session and is never transmitted to PRIME ISO servers;</li>
                 <li>You are solely responsible for the security, management, and compliance obligations associated with your Custom Key;</li>
-                <li>Your use of the Google Gemini API via your Custom Key is subject to Google's Terms of Service and usage policies;</li>
+                <li>Your use of the OpenRouter API via your Custom Key is subject to OpenRouter's Terms of Service and the terms of any underlying model provider;</li>
                 <li>PRIME ISO is not responsible for any charges, data exposure, or service disruptions arising from your use or misuse of a Custom Key.</li>
             </ul>
-            <p>If no Custom Key is provided, behavior depends on the deployment context. When running inside Google AI Studio Canvas, a session-scoped credential is supplied automatically; it is not associated with your account and carries no billing liability to you. In all other contexts — including local file use, self-hosted deployments, or forks distributed under CC BY-SA 4.0 — no fallback credential is available and AI-dependent features will not function without a user-supplied key.</p>
+            <p>If no Custom Key is provided and PRIME ISO's server-side proxy key is unavailable or unset, AI-dependent features will not function. Self-hosted deployments and forks distributed under CC BY-SA 4.0 must supply their own API credentials.</p>
 
             <h2>8. AI-Generated Content Disclaimer</h2>
             <p>The Service uses artificial intelligence to generate governance assessments, persona prompts, simulated user interactions, and analytical reports. You expressly acknowledge that:</p>
@@ -151,7 +153,10 @@
             <h2>16. Severability and Entire Agreement</h2>
             <p>If any provision of these Terms is found to be unenforceable, it shall be modified to the minimum extent necessary to make it enforceable, and all remaining provisions shall remain in full force and effect. These Terms, together with the <a href="privacy.html">Privacy Policy</a>, constitute the entire agreement between you and PRIME ISO regarding your <em>conduct obligations</em> in connection with the Service. They do not supersede, modify, or limit the rights independently granted to you by the CC BY-SA 4.0 license, which operates as a separate and parallel legal instrument.</p>
 
-            <h2>17. Contact</h2>
+            <h2>17. Attribution</h2>
+            <p>The SaaS Synthetic Users Readiness Check was designed and authored by <strong>Terry M Patterson</strong>, founder of PRIME ISO Services, LLC. The tool's governance methodology, feature design, and content are the result of Terry M Patterson's original research into responsible AI use in SaaS product management. Attribution requirements under CC BY-SA 4.0 (§2) are satisfied by crediting <strong>PRIME ISO Services, LLC</strong> and linking to <a href="https://github.com/vivistar/synth" target="_blank">github.com/vivistar/synth</a>.</p>
+
+            <h2>18. Contact</h2>
             <p>If you have questions about these Terms, please contact PRIME ISO Services, LLC at:</p>
             <div class="bg-slate-50 border border-slate-100 rounded-xl p-4 mt-2 text-xs text-slate-700 not-prose space-y-1">
                 <p class="font-bold text-slate-900">PRIME ISO Services, LLC</p>
@@ -177,7 +182,7 @@
 
     <footer class="bg-white border-t border-slate-200 mt-16 py-8">
         <div class="max-w-7xl mx-auto px-4 text-center text-slate-500 text-xs space-y-2">
-            <p class="font-medium">SaaS Synthetic Users Governance Simulator &bull; Powered by Gemini 2.0</p>
+            <p class="font-medium">SaaS Synthetic Users Readiness Check &bull; Powered by OpenRouter</p>
             <p>A <strong class="text-slate-700">PRIME ISO Services, LLC</strong> product &bull;
                 <a href="terms.html" class="hover:text-slate-800 underline underline-offset-2">Terms of Service</a> &bull;
                 <a href="privacy.html" class="hover:text-slate-800 underline underline-offset-2">Privacy Policy</a> &bull;

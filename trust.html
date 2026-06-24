@@ -41,7 +41,7 @@
             <div class="relative z-10 max-w-2xl">
                 <span class="bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider">Trust &amp; Security</span>
                 <h1 class="text-3xl font-extrabold mt-3 tracking-tight">PRIME ISO Trust Center</h1>
-                <p class="text-slate-300 mt-2 leading-relaxed text-sm">How we build, operate, and govern the SaaS Synthetic Users Readiness Check to protect your workflow, your data, and your decisions. This page is the single source of truth for our security posture, AI model transparency, and responsible use commitments.</p>
+                <p class="text-slate-300 mt-2 leading-relaxed text-sm">How we build, operate, and govern the SaaS Synthetic Users Readiness Check to protect your workflow, your data, and your decisions. This page is the single source of truth for our security posture, AI model transparency, and responsible use commitments. The tool was designed and authored by <strong class="text-white">Terry M Patterson</strong>, founder of PRIME ISO Services, LLC.</p>
             </div>
         </div>
 
@@ -51,7 +51,7 @@
                 <h2 class="font-bold text-slate-900 flex items-center gap-2">
                     <i data-lucide="activity" class="w-5 h-5 text-emerald-500"></i> Service Status
                 </h2>
-                <span class="text-xs text-slate-400">Last reviewed: June 17, 2026</span>
+                <span class="text-xs text-slate-400">Last reviewed: June 24, 2026</span>
             </div>
             <div class="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <div class="flex items-center gap-3 p-3 bg-emerald-50 border border-emerald-100 rounded-xl">
@@ -64,7 +64,7 @@
                 <div class="flex items-center gap-3 p-3 bg-emerald-50 border border-emerald-100 rounded-xl">
                     <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 shrink-0"></span>
                     <div>
-                        <p class="text-xs font-bold text-emerald-900">Gemini AI Integration</p>
+                        <p class="text-xs font-bold text-emerald-900">OpenRouter AI Integration</p>
                         <p class="text-[11px] text-emerald-700">Operational</p>
                     </div>
                 </div>
@@ -96,7 +96,7 @@
                         <li class="flex gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-blue-500 shrink-0 mt-0.5"></i> <span>Zero PRIME ISO server-side data reception</span></li>
                         <li class="flex gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-blue-500 shrink-0 mt-0.5"></i> <span>Session memory cleared automatically on tab close</span></li>
                         <li class="flex gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-blue-500 shrink-0 mt-0.5"></i> <span>No <code class="bg-slate-100 px-1 rounded">localStorage</code>, <code class="bg-slate-100 px-1 rounded">sessionStorage</code>, or cookie writes</span></li>
-                        <li class="flex gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-blue-500 shrink-0 mt-0.5"></i> <span>Outbound requests limited to Google Gemini API and public CDNs</span></li>
+                        <li class="flex gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-blue-500 shrink-0 mt-0.5"></i> <span>Outbound requests limited to OpenRouter API (via server-side proxy or direct with custom key) and public CDNs</span></li>
                     </ul>
                 </div>
 
@@ -108,15 +108,15 @@
                         </div>
                         <h3 class="font-bold text-slate-900">AI Model Transparency</h3>
                     </div>
-                    <p class="text-xs text-slate-600 leading-relaxed">The Service uses the <strong>Google Gemini 2.0 Flash</strong> model for all AI-generated content. No proprietary PRIME ISO model is used. Outputs are probabilistic — they can contain errors, hallucinations, or biases inherent to large language models.</p>
+                    <p class="text-xs text-slate-600 leading-relaxed">The Service routes AI requests through <strong>OpenRouter</strong> to access third-party large language models. The default model is <code class="bg-slate-100 px-1 rounded">openai/gpt-4o-mini</code>. No proprietary PRIME ISO model is used. Outputs are probabilistic — they can contain errors, hallucinations, or biases inherent to large language models.</p>
                     <div class="space-y-3">
                         <div class="bg-slate-50 border border-slate-100 rounded-lg p-3 text-xs space-y-1">
-                            <p class="font-semibold text-slate-800">Model</p>
-                            <p class="text-slate-500 font-mono">gemini-2.0-flash (Google DeepMind)</p>
+                            <p class="font-semibold text-slate-800">Default model</p>
+                            <p class="text-slate-500 font-mono">openai/gpt-4o-mini (via OpenRouter)</p>
                         </div>
                         <div class="bg-slate-50 border border-slate-100 rounded-lg p-3 text-xs space-y-1">
                             <p class="font-semibold text-slate-800">Prompt routing</p>
-                            <p class="text-slate-500">Direct browser → Google API, no PRIME ISO intermediary</p>
+                            <p class="text-slate-500">Browser → PRIME ISO Vercel proxy → OpenRouter (default); or browser → OpenRouter directly when a custom key is supplied</p>
                         </div>
                         <div class="bg-amber-50 border border-amber-100 rounded-lg p-3 text-xs">
                             <p class="font-semibold text-amber-800">Important</p>
@@ -133,16 +133,16 @@
                         </div>
                         <h3 class="font-bold text-slate-900">API Key Handling</h3>
                     </div>
-                    <p class="text-xs text-slate-600 leading-relaxed">An optional custom Google API key can be entered to route calls through your own billing account. The key is handled with strict in-browser isolation.</p>
+                    <p class="text-xs text-slate-600 leading-relaxed">An optional custom OpenRouter API key can be entered to route calls directly through your own billing account, bypassing the PRIME ISO server-side proxy. The key is handled with strict in-browser isolation.</p>
                     <ul class="space-y-2 text-xs text-slate-600">
                         <li class="flex gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-amber-500 shrink-0 mt-0.5"></i> <span>Stored only in a <code class="bg-slate-100 px-1 rounded">type="password"</code> DOM element — masked on screen</span></li>
-                        <li class="flex gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-amber-500 shrink-0 mt-0.5"></i> <span>Sent only to <code class="bg-slate-100 px-1 rounded">generativelanguage.googleapis.com</code> over HTTPS</span></li>
+                        <li class="flex gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-amber-500 shrink-0 mt-0.5"></i> <span>Sent only to <code class="bg-slate-100 px-1 rounded">openrouter.ai</code> over HTTPS when a custom key is active</span></li>
                         <li class="flex gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-amber-500 shrink-0 mt-0.5"></i> <span>Never logged, transmitted to PRIME ISO, or included in error reports</span></li>
                         <li class="flex gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-amber-500 shrink-0 mt-0.5"></i> <span>Erased from memory on page close or refresh</span></li>
                     </ul>
                     <div class="bg-blue-50 border border-blue-100 rounded-lg p-3 text-xs text-blue-800">
                         <p class="font-semibold mb-0.5">Best practice</p>
-                        <p>Restrict your API key to your domain via the Google Cloud Console and set a daily quota cap. See the in-app security guide (🛡 icon) for step-by-step instructions.</p>
+                        <p>Set usage limits and credit caps on your OpenRouter account to prevent unexpected charges. See <a href="https://openrouter.ai/docs" target="_blank" class="underline">openrouter.ai/docs</a> for key management guidance.</p>
                     </div>
                 </div>
 
@@ -185,10 +185,10 @@
                     </thead>
                     <tbody class="divide-y divide-slate-100 text-slate-700 bg-white">
                         <tr>
-                            <td class="p-3 font-mono">generativelanguage.googleapis.com</td>
-                            <td class="p-3">Google DeepMind</td>
-                            <td class="p-3">AI-generated governance analysis and persona simulation</td>
-                            <td class="p-3 text-amber-700 font-medium">Prompt text, optional API key</td>
+                            <td class="p-3 font-mono">openrouter.ai</td>
+                            <td class="p-3">OpenRouter</td>
+                            <td class="p-3">AI routing proxy for governance analysis, persona simulation, and usability evaluation</td>
+                            <td class="p-3 text-amber-700 font-medium">Prompt text (+ images for Usability Tester), optional API key</td>
                         </tr>
                         <tr class="bg-slate-50/50">
                             <td class="p-3 font-mono">cdn.tailwindcss.com</td>
@@ -217,7 +217,7 @@
                     </tbody>
                 </table>
             </div>
-            <p class="text-[11px] text-slate-400 mt-3">CDN providers may log standard HTTP metadata per their own policies. Only the Gemini API receives content from your session.</p>
+            <p class="text-[11px] text-slate-400 mt-3">CDN providers may log standard HTTP metadata per their own policies. Only the OpenRouter API receives content from your session.</p>
         </div>
 
         <!-- Compliance & Governance -->
@@ -230,7 +230,7 @@
 
                 <div class="p-4 border border-slate-100 bg-slate-50 rounded-xl space-y-1.5">
                     <p class="font-bold text-xs text-slate-900 flex items-center gap-1.5"><i data-lucide="globe" class="w-3.5 h-3.5 text-indigo-500"></i> GDPR / UK GDPR</p>
-                    <p class="text-[11px] text-slate-600 leading-relaxed">No personal data is collected or processed by PRIME ISO. No data processing agreements are required between the user and PRIME ISO. Prompt data sent to Google Gemini is governed by Google's Data Processing Addendum.</p>
+                    <p class="text-[11px] text-slate-600 leading-relaxed">No personal data is collected or processed by PRIME ISO. No data processing agreements are required between the user and PRIME ISO. Prompt data sent to OpenRouter and its underlying model providers is governed by their respective Data Processing Agreements.</p>
                 </div>
 
                 <div class="p-4 border border-slate-100 bg-slate-50 rounded-xl space-y-1.5">
@@ -240,7 +240,7 @@
 
                 <div class="p-4 border border-slate-100 bg-slate-50 rounded-xl space-y-1.5">
                     <p class="font-bold text-xs text-slate-900 flex items-center gap-1.5"><i data-lucide="building-2" class="w-3.5 h-3.5 text-indigo-500"></i> SOC 2</p>
-                    <p class="text-[11px] text-slate-600 leading-relaxed">As a client-side-only application with no cloud infrastructure, formal SOC 2 certification is not applicable at this time. Enterprise customers requiring SOC 2 coverage should reference Google's compliance for the Gemini API.</p>
+                    <p class="text-[11px] text-slate-600 leading-relaxed">As a client-side application with a lightweight server-side proxy, formal SOC 2 certification is not applicable at this time. Enterprise customers requiring SOC 2 coverage should reference OpenRouter's and their selected model provider's compliance documentation.</p>
                 </div>
 
                 <div class="p-4 border border-slate-100 bg-slate-50 rounded-xl space-y-1.5">
@@ -292,7 +292,7 @@
 
     <footer class="bg-white border-t border-slate-200 mt-16 py-8">
         <div class="max-w-7xl mx-auto px-4 text-center text-slate-500 text-xs space-y-2">
-            <p class="font-medium">SaaS Synthetic Users Governance Simulator &bull; Powered by Gemini 2.0</p>
+            <p class="font-medium">SaaS Synthetic Users Readiness Check &bull; Powered by OpenRouter</p>
             <p>A <strong class="text-slate-700">PRIME ISO Services, LLC</strong> product &bull;
                 <a href="terms.html" class="hover:text-slate-800 underline underline-offset-2">Terms of Service</a> &bull;
                 <a href="privacy.html" class="hover:text-slate-800 underline underline-offset-2">Privacy Policy</a> &bull;
