@@ -550,10 +550,14 @@
         <div>
             <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Evaluation Dimensions</label>
             <div class="grid grid-cols-2 gap-2">
-                ${['First impressions','Navigation clarity','Terminology & labels','Task completion likelihood','Cognitive load','Trust & credibility','Mobile/accessibility concerns','Conversion friction'].map((d,i) => `
-                <label class="flex items-center gap-2 text-xs text-slate-600 cursor-pointer">
-                    <input type="checkbox" class="usability-dimension rounded" value="${d}" ${i < 6 ? 'checked' : ''}> ${d}
-                </label>`).join('')}
+                <label class="flex items-center gap-2 text-xs text-slate-600 cursor-pointer"><input type="checkbox" class="usability-dimension rounded" value="First impressions" checked> First impressions</label>
+                <label class="flex items-center gap-2 text-xs text-slate-600 cursor-pointer"><input type="checkbox" class="usability-dimension rounded" value="Navigation clarity" checked> Navigation clarity</label>
+                <label class="flex items-center gap-2 text-xs text-slate-600 cursor-pointer"><input type="checkbox" class="usability-dimension rounded" value="Terminology &amp; labels" checked> Terminology &amp; labels</label>
+                <label class="flex items-center gap-2 text-xs text-slate-600 cursor-pointer"><input type="checkbox" class="usability-dimension rounded" value="Task completion likelihood" checked> Task completion likelihood</label>
+                <label class="flex items-center gap-2 text-xs text-slate-600 cursor-pointer"><input type="checkbox" class="usability-dimension rounded" value="Cognitive load" checked> Cognitive load</label>
+                <label class="flex items-center gap-2 text-xs text-slate-600 cursor-pointer"><input type="checkbox" class="usability-dimension rounded" value="Trust &amp; credibility" checked> Trust &amp; credibility</label>
+                <label class="flex items-center gap-2 text-xs text-slate-600 cursor-pointer"><input type="checkbox" class="usability-dimension rounded" value="Mobile/accessibility concerns"> Mobile/accessibility concerns</label>
+                <label class="flex items-center gap-2 text-xs text-slate-600 cursor-pointer"><input type="checkbox" class="usability-dimension rounded" value="Conversion friction"> Conversion friction</label>
             </div>
         </div>
 
