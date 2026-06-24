@@ -1447,6 +1447,15 @@ Evaluate:
 }
 
 // ===================== API KEY SECURITY INFO =====================
+function copyTemplate(id) {
+    const text = document.getElementById(id).innerText;
+    navigator.clipboard.writeText(text).then(() => {
+        showToast('Copied!', 'Template copied to clipboard.', 'success');
+    }).catch(() => {
+        showToast('Copy failed', 'Select the text manually and copy it.', 'error');
+    });
+}
+
 function showBuildSyntheticUsersGuide() {
     const html = `
         <div class="space-y-6 text-sm">
@@ -1584,6 +1593,212 @@ function showBuildSyntheticUsersGuide() {
                 <div class="text-xs text-amber-900 leading-relaxed">
                     <p class="font-bold mb-1">Never use synthetic users as a replacement for real research.</p>
                     <p>They are a compression tool for hypothesis generation and early-stage validation. Any finding that drives significant investment (&gt;1 sprint of eng time or pricing changes) must be confirmed with at least 3–5 real user conversations.</p>
+                </div>
+            </div>
+
+            <!-- TEMPLATES -->
+            <div>
+                <h3 class="font-bold text-slate-900 text-base mb-4 flex items-center gap-2"><i data-lucide="clipboard-copy" class="w-4 h-4 text-blue-600"></i> Copy-Paste Templates</h3>
+                <div class="space-y-4">
+
+                    <!-- Template 1: Persona Brief -->
+                    <div class="border border-slate-200 rounded-xl overflow-hidden">
+                        <div class="flex items-center justify-between bg-slate-100 px-4 py-2.5">
+                            <span class="text-xs font-bold text-slate-700 uppercase tracking-wide">Template 1 — Persona Brief</span>
+                            <button onclick="copyTemplate('tpl-persona')" class="flex items-center gap-1.5 text-xs text-blue-600 hover:text-blue-800 font-semibold transition-colors">
+                                <i data-lucide="copy" class="w-3.5 h-3.5"></i> Copy
+                            </button>
+                        </div>
+                        <pre id="tpl-persona" class="p-4 text-[11px] leading-relaxed text-slate-700 bg-white overflow-x-auto whitespace-pre-wrap font-mono">## Synthetic User Persona Brief
+
+**Segment name:** [e.g. Mid-Market RevOps Manager]
+**Version:** v1.0 — [Date]
+**Data sources used:** [e.g. NPS verbatims Q1 2025, 12 sales call transcripts, FullStory sessions]
+
+---
+
+### Role & Context
+- Job title: [Title]
+- Company size: [e.g. 50–250 employees]
+- Industry: [e.g. B2B SaaS]
+- Budget authority: [e.g. Can approve up to $2k/mo without sign-off]
+- Reporting structure: [e.g. Reports to VP of Sales]
+
+### Goals (ranked by priority)
+1. [Primary goal — use their words if possible]
+2. [Secondary goal]
+3. [Tertiary goal]
+
+### Top Frustrations
+- [Frustration 1 — ideally verbatim from support tickets or interviews]
+- [Frustration 2]
+- [Frustration 3]
+
+### Buying Behavior
+- Evaluates tools: [solo / by committee / with IT]
+- Deal breakers: [e.g. no SSO, no API, no HubSpot integration]
+- Preferred trial format: [freemium / POC / demo-first]
+- Typical evaluation timeline: [e.g. 3–6 weeks]
+
+### Real Verbatim Quotes (from interviews, NPS, or support)
+- "[Paste a real quote here]"
+- "[Paste a second real quote here]"
+
+### What this persona WON'T do
+- [e.g. Will not approve without legal review of DPA]
+- [e.g. Will not migrate from existing tool without a migration playbook]
+
+### Calibration notes
+- Last validated against real data: [Date]
+- Alignment score with real users: [e.g. 78% — 3 of 4 priority features matched backlog top-10]
+- Next review due: [Date + 90 days]</pre>
+                    </div>
+
+                    <!-- Template 2: Cohort Prompt -->
+                    <div class="border border-slate-200 rounded-xl overflow-hidden">
+                        <div class="flex items-center justify-between bg-slate-100 px-4 py-2.5">
+                            <span class="text-xs font-bold text-slate-700 uppercase tracking-wide">Template 2 — Cohort System Prompt</span>
+                            <button onclick="copyTemplate('tpl-prompt')" class="flex items-center gap-1.5 text-xs text-blue-600 hover:text-blue-800 font-semibold transition-colors">
+                                <i data-lucide="copy" class="w-3.5 h-3.5"></i> Copy
+                            </button>
+                        </div>
+                        <pre id="tpl-prompt" class="p-4 text-[11px] leading-relaxed text-slate-700 bg-white overflow-x-auto whitespace-pre-wrap font-mono">You are [PERSONA NAME], a [JOB TITLE] at a [COMPANY SIZE] [INDUSTRY] company.
+
+Your role: [1–2 sentence description of day-to-day responsibilities]
+
+Your primary goals right now:
+- [Goal 1]
+- [Goal 2]
+- [Goal 3]
+
+Your biggest frustrations with tools like this one:
+- [Frustration 1]
+- [Frustration 2]
+
+How you evaluate software:
+- [Evaluation behavior — e.g. "You always ask for a security review before any tool touches customer data"]
+- [Deal breakers — e.g. "You will not move forward without a native HubSpot integration"]
+- [Process — e.g. "You need a business case doc before presenting to your CFO"]
+
+Your communication style:
+- [Tone — e.g. "Direct, data-driven, skeptical of vendor claims without proof"]
+- [Language — use these phrases naturally: "[real quote 1]", "[real quote 2]"]
+
+Your blind spots (things you don't know or actively avoid):
+- [e.g. "You are not technical and avoid discussions about APIs or infrastructure"]
+- [e.g. "You underestimate implementation timelines"]
+
+Constraints:
+- Stay fully in character. Do not break persona or refer to yourself as an AI.
+- If asked about something outside your experience, respond as this persona would — with honest uncertainty, not fabricated expertise.
+- Base your opinions on the context above, not on general knowledge about your industry.</pre>
+                    </div>
+
+                    <!-- Template 3: Calibration Checklist -->
+                    <div class="border border-slate-200 rounded-xl overflow-hidden">
+                        <div class="flex items-center justify-between bg-slate-100 px-4 py-2.5">
+                            <span class="text-xs font-bold text-slate-700 uppercase tracking-wide">Template 3 — Calibration Checklist</span>
+                            <button onclick="copyTemplate('tpl-calibration')" class="flex items-center gap-1.5 text-xs text-blue-600 hover:text-blue-800 font-semibold transition-colors">
+                                <i data-lucide="copy" class="w-3.5 h-3.5"></i> Copy
+                            </button>
+                        </div>
+                        <pre id="tpl-calibration" class="p-4 text-[11px] leading-relaxed text-slate-700 bg-white overflow-x-auto whitespace-pre-wrap font-mono">## Synthetic User Calibration Checklist
+**Persona:** [Name]  **Date:** [Date]  **Reviewer:** [Your name]
+
+---
+
+### Signal Alignment (compare synthetic outputs to real data)
+
+[ ] Top 3 feature priorities match backlog top-requested features
+[ ] Stated WTP (willingness to pay) aligns with real conversion data by plan
+[ ] Integration needs match CRM's most-used connectors for this segment
+[ ] Cited pain points appear in NPS verbatims or support ticket themes
+[ ] Evaluation behavior matches real sales cycle data (length, stakeholders)
+
+### Divergence Flags (investigate any that fail)
+
+[ ] Synthetic user cited a feature/integration not in top-10 real requests → investigate
+[ ] WTP was 2x or more above/below real conversion data → recalibrate
+[ ] Persona expressed certainty about something real users are ambiguous about → add uncertainty
+
+### Real User Spot-Check (run same question with 3 real users)
+
+Question tested: "[Paste the question you asked the synthetic user]"
+
+| Real User | Key response theme | Matches synthetic? |
+|-----------|-------------------|-------------------|
+| User 1    |                   | Y / N             |
+| User 2    |                   | Y / N             |
+| User 3    |                   | Y / N             |
+
+Alignment score: [X/3 matched] — [Pass ≥2/3 to proceed / Fail → update persona brief]
+
+### Decision
+
+[ ] PASS — persona is calibrated, cleared for use in roadmap hypothesis testing
+[ ] FAIL — update persona brief with divergence notes before next session
+
+**Notes:**
+[Free text]
+
+**Next calibration due:** [Date + 90 days]</pre>
+                    </div>
+
+                    <!-- Template 4: syntheticusers.com Study Setup -->
+                    <div class="border border-indigo-100 rounded-xl overflow-hidden">
+                        <div class="flex items-center justify-between bg-indigo-50 px-4 py-2.5">
+                            <span class="text-xs font-bold text-indigo-700 uppercase tracking-wide">Template 4 — syntheticusers.com Study Setup</span>
+                            <button onclick="copyTemplate('tpl-study')" class="flex items-center gap-1.5 text-xs text-indigo-600 hover:text-indigo-800 font-semibold transition-colors">
+                                <i data-lucide="copy" class="w-3.5 h-3.5"></i> Copy
+                            </button>
+                        </div>
+                        <pre id="tpl-study" class="p-4 text-[11px] leading-relaxed text-slate-700 bg-white overflow-x-auto whitespace-pre-wrap font-mono">## syntheticusers.com Study Setup Guide
+
+### Before you start
+1. Complete Persona Brief (Template 1) and pass all 8 governance gates in this tool
+2. Gather grounding data files to upload: NPS CSV, support ticket export, or interview transcripts
+
+---
+
+### Study configuration
+
+**Study name:** [Feature or hypothesis you are testing] — [Segment name] — [Date]
+
+**Participant configuration (paste your Cohort System Prompt — Template 2 here)**
+
+**Grounding documents to upload:**
+- NPS verbatim export (last 90 days, filtered to this segment)
+- Top 20 support tickets for this segment
+- Any interview transcripts (anonymized)
+
+---
+
+### Research questions (recommended structure)
+
+Opening (warm-up):
+"Walk me through how you currently handle [problem area]. What does a typical week look like?"
+
+Core hypothesis questions:
+1. "[Your primary hypothesis question — open-ended]"
+2. "How important is [specific feature] compared to [alternative]? Why?"
+3. "What would have to be true for you to switch from your current solution?"
+
+Pricing / value probe:
+"If this solved [core problem] reliably, what would feel like a fair price? What would feel expensive?"
+
+Closing:
+"Is there anything about [product area] that we haven't discussed that you think is important?"
+
+---
+
+### After the session
+
+[ ] Export full transcript
+[ ] Run through Calibration Checklist (Template 3)
+[ ] Log any divergences in persona brief with date
+[ ] File transcript in team research library with tags: [segment] [feature area] [date]</pre>
+                    </div>
+
                 </div>
             </div>
 
