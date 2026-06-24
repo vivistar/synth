@@ -92,6 +92,9 @@
         <span class="bg-blue-500/20 text-blue-300 border border-blue-500/30 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider">Synthetic User Management</span>
         <h2 class="text-3xl font-extrabold mt-3 tracking-tight">Prevent AI Distortion in Your Product Strategy</h2>
         <p class="text-slate-300 mt-2 text-base leading-relaxed">Simulated feedback is powerful, but unchecked AI cohorts can easily skew your product strategy. Bridge the gap between synthetic testing and actual human behavior. This 8-step framework helps you safely run AI cohorts, ensuring your simulated insights are anchored in reality, not AI hallucinations.</p>
+        <button onclick="showBuildSyntheticUsersGuide()" class="mt-5 inline-flex items-center gap-2 bg-blue-500/20 hover:bg-blue-500/30 border border-blue-400/40 hover:border-blue-400/70 text-blue-200 hover:text-white px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200">
+            <i data-lucide="users" class="w-4 h-4"></i> How to Build Synthetic Users
+        </button>
     </div>
 </div>
 
@@ -1444,6 +1447,156 @@ Evaluate:
 }
 
 // ===================== API KEY SECURITY INFO =====================
+function showBuildSyntheticUsersGuide() {
+    const html = `
+        <div class="space-y-6 text-sm">
+
+            <div class="bg-blue-50 border border-blue-200 rounded-xl p-4 flex gap-3">
+                <i data-lucide="info" class="w-5 h-5 text-blue-600 shrink-0 mt-0.5"></i>
+                <p class="text-blue-900 text-xs leading-relaxed">Synthetic users are AI-generated personas that simulate how real user segments think, respond, and behave. Built well, they compress weeks of discovery into hours — but only when grounded in real data and governed by the 8-gate framework in this tool.</p>
+            </div>
+
+            <!-- STEP 1 -->
+            <div class="border border-slate-200 rounded-xl overflow-hidden">
+                <div class="bg-slate-900 px-4 py-3 flex items-center gap-3">
+                    <span class="w-6 h-6 rounded-full bg-blue-500 text-white text-xs font-bold flex items-center justify-center shrink-0">1</span>
+                    <h4 class="font-bold text-white text-sm">Define Your Real User Segments</h4>
+                </div>
+                <div class="p-4 space-y-2 text-xs text-slate-700 leading-relaxed">
+                    <p>Start with data you already have. For each segment you want to simulate, collect:</p>
+                    <ul class="space-y-1.5 mt-2">
+                        ${[
+                            "CRM & support ticket themes (top pain points, feature requests, churn reasons)",
+                            "NPS verbatims and CSAT comments segmented by plan/role/industry",
+                            "Session recordings and heatmap patterns from tools like FullStory or Hotjar",
+                            "Sales call transcripts or win/loss interview notes",
+                            "Usage telemetry — which features each cohort actually uses vs. ignores"
+                        ].map(t => `<li class="flex gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-blue-500 shrink-0 mt-0.5"></i><span>${t}</span></li>`).join('')}
+                    </ul>
+                    <p class="mt-3 text-slate-500">Aim for at least 3–5 distinct data points per segment before building a persona. Thin data = hallucinated behavior.</p>
+                </div>
+            </div>
+
+            <!-- STEP 2 -->
+            <div class="border border-slate-200 rounded-xl overflow-hidden">
+                <div class="bg-slate-900 px-4 py-3 flex items-center gap-3">
+                    <span class="w-6 h-6 rounded-full bg-blue-500 text-white text-xs font-bold flex items-center justify-center shrink-0">2</span>
+                    <h4 class="font-bold text-white text-sm">Write a Grounded Persona Brief</h4>
+                </div>
+                <div class="p-4 space-y-2 text-xs text-slate-700 leading-relaxed">
+                    <p>Turn your data into a structured persona brief. Each brief should include:</p>
+                    <div class="bg-slate-50 border border-slate-200 rounded-lg p-3 font-mono text-[11px] leading-relaxed text-slate-600 mt-2">
+                        <p><strong>Role:</strong> Mid-market RevOps Manager, 50–200 seat SaaS company</p>
+                        <p><strong>Goals:</strong> Reduce tool sprawl, prove ROI to CFO, consolidate reporting</p>
+                        <p><strong>Frustrations:</strong> Too many dashboards, no single source of truth, long onboarding</p>
+                        <p><strong>Behavior:</strong> Evaluates tools by committee, needs procurement-friendly pricing, skips freemium</p>
+                        <p><strong>Real quotes:</strong> "We need this to integrate with HubSpot on day one or we can't move forward."</p>
+                    </div>
+                    <p class="mt-2 text-slate-500">The <strong>Real quotes</strong> field is critical — verbatim language from real users anchors the AI's vocabulary and prevents generic outputs.</p>
+                </div>
+            </div>
+
+            <!-- STEP 3 -->
+            <div class="border border-slate-200 rounded-xl overflow-hidden">
+                <div class="bg-slate-900 px-4 py-3 flex items-center gap-3">
+                    <span class="w-6 h-6 rounded-full bg-blue-500 text-white text-xs font-bold flex items-center justify-center shrink-0">3</span>
+                    <h4 class="font-bold text-white text-sm">Build Your Cohort Prompt</h4>
+                </div>
+                <div class="p-4 space-y-2 text-xs text-slate-700 leading-relaxed">
+                    <p>A cohort prompt is the system instruction that makes an AI <em>become</em> your synthetic user. Use the <strong>AI Sandbox &amp; Prompt Architect</strong> tab to draft and test these. Key elements:</p>
+                    <ul class="space-y-1.5 mt-2">
+                        ${[
+                            "<strong>Role declaration:</strong> \"You are a RevOps Manager at a 150-person SaaS company...\"",
+                            "<strong>Context constraints:</strong> Goals, budget authority, tech stack, reporting structure",
+                            "<strong>Behavioral guardrails:</strong> What this persona will and won't do (e.g. won't approve without legal review)",
+                            "<strong>Language style:</strong> Paste in 2–3 real verbatim quotes to calibrate tone",
+                            "<strong>Blind spots:</strong> What they don't know or actively avoid (keeps responses realistic)"
+                        ].map(t => `<li class="flex gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-blue-500 shrink-0 mt-0.5"></i><span>${t}</span></li>`).join('')}
+                    </ul>
+                </div>
+            </div>
+
+            <!-- STEP 4 — syntheticusers.com -->
+            <div class="border border-indigo-200 rounded-xl overflow-hidden">
+                <div class="bg-indigo-900 px-4 py-3 flex items-center gap-3">
+                    <span class="w-6 h-6 rounded-full bg-indigo-400 text-white text-xs font-bold flex items-center justify-center shrink-0">4</span>
+                    <h4 class="font-bold text-white text-sm">Connect to Synthetic Users Platforms</h4>
+                </div>
+                <div class="p-4 space-y-3 text-xs text-slate-700 leading-relaxed">
+                    <p>If your team has access to <strong>syntheticusers.com</strong>, you can run your persona briefs as structured research sessions:</p>
+                    <ul class="space-y-1.5">
+                        ${[
+                            "Create a new study and paste your persona brief into the participant configuration",
+                            "Upload supporting data (CSV exports, survey results) as grounding context",
+                            "Run moderated or unmoderated sessions — ask your feature questions directly to the cohort",
+                            "Export transcripts and use them as calibration data to validate or update your persona brief"
+                        ].map(t => `<li class="flex gap-2"><i data-lucide="arrow-right" class="w-3.5 h-3.5 text-indigo-500 shrink-0 mt-0.5"></i><span>${t}</span></li>`).join('')}
+                    </ul>
+                    <div class="bg-indigo-50 border border-indigo-100 rounded-lg p-3 mt-2">
+                        <p class="font-semibold text-indigo-900 mb-1">Workflow tip</p>
+                        <p class="text-indigo-800">Use this governance tool first to pass all 8 gates, <em>then</em> import your validated persona brief into syntheticusers.com. This ensures the cohort you run is calibrated, not improvised.</p>
+                    </div>
+                    <p class="text-slate-500">Don't have access yet? Visit <strong>syntheticusers.com</strong> to request access or explore their research panel tools.</p>
+                </div>
+            </div>
+
+            <!-- STEP 5 -->
+            <div class="border border-slate-200 rounded-xl overflow-hidden">
+                <div class="bg-slate-900 px-4 py-3 flex items-center gap-3">
+                    <span class="w-6 h-6 rounded-full bg-blue-500 text-white text-xs font-bold flex items-center justify-center shrink-0">5</span>
+                    <h4 class="font-bold text-white text-sm">Calibrate Against Real Telemetry</h4>
+                </div>
+                <div class="p-4 space-y-2 text-xs text-slate-700 leading-relaxed">
+                    <p>After running your first synthetic session, compare outputs to real behavior:</p>
+                    <ul class="space-y-1.5 mt-2">
+                        ${[
+                            "Do the synthetic user's feature priorities match your actual top-requested features in your backlog?",
+                            "Does the stated willingness-to-pay align with your real conversion data by plan tier?",
+                            "Are the cited integration needs consistent with your CRM's most-used connectors?",
+                            "Run the same question to 3 real users and compare — flag divergences as calibration gaps"
+                        ].map(t => `<li class="flex gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-500 shrink-0 mt-0.5"></i><span>${t}</span></li>`).join('')}
+                    </ul>
+                    <p class="mt-2 text-slate-500">Aim for &ge;70% alignment with real signals before using synthetic outputs in roadmap decisions.</p>
+                </div>
+            </div>
+
+            <!-- STEP 6 -->
+            <div class="border border-slate-200 rounded-xl overflow-hidden">
+                <div class="bg-slate-900 px-4 py-3 flex items-center gap-3">
+                    <span class="w-6 h-6 rounded-full bg-blue-500 text-white text-xs font-bold flex items-center justify-center shrink-0">6</span>
+                    <h4 class="font-bold text-white text-sm">Document, Version, and Govern</h4>
+                </div>
+                <div class="p-4 space-y-2 text-xs text-slate-700 leading-relaxed">
+                    <p>Treat persona briefs like code — version them and track what changed:</p>
+                    <ul class="space-y-1.5 mt-2">
+                        ${[
+                            "Store persona briefs in a shared doc with a version date and what data informed this version",
+                            "Flag when a brief hasn't been updated in 90+ days — user behavior drifts",
+                            "Record which product decisions were influenced by synthetic sessions and their outcomes",
+                            "Use the Run Simulator in this tool quarterly to re-validate that your cohorts still pass governance gates"
+                        ].map(t => `<li class="flex gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-blue-500 shrink-0 mt-0.5"></i><span>${t}</span></li>`).join('')}
+                    </ul>
+                </div>
+            </div>
+
+            <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 flex gap-3">
+                <i data-lucide="alert-triangle" class="w-5 h-5 text-amber-600 shrink-0 mt-0.5"></i>
+                <div class="text-xs text-amber-900 leading-relaxed">
+                    <p class="font-bold mb-1">Never use synthetic users as a replacement for real research.</p>
+                    <p>They are a compression tool for hypothesis generation and early-stage validation. Any finding that drives significant investment (&gt;1 sprint of eng time or pricing changes) must be confirmed with at least 3–5 real user conversations.</p>
+                </div>
+            </div>
+
+        </div>
+    `;
+    openGlobalModal(
+        'How to Build Synthetic Users',
+        'A step-by-step guide for product managers — from raw data to governed AI cohorts',
+        html,
+        'users'
+    );
+}
+
 function showKeySecurityInfo() {
     const html = `
         <div class="space-y-5 text-sm">
