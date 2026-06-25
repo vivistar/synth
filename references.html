@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>References — SaaS Synthetic Users Readiness Check</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen">
+
+    <!-- Header -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <div class="p-2 bg-blue-100 text-blue-700 rounded-lg">
+                    <i data-lucide="book-open" class="w-6 h-6"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold text-slate-900 tracking-tight">SaaS Synthetic Users Readiness Check</h1>
+                </div>
+            </div>
+            <a href="index.html" class="flex items-center gap-1.5 text-xs font-semibold text-slate-600 hover:text-slate-900 border border-slate-200 hover:border-slate-300 px-3 py-1.5 rounded-lg transition-all">
+                <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i> Back to App
+            </a>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
+
+        <!-- Page Header -->
+        <div>
+            <div class="flex items-center gap-2 mb-3">
+                <span class="bg-blue-100 text-blue-800 text-xs font-bold px-3 py-1 rounded-full border border-blue-200 uppercase tracking-wider">Research Basis</span>
+            </div>
+            <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">References</h1>
+            <p class="text-slate-500 text-sm mt-2 max-w-2xl">The governance framework and readiness criteria in this tool are grounded in the following peer-reviewed and industry literature on synthetic users in UX and human-centred design.</p>
+        </div>
+
+        <!-- Table 1 -->
+        <section>
+            <div class="mb-4">
+                <h2 class="text-lg font-bold text-slate-900">Table 1 — Key sources on synthetic users in UX / HCD (pros and cons)</h2>
+                <p class="text-xs text-slate-500 mt-1">A cross-source summary of the main opportunities and risks documented in the literature.</p>
+            </div>
+            <div class="overflow-x-auto rounded-2xl border border-slate-200 shadow-sm">
+                <table class="w-full text-left text-xs border-collapse bg-white">
+                    <thead>
+                        <tr class="bg-slate-900 text-white text-[11px] font-bold uppercase tracking-wider">
+                            <th class="p-3 border-b border-slate-800 min-w-[220px]">Source</th>
+                            <th class="p-3 border-b border-slate-800 w-16">Year</th>
+                            <th class="p-3 border-b border-slate-800 w-36">Type</th>
+                            <th class="p-3 border-b border-slate-800">Main pros / opportunities</th>
+                            <th class="p-3 border-b border-slate-800">Main cons / risks</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100 text-slate-700">
+                        <tr class="hover:bg-slate-50">
+                            <td class="p-3 font-medium text-slate-800">Rosala &amp; Moran, NN/g — "Synthetic Users: If, When, and How to Use AI-Generated Research"</td>
+                            <td class="p-3 text-slate-500">2024</td>
+                            <td class="p-3 text-slate-500">Industry UX evaluation</td>
+                            <td class="p-3">Fast synthesis of existing domain knowledge; helps with desk research and early hypothesis generation.</td>
+                            <td class="p-3 text-rose-700">Shallow, idealized responses; unsafe for concept testing, prioritization, or persona creation; must not replace real-user research.</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50 bg-slate-50/50">
+                            <td class="p-3 font-medium text-slate-800">Pehar — "AI as Synthetic Users in Human-Centred Design: A Systematic Review"</td>
+                            <td class="p-3 text-slate-500">2025</td>
+                            <td class="p-3 text-slate-500">Peer-reviewed systematic review</td>
+                            <td class="p-3">Speed and cost reduction in early iterations; supports ideation, persona generation, and large-scale simulations for usability/scenario testing.</td>
+                            <td class="p-3 text-rose-700">Authenticity and variability problems, bias, limited emotional/contextual fidelity, and ethical concerns; should augment, not replace, real users.</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50">
+                            <td class="p-3 font-medium text-slate-800">Gu et al. — "Synthetic users: insights from designers' interactions with persona-based chatbots"</td>
+                            <td class="p-3 text-slate-500">2025</td>
+                            <td class="p-3 text-slate-500">Peer-reviewed empirical study</td>
+                            <td class="p-3">Allows designers to ask follow-ups, test assumptions, and explore "what-if" questions quickly with interactive personas.</td>
+                            <td class="p-3 text-rose-700">Accuracy doubts, out-of-character responses; treated more as brainstorming partners than ground-truth about users.</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50 bg-slate-50/50">
+                            <td class="p-3 font-medium text-slate-800">ACM Interactions — pieces on synthetic users and UX challenges</td>
+                            <td class="p-3 text-slate-500">2024–2026</td>
+                            <td class="p-3 text-slate-500">Peer-reviewed commentary</td>
+                            <td class="p-3">Acknowledge efficiency, scalable exploration, and potential diversity gains when synthetic users are carefully instrumented and validated.</td>
+                            <td class="p-3 text-rose-700">Structural biases (over-agreeableness, Western defaults, emotional flatness); synthetic personas can echo assumptions instead of surfacing surprises.</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50">
+                            <td class="p-3 font-medium text-slate-800">MeasuringU / LinkedIn — "A Review of Experiments with Synthetic Users"</td>
+                            <td class="p-3 text-slate-500">2026</td>
+                            <td class="p-3 text-slate-500">Methodological review</td>
+                            <td class="p-3">Synthetic users can approximate some usability metrics and replicate coarse patterns of human data on well-structured tasks.</td>
+                            <td class="p-3 text-rose-700">Plausible but wrong data, shallow qualitative output, low variability, failures on complex tasks; unvalidated synthetic findings can mislead.</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50 bg-slate-50/50">
+                            <td class="p-3 font-medium text-slate-800">Koji — "Synthetic Users in Research: Validity, Bias, and When AI Personas Are (and Aren't) Trustworthy"</td>
+                            <td class="p-3 text-slate-500">2026</td>
+                            <td class="p-3 text-slate-500">Industry methodology article</td>
+                            <td class="p-3">Useful for vocabulary familiarization, hypothesis generation, pre-interview rehearsal, and stress-testing research instruments.</td>
+                            <td class="p-3 text-rose-700">Documented sycophancy and rating bias; invalid for decision-grade research (concept tests, prioritization, personas) without real-user validation.</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50">
+                            <td class="p-3 font-medium text-slate-800">Codexical — "Your AI Research Participants Never Once Disagreed With You"</td>
+                            <td class="p-3 text-slate-500">2026</td>
+                            <td class="p-3 text-slate-500">Industry critique</td>
+                            <td class="p-3">Workflow benefits: instant availability, flexible demographics, and speed for exploratory work and concept sketching.</td>
+                            <td class="p-3 text-rose-700">Over-agreeableness, Western cultural defaults, and emotional flatness produce clean but systematically distorted findings.</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50 bg-slate-50/50">
+                            <td class="p-3 font-medium text-slate-800">UXArmy — "Synthetic Participants in UX Research: Hype or Future?"</td>
+                            <td class="p-3 text-slate-500">2025</td>
+                            <td class="p-3 text-slate-500">Industry UX tool blog</td>
+                            <td class="p-3">Speed, 24/7 availability, cost savings, scalability, and controlled scenarios for early usability testing and benchmarking.</td>
+                            <td class="p-3 text-rose-700">Lack of true emotion and contextual awareness; risk of misleading data and limited usefulness for exploratory/generative research.</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50">
+                            <td class="p-3 font-medium text-slate-800">Making Science — "Enhancing UX/UI Research with Synthetic Users"</td>
+                            <td class="p-3 text-slate-500">2025</td>
+                            <td class="p-3 text-slate-500">Agency methodology article</td>
+                            <td class="p-3">Scalability and cost reduction; helpful for early-stage concept and prototype testing and affordance validation.</td>
+                            <td class="p-3 text-rose-700">Lack of real empathy, shallow but superficially accurate insights, dependence on historical data quality; real-user research remains essential.</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50 bg-slate-50/50">
+                            <td class="p-3 font-medium text-slate-800">Holli Downs — "Synthetic Users" (Phosphor discourse review)</td>
+                            <td class="p-3 text-slate-500">2025</td>
+                            <td class="p-3 text-slate-500">Discourse review / synthesis</td>
+                            <td class="p-3">Efficiency, scale, privacy benefits, and potential data-diversity gains when synthetic users are used carefully.</td>
+                            <td class="p-3 text-rose-700">Reduced authenticity, inability to reproduce emotional/contextual nuance, and overselling as replacements; argues for hybrid models.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Table 2 -->
+        <section>
+            <div class="mb-4">
+                <h2 class="text-lg font-bold text-slate-900">Table 2 — Best-practice guidance for using synthetic users</h2>
+                <p class="text-xs text-slate-500 mt-1">Actionable recommendations distilled from the same body of literature.</p>
+            </div>
+            <div class="overflow-x-auto rounded-2xl border border-slate-200 shadow-sm">
+                <table class="w-full text-left text-xs border-collapse bg-white">
+                    <thead>
+                        <tr class="bg-slate-900 text-white text-[11px] font-bold uppercase tracking-wider">
+                            <th class="p-3 border-b border-slate-800 min-w-[220px]">Source</th>
+                            <th class="p-3 border-b border-slate-800 w-16">Year</th>
+                            <th class="p-3 border-b border-slate-800 w-36">Type</th>
+                            <th class="p-3 border-b border-slate-800">Key best-practice themes / guidance</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100 text-slate-700">
+                        <tr class="hover:bg-slate-50">
+                            <td class="p-3 font-medium text-slate-800">Rosala &amp; Moran, NN/g — "Synthetic Users: If, When, and How to Use AI-Generated Research"</td>
+                            <td class="p-3 text-slate-500">2024</td>
+                            <td class="p-3 text-slate-500">Industry UX evaluation</td>
+                            <td class="p-3">Treat synthetic output as desk research and hypothesis fodder only; never present as "users said"; avoid using for concept validation, prioritization, or persona creation; be cautious in low-maturity orgs.</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50 bg-slate-50/50">
+                            <td class="p-3 font-medium text-slate-800">Pehar — "AI as Synthetic Users in Human-Centred Design: A Systematic Review"</td>
+                            <td class="p-3 text-slate-500">2025</td>
+                            <td class="p-3 text-slate-500">Systematic academic review</td>
+                            <td class="p-3">Adopt a hybrid HCD model where synthetic users are used in early stages but key decisions are validated with real users; document where AI replaces or augments user input; calibrate and validate simulations; use for scenario coverage rather than everyday feedback.</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50">
+                            <td class="p-3 font-medium text-slate-800">Gu et al. — "Synthetic users: insights from designers' interactions with persona-based chatbots"</td>
+                            <td class="p-3 text-slate-500">2025</td>
+                            <td class="p-3 text-slate-500">Empirical study</td>
+                            <td class="p-3">Position chat-based synthetic personas as interactive extensions of personas, not replacements; use to test assumptions and explore ideas; balance consistency and variation in behavior; treat them as creative partners, not authoritative users.</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50 bg-slate-50/50">
+                            <td class="p-3 font-medium text-slate-800">ACM Interactions — pieces on synthetic UX research</td>
+                            <td class="p-3 text-slate-500">2024–2026</td>
+                            <td class="p-3 text-slate-500">Peer-reviewed commentary</td>
+                            <td class="p-3">Make structural biases explicit in method sections; build validation loops comparing synthetic and human findings; use synthetic research only where later human data can falsify or confirm it; avoid letting synthetic personas stand in for ethnographic evidence.</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50">
+                            <td class="p-3 font-medium text-slate-800">Koji — "Synthetic Users in Research: Validity, Bias, and When AI Personas Are (and Aren't) Trustworthy"</td>
+                            <td class="p-3 text-slate-500">2026</td>
+                            <td class="p-3 text-slate-500">Industry methodology</td>
+                            <td class="p-3">Use synthetic users for vocabulary familiarization, hypothesis generation, and rehearsing guides; never for roadmap/feature decisions; follow a two-day hybrid workflow (Day 1 synthetic, Day 2 real interviews); label outputs as hypotheses requiring validation.</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50 bg-slate-50/50">
+                            <td class="p-3 font-medium text-slate-800">Codexical — "Your AI Research Participants Never Once Disagreed With You"</td>
+                            <td class="p-3 text-slate-500">2026</td>
+                            <td class="p-3 text-slate-500">Industry critique</td>
+                            <td class="p-3">Assume structural over-agreeableness; run small real-user samples alongside synthetic studies; treat divergence as a signal; pre-define which findings must be falsifiable with real users before shipping.</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50">
+                            <td class="p-3 font-medium text-slate-800">UXArmy — "Synthetic Participants in UX Research: Hype or Future?"</td>
+                            <td class="p-3 text-slate-500">2025</td>
+                            <td class="p-3 text-slate-500">UX tool blog</td>
+                            <td class="p-3">Use synthetic participants for early, task-based usability tests and A/B experiments; avoid for discovery interviews or emotion-heavy work; clearly communicate limitations to stakeholders; always validate critical insights with real participants.</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50 bg-slate-50/50">
+                            <td class="p-3 font-medium text-slate-800">Making Science — "Enhancing UX/UI Research with Synthetic Users"</td>
+                            <td class="p-3 text-slate-500">2025</td>
+                            <td class="p-3 text-slate-500">Agency article</td>
+                            <td class="p-3">Integrate synthetic users into multi-layered models with market, behavioral, and real user data; use for early exploration and prototype validation; maintain real-user research as the foundation of design strategy.</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50">
+                            <td class="p-3 font-medium text-slate-800">Holli Downs — "Synthetic Users" (Phosphor discourse review)</td>
+                            <td class="p-3 text-slate-500">2025</td>
+                            <td class="p-3 text-slate-500">Discourse synthesis</td>
+                            <td class="p-3">Advocate hybrid models combining AI scale with human depth; emphasize transparent reporting of where synthetic vs. real data are used; encourage case-study sharing to converge on community best practices.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Back nav -->
+        <div class="flex justify-center">
+            <a href="index.html" class="flex items-center gap-1.5 bg-slate-900 hover:bg-slate-800 text-white px-5 py-2.5 rounded-lg transition-all font-semibold text-sm">
+                <i data-lucide="arrow-left" class="w-4 h-4"></i> Return to App
+            </a>
+        </div>
+
+    </main>
+
+    <footer class="bg-white border-t border-slate-200 mt-16 py-8">
+        <div class="max-w-7xl mx-auto px-4 text-center text-slate-500 text-xs space-y-2">
+            <p class="font-medium">SaaS Synthetic Users Readiness Check &bull; Powered by OpenRouter</p>
+            <p>Licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" class="hover:text-slate-800 underline underline-offset-2">CC BY-SA 4.0</a> &bull; <a href="https://github.com/vivistar/synth" target="_blank" class="hover:text-slate-800 underline underline-offset-2">github.com/vivistar/synth</a></p>
+            <p id="footer-year-refs"></p>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+        document.getElementById('footer-year-refs').textContent = '© Terry M Patterson. All rights reserved.';
+    </script>
+</body>
+</html>
