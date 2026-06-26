@@ -48,7 +48,7 @@ module.exports = async function handler(req, res) {
                 'Content-Length': Buffer.byteLength(body),
                 'Authorization': `Bearer ${apiKey}`,
                 'HTTP-Referer': 'https://github.com/vivistar/synth',
-                'X-Title': 'Synth - Synthetic Users Governance Simulator',
+                'X-Title': 'Preflight',
             },
         };
 

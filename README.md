@@ -1,6 +1,10 @@
-# SaaS Synthetic Users Readiness Check
+# The SaaS Preflight Check for Synthetic Users
 
-**An interactive, AI-assisted 8-gate framework that helps SaaS product managers evaluate whether synthetic user research is appropriate for a given product decision — and how to run it safely.**
+**Know when synthetic users help — and when they'll fool you.**
+
+Built for SaaS product teams — PMs, designers, and researchers.
+
+An interactive, AI-assisted 8-gate framework that helps SaaS product managers evaluate whether synthetic user research is appropriate for a given product decision — and how to run it safely.
 
 © 2026 Terry M. Patterson — Licensed under [Apache-2.0](LICENSE)
 
