@@ -1194,7 +1194,8 @@ async function runAiRiskScreener() {
 
     try {
         const raw  = await callGeminiAPI(`Evaluate this SaaS hypothesis: "${inputVal}"`, systemPrompt, jsonSchema);
-        const data = JSON.parse(raw);
+        const cleaned = raw.replace(/^```(?:json)?\s*/i, '').replace(/```\s*$/,'').trim();
+        const data = JSON.parse(cleaned);
 
         let html = `<div class="mb-6 p-4 rounded-xl border flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 ${data.verdict==='Pass'?'bg-emerald-50 border-emerald-200 text-emerald-900':data.verdict==='Warn'?'bg-amber-50 border-amber-200 text-amber-900':'bg-rose-50 border-rose-200 text-rose-900'}">
             <div><span class="text-[10px] font-bold uppercase tracking-widest opacity-80">Automated Audit Verdict</span><h4 class="text-2xl font-black">${data.verdict.toUpperCase()}</h4><p class="text-xs mt-1">SaaS Readiness Rating: <strong>${data.overallScore}/100</strong></p></div>
@@ -1216,8 +1217,10 @@ async function runAiRiskScreener() {
         });
         html += `</div>`;
         openGlobalModal("SaaS Audit Compliance Report","Continuous automated SaaS risk screening analysis.",html, data.verdict==='Pass'?'shield-check':'shield-alert');
-    } catch(err) { console.error(err); }
-    finally {
+    } catch(err) {
+        console.error(err);
+        showToast("Screener Failed", err.message || "Could not complete the assessment. Please try again.", "error");
+    } finally {
         btn.disabled = false; btn.innerHTML = origHtml; lucide.createIcons();
     }
 }
