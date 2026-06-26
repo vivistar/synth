@@ -1714,18 +1714,24 @@ function showBuildSyntheticUsersGuide() {
             <div class="border border-slate-200 rounded-xl overflow-hidden">
                 <div class="bg-slate-900 px-4 py-3 flex items-center gap-3">
                     <span class="w-6 h-6 rounded-full bg-blue-500 text-white text-xs font-bold flex items-center justify-center shrink-0">2</span>
-                    <h4 class="font-bold text-white text-sm">Write a Grounded Persona Brief</h4>
+                    <h4 class="font-bold text-white text-sm">Assemble a Rich Corpus of Evidence</h4>
                 </div>
-                <div class="p-4 space-y-2 text-xs text-slate-700 leading-relaxed">
-                    <p>Turn your data into a structured persona brief. Each brief should include:</p>
-                    <div class="bg-slate-50 border border-slate-200 rounded-lg p-3 font-mono text-[11px] leading-relaxed text-slate-600 mt-2">
-                        <p><strong>Role:</strong> Mid-market RevOps Manager, 50–200 seat SaaS company</p>
-                        <p><strong>Goals:</strong> Reduce tool sprawl, prove ROI to CFO, consolidate reporting</p>
-                        <p><strong>Frustrations:</strong> Too many dashboards, no single source of truth, long onboarding</p>
-                        <p><strong>Behavior:</strong> Evaluates tools by committee, needs procurement-friendly pricing, skips freemium</p>
-                        <p><strong>Real quotes:</strong> "We need this to integrate with HubSpot on day one or we can't move forward."</p>
+                <div class="p-4 space-y-3 text-xs text-slate-700 leading-relaxed">
+                    <p>A persona built from one data source is a stereotype. A persona built from a rich corpus is a calibrated model. Before writing anything, gather evidence across at least four of these layers:</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
+                        ${[
+                            ["Behavioral", "Session recordings, heatmaps, funnel drop-off points, feature usage frequency"],
+                            ["Attitudinal", "NPS verbatims, CSAT comments, interview transcripts, win/loss notes"],
+                            ["Transactional", "Plan tier, seat count, expansion history, billing cycle, churn date + reason"],
+                            ["Operational", "Support ticket themes, escalation frequency, time-to-resolution patterns"],
+                            ["Social", "LinkedIn job descriptions, community posts, conference talk abstracts"],
+                            ["Comparative", "Competitor review excerpts (G2/Capterra) — what they praise and what they miss"]
+                        ].map(([label, desc]) => `<div class="bg-slate-50 border border-slate-200 rounded-lg p-2.5"><p class="font-semibold text-slate-800 mb-0.5">${label}</p><p class="text-slate-500 text-[11px]">${desc}</p></div>`).join('')}
                     </div>
-                    <p class="mt-2 text-slate-500">The <strong>Real quotes</strong> field is critical — verbatim language from real users anchors the AI's vocabulary and prevents generic outputs.</p>
+                    <p class="text-slate-500 pt-1">Paste or summarize each layer into a single <strong>Corpus Document</strong> — a living raw-material file you update quarterly. This is the input to your persona brief, not the brief itself.</p>
+                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 text-blue-900 text-[11px] leading-relaxed">
+                        <strong>Corpus threshold:</strong> Aim for signals from at least 5–10 real users per segment before treating any pattern as representative. Single data points are anecdotes; patterns across 5+ are signals worth encoding.
+                    </div>
                 </div>
             </div>
 
@@ -1733,6 +1739,27 @@ function showBuildSyntheticUsersGuide() {
             <div class="border border-slate-200 rounded-xl overflow-hidden">
                 <div class="bg-slate-900 px-4 py-3 flex items-center gap-3">
                     <span class="w-6 h-6 rounded-full bg-blue-500 text-white text-xs font-bold flex items-center justify-center shrink-0">3</span>
+                    <h4 class="font-bold text-white text-sm">Synthesize the Corpus into a Persona Brief</h4>
+                </div>
+                <div class="p-4 space-y-2 text-xs text-slate-700 leading-relaxed">
+                    <p>Distill your corpus into a structured brief. Every claim should trace back to at least one corpus source. Mark anything inferred vs. directly observed.</p>
+                    <div class="bg-slate-50 border border-slate-200 rounded-lg p-3 font-mono text-[11px] leading-relaxed text-slate-600 mt-2">
+                        <p><strong>Role:</strong> Mid-market RevOps Manager, 50–200 seat SaaS company</p>
+                        <p><strong>Goals:</strong> Reduce tool sprawl, prove ROI to CFO, consolidate reporting</p>
+                        <p><strong>Frustrations:</strong> Too many dashboards, no single source of truth, long onboarding</p>
+                        <p><strong>Behavior:</strong> Evaluates tools by committee, needs procurement-friendly pricing, skips freemium</p>
+                        <p><strong>Source:</strong> 8 sales call transcripts, 14 NPS verbatims (plan: Pro), 3 session recordings</p>
+                        <p><strong>Real quotes:</strong> "We need this to integrate with HubSpot on day one or we can't move forward."</p>
+                        <p><strong>Inferred (not directly observed):</strong> Likely has 2–4 direct reports managing ops tools</p>
+                    </div>
+                    <p class="mt-2 text-slate-500">The <strong>Source</strong> and <strong>Inferred</strong> fields prevent the brief from silently drifting toward stereotype over time — they show what you know vs. what you're assuming.</p>
+                </div>
+            </div>
+
+            <!-- STEP 4: Cohort Prompt -->
+            <div class="border border-slate-200 rounded-xl overflow-hidden">
+                <div class="bg-slate-900 px-4 py-3 flex items-center gap-3">
+                    <span class="w-6 h-6 rounded-full bg-blue-500 text-white text-xs font-bold flex items-center justify-center shrink-0">4</span>
                     <h4 class="font-bold text-white text-sm">Build Your Cohort Prompt</h4>
                 </div>
                 <div class="p-4 space-y-2 text-xs text-slate-700 leading-relaxed">
@@ -1743,16 +1770,92 @@ function showBuildSyntheticUsersGuide() {
                             "<strong>Context constraints:</strong> Goals, budget authority, tech stack, reporting structure",
                             "<strong>Behavioral guardrails:</strong> What this persona will and won't do (e.g. won't approve without legal review)",
                             "<strong>Language style:</strong> Paste in 2–3 real verbatim quotes to calibrate tone",
-                            "<strong>Blind spots:</strong> What they don't know or actively avoid (keeps responses realistic)"
+                            "<strong>Blind spots:</strong> What they don't know or actively avoid (keeps responses realistic)",
+                            "<strong>Corpus anchor:</strong> A short inline summary of the data this persona is grounded in (1–2 sentences)"
                         ].map(t => `<li class="flex gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-blue-500 shrink-0 mt-0.5"></i><span>${t}</span></li>`).join('')}
                     </ul>
                 </div>
             </div>
 
-            <!-- STEP 4 — syntheticusers.com -->
+            <!-- WORKED EXAMPLE -->
+            <div class="border-2 border-indigo-200 rounded-xl overflow-hidden">
+                <div class="bg-indigo-900 px-4 py-3 flex items-center gap-3">
+                    <i data-lucide="flask-conical" class="w-4 h-4 text-indigo-300 shrink-0"></i>
+                    <h4 class="font-bold text-white text-sm">Worked Example: Corpus → Persona Brief → Cohort Prompt</h4>
+                </div>
+                <div class="p-4 space-y-4 text-xs text-slate-700 leading-relaxed">
+                    <p class="text-slate-500">Scenario: a B2B SaaS analytics tool evaluating a new usage-based pricing tier for power users.</p>
+
+                    <!-- Corpus -->
+                    <div>
+                        <p class="font-bold text-slate-800 mb-1.5 flex items-center gap-1.5"><i data-lucide="database" class="w-3.5 h-3.5 text-slate-500"></i> Step 1 — Raw Corpus (abbreviated)</p>
+                        <div class="bg-slate-50 border border-slate-200 rounded-lg p-3 text-[11px] font-mono text-slate-600 space-y-1.5 leading-relaxed">
+                            <p><strong>Behavioral:</strong> 23% of Pro users export to CSV weekly; top 3 features by session time = custom dashboards, API access, scheduled reports</p>
+                            <p><strong>Attitudinal (NPS verbatims, n=18, Pro plan):</strong> "I'd pay more if you added team permissions." / "The API docs are outdated and cost us 2 days." / "Love the dashboards — hate that I can't share them without upgrading everyone."</p>
+                            <p><strong>Transactional:</strong> Avg. Pro tenure = 14 months; 11% expanded to Team within 6 months; churn reason most cited = "pricing jumped too fast"</p>
+                            <p><strong>Support tickets (last 90 days):</strong> 34 tickets tagged "permissions", 21 tagged "API rate limits", 9 tagged "export limits"</p>
+                            <p><strong>Competitive (G2 reviews of competitor):</strong> Praised for granular role controls; criticized for no usage-based option</p>
+                        </div>
+                    </div>
+
+                    <!-- Persona Brief -->
+                    <div>
+                        <p class="font-bold text-slate-800 mb-1.5 flex items-center gap-1.5"><i data-lucide="user-check" class="w-3.5 h-3.5 text-blue-500"></i> Step 2 — Persona Brief (synthesized)</p>
+                        <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 text-[11px] text-slate-700 space-y-1.5 leading-relaxed">
+                            <p><strong>Name:</strong> "Power-User PM" segment — Pro plan, 12–18 month tenure, data-heavy workflows</p>
+                            <p><strong>Goals:</strong> Automate reporting for exec team, expand API usage without IT dependency, control who sees what without paying for full seats</p>
+                            <p><strong>Frustrations:</strong> Feels locked out of features they already rely on; perceives pricing jumps as arbitrary; doesn't trust API docs</p>
+                            <p><strong>Behavior:</strong> Evaluates upgrades individually (not by committee); will pay more if ROI is explicit; churns when pricing feels punitive, not when price is high</p>
+                            <p><strong>Real quotes:</strong> "I'd pay more if you added team permissions." / "Love the dashboards — hate that I can't share them without upgrading everyone."</p>
+                            <p><strong>Sources:</strong> 18 NPS verbatims, 34 support tickets, session telemetry (n=23% of Pro cohort), 14-month avg. tenure data</p>
+                            <p><strong>Inferred:</strong> Likely individual contributor or team lead with informal budget authority; technical enough to use APIs but not an engineer</p>
+                        </div>
+                    </div>
+
+                    <!-- Cohort Prompt -->
+                    <div>
+                        <p class="font-bold text-slate-800 mb-1.5 flex items-center gap-1.5"><i data-lucide="terminal" class="w-3.5 h-3.5 text-violet-500"></i> Step 3 — Cohort System Prompt (ready to paste)</p>
+                        <div class="bg-slate-950 rounded-lg p-3 text-[11px] font-mono text-slate-300 leading-relaxed whitespace-pre-wrap">You are Jordan, a Senior Product Analyst at a 120-person B2B SaaS company. You have been on the Pro plan of this analytics tool for 14 months and use it daily.
+
+Your primary goals:
+- Automate weekly executive reporting without manual exports
+- Expand your team's API access without routing every request through IT
+- Control data visibility (who sees which dashboards) without buying full seats for everyone
+
+Your biggest frustrations with this tool:
+- Permissions feel like an afterthought — you've submitted 3 support tickets about it in the last quarter
+- The API docs are outdated; you lost two days last month troubleshooting a rate-limit issue that wasn't documented
+- You feel like features you already rely on are being slowly gated behind a higher tier you don't fully need
+
+How you evaluate upgrades:
+- You will pay more, but only if the ROI is obvious and you can show it to your manager in a one-pager
+- You do NOT evaluate by committee — you test it yourself first and then advocate internally
+- A pricing jump with no clear feature unlock feels punitive; you'd rather churn than feel extorted
+
+Your communication style:
+- Direct, data-literate, mildly skeptical of vendor claims
+- Use these phrases naturally when relevant: "I'd pay more if you added team permissions" and "I can't share dashboards without upgrading everyone and that doesn't make sense"
+
+Your blind spots:
+- You are not a software engineer — you use APIs but don't understand infrastructure constraints
+- You underestimate how long migrations take and tend to push for faster timelines than are realistic
+
+Constraints:
+- Stay fully in character. Do not break persona or refer to yourself as an AI.
+- Ground all opinions in the context above. Do not invent expertise you don't have.
+- If asked about something outside your experience, respond with honest uncertainty in Jordan's voice.</div>
+                    </div>
+
+                    <div class="bg-emerald-50 border border-emerald-200 rounded-lg p-3 text-emerald-900 text-[11px] leading-relaxed">
+                        <strong>What makes this prompt corpus-grounded:</strong> Every behavioral trait, frustration, and verbatim quote traces to a specific data layer in the corpus. Nothing was invented. The "Inferred" field from the brief becomes the <em>Blind spots</em> section — keeping the AI honest about what this persona plausibly doesn't know.
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 5 — syntheticusers.com -->
             <div class="border border-indigo-200 rounded-xl overflow-hidden">
                 <div class="bg-indigo-900 px-4 py-3 flex items-center gap-3">
-                    <span class="w-6 h-6 rounded-full bg-indigo-400 text-white text-xs font-bold flex items-center justify-center shrink-0">4</span>
+                    <span class="w-6 h-6 rounded-full bg-indigo-400 text-white text-xs font-bold flex items-center justify-center shrink-0">5</span>
                     <h4 class="font-bold text-white text-sm">Connect to Synthetic Users Platforms</h4>
                 </div>
                 <div class="p-4 space-y-3 text-xs text-slate-700 leading-relaxed">
@@ -1776,10 +1879,10 @@ function showBuildSyntheticUsersGuide() {
                 </div>
             </div>
 
-            <!-- STEP 5 -->
+            <!-- STEP 6 -->
             <div class="border border-slate-200 rounded-xl overflow-hidden">
                 <div class="bg-slate-900 px-4 py-3 flex items-center gap-3">
-                    <span class="w-6 h-6 rounded-full bg-blue-500 text-white text-xs font-bold flex items-center justify-center shrink-0">5</span>
+                    <span class="w-6 h-6 rounded-full bg-blue-500 text-white text-xs font-bold flex items-center justify-center shrink-0">6</span>
                     <h4 class="font-bold text-white text-sm">Calibrate Against Real Telemetry</h4>
                 </div>
                 <div class="p-4 space-y-2 text-xs text-slate-700 leading-relaxed">
@@ -1799,7 +1902,7 @@ function showBuildSyntheticUsersGuide() {
             <!-- STEP 6 -->
             <div class="border border-slate-200 rounded-xl overflow-hidden">
                 <div class="bg-slate-900 px-4 py-3 flex items-center gap-3">
-                    <span class="w-6 h-6 rounded-full bg-blue-500 text-white text-xs font-bold flex items-center justify-center shrink-0">6</span>
+                    <span class="w-6 h-6 rounded-full bg-blue-500 text-white text-xs font-bold flex items-center justify-center shrink-0">7</span>
                     <h4 class="font-bold text-white text-sm">Document, Version, and Govern</h4>
                 </div>
                 <div class="p-4 space-y-2 text-xs text-slate-700 leading-relaxed">
