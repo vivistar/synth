@@ -75,6 +75,9 @@
                 <button id="btn-map" onclick="switchView('map')" class="px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-all duration-200 bg-white text-slate-900 shadow-sm">
                     <span class="flex items-center gap-1.5"><i data-lucide="map" class="w-4 h-4"></i> Interactive Map</span>
                 </button>
+                <button id="btn-checkpoint" onclick="switchView('checkpoint')" class="px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-all duration-200 text-slate-600 hover:text-slate-900">
+                    <span class="flex items-center gap-1.5"><i data-lucide="plane-takeoff" class="w-4 h-4"></i> Active Checkpoint</span>
+                </button>
                 <button id="btn-wizard" onclick="switchView('wizard')" class="px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-all duration-200 text-slate-600 hover:text-slate-900">
                     <span class="flex items-center gap-1.5"><i data-lucide="sparkles" class="w-4 h-4"></i> Run Simulator</span>
                 </button>
@@ -742,6 +745,126 @@
     </div>
 </div>
 </div>
+
+<!-- VIEW: ACTIVE CHECKPOINT -->
+<div id="view-checkpoint" class="hidden space-y-6">
+    <div class="bg-gradient-to-r from-slate-950 via-slate-900 to-slate-800 rounded-2xl p-6 sm:p-8 text-white shadow-xl relative overflow-hidden">
+        <div class="absolute -right-12 -bottom-12 opacity-10 pointer-events-none"><i data-lucide="plane-takeoff" class="w-56 h-56"></i></div>
+        <div class="max-w-3xl relative z-10">
+            <span class="bg-blue-500/20 text-blue-300 border border-blue-500/30 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider">Active Checkpoint</span>
+            <h2 class="text-3xl font-extrabold mt-3 tracking-tight">Run one decision through the gates</h2>
+            <p class="text-slate-300 mt-2 text-base leading-relaxed">Calibrated friction: most runs end "go." The few that say "stop" are the ones that matter. Triage sets the strictness, the synthetic gut-check expands your thinking, and the ship gate tells you exactly what to validate with real humans before you ship.</p>
+        </div>
+    </div>
+
+    <!-- Stepper -->
+    <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm">
+        <div class="flex items-center justify-between gap-1 sm:gap-2 text-center" id="cp-stepper">
+            <div data-cp-step="triage" class="flex-1 flex flex-col items-center gap-1.5">
+                <span class="cp-dot w-8 h-8 rounded-full border-2 flex items-center justify-center text-xs font-bold transition-all">1</span>
+                <span class="cp-label text-[10px] sm:text-xs font-semibold">Triage</span>
+            </div>
+            <div class="flex-[0.5] h-0.5 bg-slate-200 rounded -mt-5"></div>
+            <div data-cp-step="frame" class="flex-1 flex flex-col items-center gap-1.5">
+                <span class="cp-dot w-8 h-8 rounded-full border-2 flex items-center justify-center text-xs font-bold transition-all">2</span>
+                <span class="cp-label text-[10px] sm:text-xs font-semibold">Frame</span>
+            </div>
+            <div class="flex-[0.5] h-0.5 bg-slate-200 rounded -mt-5"></div>
+            <div data-cp-step="ship" class="flex-1 flex flex-col items-center gap-1.5">
+                <span class="cp-dot w-8 h-8 rounded-full border-2 flex items-center justify-center text-xs font-bold transition-all">3</span>
+                <span class="cp-label text-[10px] sm:text-xs font-semibold">Ship</span>
+            </div>
+            <div class="flex-[0.5] h-0.5 bg-slate-200 rounded -mt-5"></div>
+            <div data-cp-step="report" class="flex-1 flex flex-col items-center gap-1.5">
+                <span class="cp-dot w-8 h-8 rounded-full border-2 flex items-center justify-center text-xs font-bold transition-all">4</span>
+                <span class="cp-label text-[10px] sm:text-xs font-semibold">Report</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- PANEL: TRIAGE -->
+    <div id="cp-panel-triage" class="cp-panel bg-white border border-slate-200 rounded-xl p-6 shadow-sm space-y-5">
+        <div class="border-b border-slate-100 pb-4">
+            <h3 class="font-bold text-lg text-slate-900 flex items-center gap-2"><i data-lucide="git-fork" class="text-blue-500 w-5 h-5"></i> Triage gate</h3>
+            <p class="text-xs text-slate-500 mt-1">This runs first and sets how hard the exit will be. Low-stakes, reversible work gets a loose exit; high-stakes, irreversible work gets a hard one.</p>
+        </div>
+        <div>
+            <label class="text-sm font-semibold text-slate-800 block mb-1.5">What decision are you evaluating?</label>
+            <textarea id="cp-decision" rows="2" placeholder="e.g. Gate the bulk-export feature behind the paid tier" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3.5 py-2.5 text-sm text-slate-800 focus:outline-none focus:border-blue-500 resize-none"></textarea>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div>
+                <label class="text-sm font-semibold text-slate-800 block mb-2">Reversibility</label>
+                <div class="grid grid-cols-2 gap-2" id="cp-reversibility">
+                    <button type="button" data-val="reversible" class="cp-toggle border border-slate-200 rounded-lg px-3 py-2.5 text-xs font-semibold text-slate-600 hover:border-blue-400 transition-all">Reversible<span class="block text-[10px] font-normal text-slate-400 mt-0.5">Easy to undo</span></button>
+                    <button type="button" data-val="irreversible" class="cp-toggle border border-slate-200 rounded-lg px-3 py-2.5 text-xs font-semibold text-slate-600 hover:border-blue-400 transition-all">Irreversible<span class="block text-[10px] font-normal text-slate-400 mt-0.5">Hard / costly to undo</span></button>
+                </div>
+            </div>
+            <div>
+                <label class="text-sm font-semibold text-slate-800 block mb-2">Stakes</label>
+                <div class="grid grid-cols-2 gap-2" id="cp-stakes">
+                    <button type="button" data-val="low" class="cp-toggle border border-slate-200 rounded-lg px-3 py-2.5 text-xs font-semibold text-slate-600 hover:border-blue-400 transition-all">Low<span class="block text-[10px] font-normal text-slate-400 mt-0.5">Limited blast radius</span></button>
+                    <button type="button" data-val="high" class="cp-toggle border border-slate-200 rounded-lg px-3 py-2.5 text-xs font-semibold text-slate-600 hover:border-blue-400 transition-all">High<span class="block text-[10px] font-normal text-slate-400 mt-0.5">Pricing, churn, security</span></button>
+                </div>
+            </div>
+        </div>
+        <div id="cp-strictness-readout" class="hidden rounded-lg border p-3.5 text-sm"></div>
+        <div class="flex justify-end pt-1">
+            <button onclick="cpSetStrictnessAndContinue()" class="bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm px-5 py-2.5 rounded-lg transition-colors flex items-center gap-2">Set strictness &amp; continue <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
+        </div>
+    </div>
+
+    <!-- PANEL: FRAME -->
+    <div id="cp-panel-frame" class="cp-panel hidden bg-white border border-slate-200 rounded-xl p-6 shadow-sm space-y-5">
+        <div class="border-b border-slate-100 pb-4">
+            <h3 class="font-bold text-lg text-slate-900 flex items-center gap-2"><i data-lucide="lightbulb" class="text-emerald-500 w-5 h-5"></i> Frame gate</h3>
+            <p class="text-xs text-slate-500 mt-1">A cheap synthetic gut-check — mostly a green light. It expands your thinking with objections and edge cases. This is <em>idea expansion, not validation.</em></p>
+        </div>
+        <div>
+            <label class="text-sm font-semibold text-slate-800 block mb-2">Do you have real research or data on this user segment?</label>
+            <div class="grid grid-cols-3 gap-2" id="cp-grounding">
+                <button type="button" data-val="yes" class="cp-toggle border border-slate-200 rounded-lg px-3 py-2.5 text-xs font-semibold text-slate-600 hover:border-blue-400 transition-all">Yes</button>
+                <button type="button" data-val="some" class="cp-toggle border border-slate-200 rounded-lg px-3 py-2.5 text-xs font-semibold text-slate-600 hover:border-blue-400 transition-all">Some</button>
+                <button type="button" data-val="none" class="cp-toggle border border-slate-200 rounded-lg px-3 py-2.5 text-xs font-semibold text-slate-600 hover:border-blue-400 transition-all">None</button>
+            </div>
+            <div id="cp-grounding-flag" class="hidden mt-3 rounded-lg border border-amber-200 bg-amber-50 text-amber-900 text-xs p-3 leading-relaxed"></div>
+        </div>
+        <div id="cp-frame-result" class="hidden"></div>
+        <div class="flex justify-between items-center pt-1">
+            <button onclick="cpGoTo('triage')" class="text-slate-500 hover:text-slate-800 font-semibold text-sm flex items-center gap-1.5"><i data-lucide="arrow-left" class="w-4 h-4"></i> Back</button>
+            <div class="flex gap-2">
+                <button id="cp-frame-run-btn" onclick="cpRunFrame()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-sm px-5 py-2.5 rounded-lg transition-colors flex items-center gap-2"><i data-lucide="sparkles" class="w-4 h-4"></i> Run synthetic stress-test</button>
+                <button id="cp-frame-continue-btn" onclick="cpGoTo('ship'); cpRunShip();" class="hidden bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm px-5 py-2.5 rounded-lg transition-colors flex items-center gap-2">Continue to Ship gate <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PANEL: SHIP -->
+    <div id="cp-panel-ship" class="cp-panel hidden bg-white border border-slate-200 rounded-xl p-6 shadow-sm space-y-5">
+        <div class="border-b border-slate-100 pb-4">
+            <h3 class="font-bold text-lg text-slate-900 flex items-center gap-2"><i data-lucide="flag" class="text-rose-500 w-5 h-5"></i> Ship gate</h3>
+            <p class="text-xs text-slate-500 mt-1">Before this ships, validate these things with <strong>real humans</strong> — ranked by where synthetic users are least reliable, sized to a scarce budget.</p>
+        </div>
+        <div id="cp-ship-result"><div class="text-center py-10 text-slate-400 text-sm"><i data-lucide="loader" class="w-6 h-6 animate-spin mx-auto mb-2"></i> Building your human-validation list…</div></div>
+        <div class="flex justify-between items-center pt-1">
+            <button onclick="cpGoTo('frame')" class="text-slate-500 hover:text-slate-800 font-semibold text-sm flex items-center gap-1.5"><i data-lucide="arrow-left" class="w-4 h-4"></i> Back</button>
+            <button id="cp-ship-report-btn" onclick="cpBuildReport()" class="hidden bg-slate-950 hover:bg-slate-800 text-white font-semibold text-sm px-5 py-2.5 rounded-lg transition-colors flex items-center gap-2"><i data-lucide="file-text" class="w-4 h-4"></i> Generate run report</button>
+        </div>
+    </div>
+
+    <!-- PANEL: REPORT -->
+    <div id="cp-panel-report" class="cp-panel hidden bg-white border border-slate-200 rounded-xl p-6 shadow-sm space-y-5">
+        <div class="border-b border-slate-100 pb-4 flex items-center justify-between gap-3 flex-wrap">
+            <h3 class="font-bold text-lg text-slate-900 flex items-center gap-2"><i data-lucide="clipboard-check" class="text-blue-500 w-5 h-5"></i> Run report</h3>
+            <div class="flex gap-2">
+                <button onclick="cpDownloadReport()" class="border border-slate-200 hover:bg-slate-50 text-slate-700 font-semibold text-xs px-3.5 py-2 rounded-lg transition-colors flex items-center gap-1.5"><i data-lucide="file-down" class="w-4 h-4"></i> Download</button>
+                <button onclick="cpReset()" class="border border-slate-200 hover:bg-slate-50 text-slate-700 font-semibold text-xs px-3.5 py-2 rounded-lg transition-colors flex items-center gap-1.5"><i data-lucide="rotate-ccw" class="w-4 h-4"></i> New run</button>
+            </div>
+        </div>
+        <div id="cp-report-body" class="space-y-4"></div>
+        <p class="text-xs text-slate-400 border-t border-slate-100 pt-3">Generated with Preflight</p>
+    </div>
+</div>
 </main>
 <!-- GLOBAL MODAL -->
 <div id="global-modal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-slate-950/60 backdrop-blur-sm flex items-center justify-center p-4">
@@ -812,8 +935,8 @@ const resultOutcomes = {
 
 // ===================== VIEW SWITCHING =====================
 function switchView(view) {
-    const views = { map:'view-map', wizard:'view-wizard', sandbox:'view-sandbox', usability:'view-usability', rationale:'view-rationale' };
-    const btns  = { map:'btn-map', wizard:'btn-wizard', sandbox:'btn-sandbox', rationale:'btn-rationale' };
+    const views = { map:'view-map', checkpoint:'view-checkpoint', wizard:'view-wizard', sandbox:'view-sandbox', usability:'view-usability', rationale:'view-rationale' };
+    const btns  = { map:'btn-map', checkpoint:'btn-checkpoint', wizard:'btn-wizard', sandbox:'btn-sandbox', usability:'btn-usability', rationale:'btn-rationale' };
     Object.values(views).forEach(id => document.getElementById(id).classList.add('hidden'));
     Object.values(btns).forEach(id => {
         const b = document.getElementById(id);
@@ -1272,6 +1395,263 @@ async function runAiRiskScreener() {
 }
 </script>
 <script>
+// ===================== ACTIVE CHECKPOINT =====================
+const cpState = {
+    decision: "", reversibility: null, stakes: null, strictness: null,
+    grounding: null, frame: null, ship: null, generatedAt: null
+};
+
+// Strictness model: high + irreversible => hard; low + reversible => loose; otherwise standard.
+function cpComputeStrictness(reversibility, stakes) {
+    if (stakes === 'high' && reversibility === 'irreversible') {
+        return { level: 'hard', label: 'Hard exit', cls: 'bg-rose-50 border-rose-200 text-rose-900', icon: 'octagon-alert',
+            rationale: 'High stakes and hard to undo — the ship gate will require real human validation before you proceed.' };
+    }
+    if (stakes === 'low' && reversibility === 'reversible') {
+        return { level: 'loose', label: 'Loose exit', cls: 'bg-emerald-50 border-emerald-200 text-emerald-900', icon: 'circle-check',
+            rationale: 'Low stakes and easy to undo — move fast. The ship gate will be a short, optional checklist.' };
+    }
+    return { level: 'standard', label: 'Standard exit', cls: 'bg-amber-50 border-amber-200 text-amber-900', icon: 'gauge',
+        rationale: 'Mixed risk — the ship gate will flag the validations worth doing, but won\'t hard-block you.' };
+}
+
+// Generic single-select toggle group wiring
+function cpBindToggle(groupId, onSelect) {
+    const group = document.getElementById(groupId);
+    group.querySelectorAll('.cp-toggle').forEach(btn => {
+        btn.onclick = () => {
+            group.querySelectorAll('.cp-toggle').forEach(b => {
+                b.classList.remove('border-blue-600','bg-blue-50','text-blue-700','ring-1','ring-blue-200');
+                b.classList.add('border-slate-200','text-slate-600');
+            });
+            btn.classList.add('border-blue-600','bg-blue-50','text-blue-700','ring-1','ring-blue-200');
+            btn.classList.remove('border-slate-200','text-slate-600');
+            onSelect(btn.getAttribute('data-val'));
+        };
+    });
+}
+
+function cpInit() {
+    cpBindToggle('cp-reversibility', v => cpState.reversibility = v);
+    cpBindToggle('cp-stakes', v => cpState.stakes = v);
+    cpBindToggle('cp-grounding', v => { cpState.grounding = v; cpShowGroundingFlag(v); });
+}
+
+function cpUpdateStepper(active) {
+    const order = ['triage','frame','ship','report'];
+    const activeIdx = order.indexOf(active);
+    document.querySelectorAll('#cp-stepper [data-cp-step]').forEach(el => {
+        const dot = el.querySelector('.cp-dot');
+        const label = el.querySelector('.cp-label');
+        const idx = order.indexOf(el.getAttribute('data-cp-step'));
+        dot.classList.remove('border-blue-600','bg-blue-600','text-white','border-emerald-500','bg-emerald-500','border-slate-200','text-slate-400','text-slate-500');
+        label.classList.remove('text-slate-900','text-slate-400');
+        if (idx < activeIdx) { dot.classList.add('border-emerald-500','bg-emerald-500','text-white'); label.classList.add('text-slate-900'); }
+        else if (idx === activeIdx) { dot.classList.add('border-blue-600','bg-blue-600','text-white'); label.classList.add('text-slate-900'); }
+        else { dot.classList.add('border-slate-200','text-slate-400'); label.classList.add('text-slate-400'); }
+    });
+}
+
+function cpGoTo(panel) {
+    document.querySelectorAll('.cp-panel').forEach(p => p.classList.add('hidden'));
+    document.getElementById('cp-panel-' + panel).classList.remove('hidden');
+    cpUpdateStepper(panel);
+    lucide.createIcons();
+}
+
+function cpSetStrictnessAndContinue() {
+    const decision = document.getElementById('cp-decision').value.trim();
+    if (!decision) { showToast("Decision required", "Describe the decision you're evaluating first.", "error"); return; }
+    if (!cpState.reversibility || !cpState.stakes) { showToast("Triage incomplete", "Pick a reversibility and a stakes level.", "error"); return; }
+    cpState.decision = decision;
+    const s = cpComputeStrictness(cpState.reversibility, cpState.stakes);
+    cpState.strictness = s;
+    const readout = document.getElementById('cp-strictness-readout');
+    readout.className = `rounded-lg border p-3.5 text-sm ${s.cls}`;
+    readout.innerHTML = `<p class="font-bold flex items-center gap-2"><i data-lucide="${s.icon}" class="w-4 h-4"></i> Strictness set: ${s.label}</p><p class="text-xs mt-1 opacity-90">${s.rationale}</p>`;
+    readout.classList.remove('hidden');
+    lucide.createIcons();
+    setTimeout(() => cpGoTo('frame'), 650);
+}
+
+function cpShowGroundingFlag(v) {
+    const flag = document.getElementById('cp-grounding-flag');
+    if (v === 'none') {
+        flag.innerHTML = `<strong>Honest flag:</strong> with no real data on this segment, synthetic feedback will be <em>confident and possibly wrong</em>. Do a small amount of real discovery (3–5 conversations) before trusting anything the gut-check returns.`;
+        flag.classList.remove('hidden');
+    } else if (v === 'some') {
+        flag.innerHTML = `<strong>Partial grounding:</strong> treat the synthetic output as directional and cross-check the riskiest claims against the real data you do have.`;
+        flag.classList.remove('hidden');
+    } else {
+        flag.classList.add('hidden');
+    }
+}
+
+async function cpRunFrame() {
+    if (!cpState.grounding) { showToast("One quick answer", "Tell us how much real data you have first.", "error"); return; }
+    const btn = document.getElementById('cp-frame-run-btn');
+    const orig = btn.innerHTML;
+    btn.disabled = true; btn.innerHTML = `<i data-lucide="loader" class="w-4 h-4 animate-spin"></i> Stress-testing…`; lucide.createIcons();
+
+    const sys = `You are a sharp SaaS product strategist running a fast "synthetic gut-check" on a proposed decision. This is IDEA EXPANSION, not validation. Generate the strongest objections, edge cases, and who-would-push-back, then give a green/amber verdict on whether the premise is sound enough to proceed building. Be specific to the decision; avoid generic startup advice. Return JSON only.`;
+    const schema = { type:"OBJECT", properties:{
+        verdict:{type:"STRING"}, // "green" | "amber"
+        verdictRationale:{type:"STRING"},
+        objections:{type:"ARRAY", items:{type:"OBJECT", properties:{ title:{type:"STRING"}, detail:{type:"STRING"}, whoPushesBack:{type:"STRING"} }, required:["title","detail","whoPushesBack"]}}
+    }, required:["verdict","verdictRationale","objections"]};
+
+    const prompt = `Decision: "${cpState.decision}"\nReversibility: ${cpState.reversibility}. Stakes: ${cpState.stakes}. Grounding (real data on this segment): ${cpState.grounding}.\nReturn a green/amber verdict and 3–4 concrete objections worth holding in mind.`;
+
+    try {
+        const raw = await callGeminiAPI(prompt, sys, schema);
+        const data = JSON.parse(raw.replace(/^```(?:json)?\s*/i,'').replace(/```\s*$/,'').trim());
+        cpState.frame = data;
+        const green = (data.verdict || '').toLowerCase() === 'green';
+        let html = `<div class="rounded-lg border p-3.5 ${green?'bg-emerald-50 border-emerald-200 text-emerald-900':'bg-amber-50 border-amber-200 text-amber-900'}">
+            <p class="font-bold flex items-center gap-2"><i data-lucide="${green?'circle-check':'alert-triangle'}" class="w-4 h-4"></i> ${green?'Sound idea — proceed':'Proceed with caution'}</p>
+            <p class="text-xs mt-1 opacity-90">${cpEsc(data.verdictRationale)}</p>
+        </div>
+        <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider mt-4 mb-2 flex items-center gap-1.5"><i data-lucide="message-square-warning" class="w-3.5 h-3.5"></i> Objections worth holding in mind <span class="font-normal normal-case text-slate-400">(synthetic — idea expansion, not validation)</span></p>
+        <div class="space-y-2">`;
+        (data.objections || []).forEach(o => {
+            html += `<div class="border border-slate-200 rounded-lg p-3 bg-slate-50/60">
+                <p class="font-semibold text-slate-800 text-sm">${cpEsc(o.title)}</p>
+                <p class="text-xs text-slate-600 mt-0.5 leading-relaxed">${cpEsc(o.detail)}</p>
+                <p class="text-[11px] text-slate-400 mt-1.5"><strong class="text-slate-500">Who pushes back:</strong> ${cpEsc(o.whoPushesBack)}</p>
+            </div>`;
+        });
+        html += `</div>`;
+        const result = document.getElementById('cp-frame-result');
+        result.innerHTML = html; result.classList.remove('hidden');
+        document.getElementById('cp-frame-continue-btn').classList.remove('hidden');
+        btn.innerHTML = `<i data-lucide="refresh-cw" class="w-4 h-4"></i> Re-run`;
+        lucide.createIcons();
+    } catch(e) {
+        console.error(e);
+        showToast("Stress-test failed", e.message || "Could not run the gut-check. Try again.", "error");
+        btn.innerHTML = orig; lucide.createIcons();
+    } finally {
+        btn.disabled = false;
+    }
+}
+
+async function cpRunShip() {
+    const container = document.getElementById('cp-ship-result');
+    document.getElementById('cp-ship-report-btn').classList.add('hidden');
+    container.innerHTML = `<div class="text-center py-10 text-slate-400 text-sm"><i data-lucide="loader" class="w-6 h-6 animate-spin mx-auto mb-2"></i> Building your human-validation list…</div>`;
+    lucide.createIcons();
+
+    const s = cpState.strictness;
+    const sys = `You are a rigorous research strategist. Given a SaaS product decision, produce a RANKED list of what must be validated with REAL HUMANS before shipping — ordered by where synthetic/AI users are LEAST reliable (real desirability, willingness to pay/adopt, genuine emotional response, task completion under real conditions, error recovery, novel-copy comprehension, population/conversion effects over time). Be specific to THIS decision — no generic "test usability". Each item: what to validate, why synthetic users can't be trusted for it, and the cheapest credible method. Size to a scarce budget: most important first. Return JSON only.`;
+    const schema = { type:"OBJECT", properties:{
+        topLine:{type:"STRING"},
+        items:{type:"ARRAY", items:{type:"OBJECT", properties:{ rank:{type:"NUMBER"}, validate:{type:"STRING"}, whySynthFails:{type:"STRING"}, method:{type:"STRING"} }, required:["rank","validate","whySynthFails","method"]}}
+    }, required:["topLine","items"]};
+
+    const budgetHint = s.level === 'loose' ? 'Keep it short (2–3 items), framed as optional — this is low-stakes and reversible.'
+        : s.level === 'hard' ? 'This is high-stakes and irreversible. Be firm: 4–6 items, and make clear validation is required before ship.'
+        : 'Give 3–4 prioritized items.';
+    const prompt = `Decision: "${cpState.decision}"\nReversibility: ${cpState.reversibility}. Stakes: ${cpState.stakes}. Strictness: ${s.level}.\nGrounding on this segment: ${cpState.grounding}.\n${budgetHint}`;
+
+    try {
+        const raw = await callGeminiAPI(prompt, sys, schema);
+        const data = JSON.parse(raw.replace(/^```(?:json)?\s*/i,'').replace(/```\s*$/,'').trim());
+        cpState.ship = data;
+        const hard = s.level === 'hard';
+        let html = `<div class="rounded-lg border p-3.5 mb-4 ${hard?'bg-rose-50 border-rose-200 text-rose-900':s.level==='loose'?'bg-emerald-50 border-emerald-200 text-emerald-900':'bg-amber-50 border-amber-200 text-amber-900'}">
+            <p class="font-bold flex items-center gap-2"><i data-lucide="${hard?'octagon-alert':s.level==='loose'?'circle-check':'gauge'}" class="w-4 h-4"></i> ${hard?'Required before ship':s.level==='loose'?'Optional checklist':'Recommended before ship'}</p>
+            <p class="text-xs mt-1 opacity-90">${cpEsc(data.topLine)}</p>
+        </div><div class="space-y-2.5">`;
+        (data.items || []).sort((a,b)=>(a.rank||0)-(b.rank||0)).forEach(it => {
+            html += `<div class="border border-slate-200 rounded-lg p-3.5 bg-white flex gap-3">
+                <span class="w-7 h-7 shrink-0 rounded-lg bg-rose-100 text-rose-700 flex items-center justify-center font-bold text-sm">${it.rank}</span>
+                <div class="space-y-1">
+                    <p class="font-semibold text-slate-900 text-sm">${cpEsc(it.validate)}</p>
+                    <p class="text-xs text-slate-600 leading-relaxed"><strong class="text-slate-500">Why synthetic users can't tell you:</strong> ${cpEsc(it.whySynthFails)}</p>
+                    <p class="text-xs text-blue-700 leading-relaxed"><strong>Cheapest credible method:</strong> ${cpEsc(it.method)}</p>
+                </div>
+            </div>`;
+        });
+        html += `</div>`;
+        container.innerHTML = html;
+        document.getElementById('cp-ship-report-btn').classList.remove('hidden');
+        lucide.createIcons();
+    } catch(e) {
+        console.error(e);
+        container.innerHTML = `<div class="text-center py-8 text-slate-500 text-sm"><i data-lucide="alert-triangle" class="w-6 h-6 mx-auto mb-2 text-rose-500"></i> Couldn't build the list. <button onclick="cpRunShip()" class="text-blue-600 font-semibold underline">Retry</button></div>`;
+        showToast("Ship gate failed", e.message || "Could not generate the validation list.", "error");
+        lucide.createIcons();
+    }
+}
+
+function cpBuildReport() {
+    cpState.generatedAt = new Date().toLocaleString();
+    const s = cpState.strictness;
+    const grLabel = { yes:'Yes — real data on this segment', some:'Some real data', none:'None — synthetic output is unvalidated' }[cpState.grounding] || '—';
+    let html = `<div class="rounded-lg border ${s.cls} p-4">
+        <p class="text-[10px] uppercase font-bold tracking-widest opacity-70">Decision</p>
+        <p class="font-semibold text-sm mt-0.5">${cpEsc(cpState.decision)}</p>
+        <p class="text-xs mt-2"><strong>Triage:</strong> ${cpState.reversibility} · ${cpState.stakes} stakes → <strong>${s.label}</strong></p>
+        <p class="text-xs mt-0.5"><strong>Grounding:</strong> ${grLabel}</p>
+    </div>`;
+
+    if (cpState.frame) {
+        const green = (cpState.frame.verdict||'').toLowerCase()==='green';
+        html += `<div><p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Frame gate <span class="font-normal normal-case text-slate-400">(synthetic — directional only)</span></p>
+            <p class="text-sm text-slate-700"><strong>${green?'Sound idea — proceed':'Proceed with caution'}:</strong> ${cpEsc(cpState.frame.verdictRationale)}</p>
+            <ul class="list-disc list-inside text-xs text-slate-600 mt-1.5 space-y-0.5">${(cpState.frame.objections||[]).map(o=>`<li>${cpEsc(o.title)}</li>`).join('')}</ul></div>`;
+    }
+    if (cpState.ship) {
+        html += `<div><p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Validate with real humans before ship</p>
+            <p class="text-xs text-slate-500 mb-2">${cpEsc(cpState.ship.topLine)}</p>
+            <ol class="space-y-1.5">${(cpState.ship.items||[]).sort((a,b)=>(a.rank||0)-(b.rank||0)).map(it=>`<li class="text-sm text-slate-700"><strong>${it.rank}. ${cpEsc(it.validate)}</strong><br><span class="text-xs text-slate-500">${cpEsc(it.method)}</span></li>`).join('')}</ol></div>`;
+    }
+    document.getElementById('cp-report-body').innerHTML = html;
+    cpGoTo('report');
+}
+
+function cpDownloadReport() {
+    const s = cpState.strictness;
+    const lines = ['Preflight — Active Checkpoint Run Report', '======================================', `Date: ${cpState.generatedAt || new Date().toLocaleString()}`, '',
+        `Decision: ${cpState.decision}`,
+        `Triage: ${cpState.reversibility} · ${cpState.stakes} stakes -> ${s ? s.label : '-'}`,
+        `Grounding: ${cpState.grounding || '-'}`, ''];
+    if (cpState.frame) {
+        lines.push('Frame gate (synthetic — directional only):', `  Verdict: ${cpState.frame.verdict} — ${cpState.frame.verdictRationale}`, '  Objections:');
+        (cpState.frame.objections||[]).forEach(o => lines.push(`   - ${o.title}: ${o.detail} [who pushes back: ${o.whoPushesBack}]`));
+        lines.push('');
+    }
+    if (cpState.ship) {
+        lines.push('Validate with REAL HUMANS before ship:', `  ${cpState.ship.topLine}`);
+        (cpState.ship.items||[]).sort((a,b)=>(a.rank||0)-(b.rank||0)).forEach(it => lines.push(`   ${it.rank}. ${it.validate}\n      Why synthetic users fail: ${it.whySynthFails}\n      Method: ${it.method}`));
+        lines.push('');
+    }
+    lines.push('Generated with Preflight');
+    const blob = new Blob([lines.join('\n')], { type:'text/plain' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob); a.download = 'preflight-checkpoint-report.txt'; a.click();
+    URL.revokeObjectURL(a.href);
+}
+
+function cpReset() {
+    cpState.decision=""; cpState.reversibility=null; cpState.stakes=null; cpState.strictness=null;
+    cpState.grounding=null; cpState.frame=null; cpState.ship=null; cpState.generatedAt=null;
+    document.getElementById('cp-decision').value = "";
+    ['cp-reversibility','cp-stakes','cp-grounding'].forEach(id => document.getElementById(id).querySelectorAll('.cp-toggle').forEach(b => {
+        b.classList.remove('border-blue-600','bg-blue-50','text-blue-700','ring-1','ring-blue-200');
+        b.classList.add('border-slate-200','text-slate-600');
+    }));
+    ['cp-strictness-readout','cp-grounding-flag','cp-frame-result','cp-frame-continue-btn'].forEach(id => document.getElementById(id).classList.add('hidden'));
+    document.getElementById('cp-frame-run-btn').innerHTML = `<i data-lucide="sparkles" class="w-4 h-4"></i> Run synthetic stress-test`;
+    cpGoTo('triage');
+}
+
+// HTML-escape AI text before injecting into innerHTML
+function cpEsc(str) {
+    return String(str ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+</script>
+<script>
 // ===================== SANDBOX =====================
 let sandboxPersonaActive = false;
 let syntheticSystemInstruction = "";
@@ -1415,6 +1795,7 @@ document.addEventListener('DOMContentLoaded', () => {
             updatePromptQualityBadge();
         });
     }
+    if (typeof cpInit === 'function') cpInit();
 });
 
 function clearSandboxConfig() {
