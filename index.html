@@ -1493,7 +1493,16 @@ async function cpRunFrame() {
     const orig = btn.innerHTML;
     btn.disabled = true; btn.innerHTML = `<i data-lucide="loader" class="w-4 h-4 animate-spin"></i> Stress-testing…`; lucide.createIcons();
 
-    const sys = `You are a sharp SaaS product strategist running a fast "synthetic gut-check" on a proposed decision. This is IDEA EXPANSION, not validation. Generate the strongest objections, edge cases, and who-would-push-back, then give a green/amber verdict on whether the premise is sound enough to proceed building. Be specific to the decision; avoid generic startup advice. Return JSON only.`;
+    const sys = `You are a sharp SaaS product strategist running a fast "synthetic gut-check" on a proposed decision. This is IDEA EXPANSION, not validation. Generate the strongest objections, edge cases, and who-would-push-back, then give a green/amber verdict on whether the premise is sound enough to proceed building. Be specific to the decision; avoid generic startup advice.
+Return ONLY a JSON object with EXACTLY these keys (no other keys, no markdown):
+{
+  "verdict": "green" or "amber",
+  "verdictRationale": "1-2 sentence explanation of the verdict",
+  "objections": [
+    { "title": "short objection headline", "detail": "1-2 sentences of specifics", "whoPushesBack": "the role/segment who would object" }
+  ]
+}
+Include 3-4 objections. Every field must be filled with substantive, decision-specific text.`;
     const schema = { type:"OBJECT", properties:{
         verdict:{type:"STRING"}, // "green" | "amber"
         verdictRationale:{type:"STRING"},
@@ -1514,10 +1523,13 @@ async function cpRunFrame() {
         <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider mt-4 mb-2 flex items-center gap-1.5"><i data-lucide="message-square-warning" class="w-3.5 h-3.5"></i> Objections worth holding in mind <span class="font-normal normal-case text-slate-400">(synthetic — idea expansion, not validation)</span></p>
         <div class="space-y-2">`;
         (data.objections || []).forEach(o => {
+            const title = o.title || o.objection || o.headline || '';
+            const detail = o.detail || o.description || '';
+            const who = o.whoPushesBack || o.who || '';
             html += `<div class="border border-slate-200 rounded-lg p-3 bg-slate-50/60">
-                <p class="font-semibold text-slate-800 text-sm">${cpEsc(o.title)}</p>
-                <p class="text-xs text-slate-600 mt-0.5 leading-relaxed">${cpEsc(o.detail)}</p>
-                <p class="text-[11px] text-slate-400 mt-1.5"><strong class="text-slate-500">Who pushes back:</strong> ${cpEsc(o.whoPushesBack)}</p>
+                ${title ? `<p class="font-semibold text-slate-800 text-sm">${cpEsc(title)}</p>` : ''}
+                ${detail ? `<p class="text-xs text-slate-600 mt-0.5 leading-relaxed">${cpEsc(detail)}</p>` : ''}
+                ${who ? `<p class="text-[11px] text-slate-400 mt-1.5"><strong class="text-slate-500">Who pushes back:</strong> ${cpEsc(who)}</p>` : ''}
             </div>`;
         });
         html += `</div>`;
@@ -1542,7 +1554,15 @@ async function cpRunShip() {
     lucide.createIcons();
 
     const s = cpState.strictness;
-    const sys = `You are a rigorous research strategist. Given a SaaS product decision, produce a RANKED list of what must be validated with REAL HUMANS before shipping — ordered by where synthetic/AI users are LEAST reliable (real desirability, willingness to pay/adopt, genuine emotional response, task completion under real conditions, error recovery, novel-copy comprehension, population/conversion effects over time). Be specific to THIS decision — no generic "test usability". Each item: what to validate, why synthetic users can't be trusted for it, and the cheapest credible method. Size to a scarce budget: most important first. Return JSON only.`;
+    const sys = `You are a rigorous research strategist. Given a SaaS product decision, produce a RANKED list of what must be validated with REAL HUMANS before shipping — ordered by where synthetic/AI users are LEAST reliable (real desirability, willingness to pay/adopt, genuine emotional response, task completion under real conditions, error recovery, novel-copy comprehension, population/conversion effects over time). Be specific to THIS decision — no generic "test usability". Size to a scarce budget: most important first.
+Return ONLY a JSON object with EXACTLY these keys (no other keys, no markdown):
+{
+  "topLine": "one sentence framing what this list is and how firm it is",
+  "items": [
+    { "rank": 1, "validate": "the specific thing to validate with real humans", "whySynthFails": "why synthetic/AI users can't be trusted for this", "method": "the cheapest credible way to validate it" }
+  ]
+}
+Every field must be filled with substantive, decision-specific text. Rank items starting at 1.`;
     const schema = { type:"OBJECT", properties:{
         topLine:{type:"STRING"},
         items:{type:"ARRAY", items:{type:"OBJECT", properties:{ rank:{type:"NUMBER"}, validate:{type:"STRING"}, whySynthFails:{type:"STRING"}, method:{type:"STRING"} }, required:["rank","validate","whySynthFails","method"]}}
