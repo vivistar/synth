@@ -20,9 +20,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The SaaS Preflight Check for Synthetic Users</title>
-    <meta name="description" content="The SaaS Preflight Check for Synthetic Users helps product teams know when synthetic users help and when they'll fool you.">
-    <meta property="og:title" content="The SaaS Preflight Check for Synthetic Users">
+    <title>Synthetic Users Preflight Check — The Preflight Check for Synthetic Users</title>
+    <meta name="description" content="The Synthetic Users Preflight Check helps teams vibe coding with AI know when synthetic users help and when they'll fool you — a continuous-AI loop framework with synthetic-vs-human verdicts.">
+    <meta property="og:title" content="Synthetic Users Preflight Check — The Preflight Check for Synthetic Users">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
@@ -72,11 +72,14 @@
         </div>
         <div class="flex flex-col gap-2">
             <div class="flex flex-wrap items-center gap-2 bg-slate-100 p-1 rounded-xl">
-                <button id="btn-map" onclick="switchView('map')" class="px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-all duration-200 bg-white text-slate-900 shadow-sm">
-                    <span class="flex items-center gap-1.5"><i data-lucide="map" class="w-4 h-4"></i> Interactive Map</span>
+                <button id="btn-home" onclick="switchView('home')" class="px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-all duration-200 bg-white text-slate-900 shadow-sm">
+                    <span class="flex items-center gap-1.5"><i data-lucide="home" class="w-4 h-4"></i> Home</span>
                 </button>
                 <button id="btn-checkpoint" onclick="switchView('checkpoint')" class="px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-all duration-200 text-slate-600 hover:text-slate-900">
                     <span class="flex items-center gap-1.5"><i data-lucide="plane-takeoff" class="w-4 h-4"></i> Active Checkpoint</span>
+                </button>
+                <button id="btn-map" onclick="switchView('map')" class="px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-all duration-200 text-slate-600 hover:text-slate-900">
+                    <span class="flex items-center gap-1.5"><i data-lucide="map" class="w-4 h-4"></i> Interactive Map</span>
                 </button>
                 <button id="btn-wizard" onclick="switchView('wizard')" class="px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-all duration-200 text-slate-600 hover:text-slate-900">
                     <span class="flex items-center gap-1.5"><i data-lucide="sparkles" class="w-4 h-4"></i> Run Simulator</span>
@@ -123,8 +126,121 @@
 <div id="toast-container" class="fixed bottom-5 right-5 z-50 space-y-2 pointer-events-none"></div>
 <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
+<!-- VIEW: HOME (continuous-AI loop hero + situation router) -->
+<div id="view-home" class="space-y-8">
+
+    <!-- HERO: the continuous-AI loop -->
+    <div class="bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 rounded-2xl p-6 sm:p-10 text-white shadow-xl relative overflow-hidden">
+        <div class="absolute -right-16 -top-12 opacity-10 pointer-events-none"><i data-lucide="repeat" class="w-72 h-72"></i></div>
+        <div class="relative z-10 max-w-3xl">
+            <span class="bg-blue-500/20 text-blue-300 border border-blue-500/30 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider">The Preflight Check for Synthetic Users</span>
+            <h2 class="text-3xl sm:text-4xl font-extrabold mt-4 tracking-tight leading-tight">When AI builds at full speed, where do synthetic users help — and where will they fool you?</h2>
+            <p class="text-slate-300 mt-3 text-base leading-relaxed">You go from intent to a working screen in one continuous loop: <strong class="text-white">intent → generate → inspect → iterate → ship</strong>. There's no natural pause to validate. Preflight rides that loop, calling — at each turn — whether synthetic users are reliable enough to trust, or whether the answer needs real humans before you ship.</p>
+            <div class="mt-6 flex flex-wrap gap-3">
+                <button onclick="switchView('checkpoint')" class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white px-5 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 shadow-lg shadow-blue-600/20">
+                    <i data-lucide="plane-takeoff" class="w-4 h-4"></i> Run a checkpoint
+                </button>
+                <a href="#cp-loop-diagram" class="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/20 text-white px-5 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200">
+                    <i data-lucide="git-branch" class="w-4 h-4"></i> See the loop
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- LOOP DIAGRAM -->
+    <div id="cp-loop-diagram" class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm scroll-mt-24">
+        <div class="border-b border-slate-100 pb-4 mb-5">
+            <h3 class="font-bold text-lg text-slate-900 flex items-center gap-2"><i data-lucide="git-branch" class="text-blue-500 w-5 h-5"></i> The continuous-AI loop</h3>
+            <p class="text-xs text-slate-500 mt-1">Each stage is colored by who you can trust there: green where synthetic users are reliable, red where humans are required, amber where the stakes decide.</p>
+        </div>
+
+        <!-- Triage banner -->
+        <div class="rounded-xl border border-slate-200 bg-slate-50 p-4 mb-6">
+            <p class="font-bold text-slate-900 text-sm">Triage gate — runs first, sets how hard the exit is</p>
+            <p class="text-xs text-slate-500 mt-0.5">Reversible, low-stakes → loose exit &nbsp;·&nbsp; Irreversible, high-stakes → hard exit</p>
+        </div>
+
+        <!-- Stages -->
+        <div class="grid grid-cols-1 sm:grid-cols-5 gap-3 items-stretch">
+            <div class="rounded-xl border-2 border-emerald-300 bg-emerald-50 p-4 text-center flex flex-col justify-center">
+                <span class="text-[10px] font-bold uppercase tracking-wider text-indigo-600">entry gate</span>
+                <p class="font-extrabold text-emerald-900 text-lg mt-1">Frame</p>
+                <p class="text-xs text-emerald-700">test the idea</p>
+            </div>
+            <div class="rounded-xl border-2 border-slate-300 bg-slate-50 p-4 text-center flex flex-col justify-center">
+                <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">build step</span>
+                <p class="font-extrabold text-slate-800 text-lg mt-1">Generate</p>
+                <p class="text-xs text-slate-500">just build</p>
+            </div>
+            <div class="rounded-xl border-2 border-dashed border-amber-400 bg-amber-50 p-4 text-center flex flex-col justify-center">
+                <span class="text-[10px] font-bold uppercase tracking-wider text-indigo-600">decision</span>
+                <p class="font-extrabold text-amber-900 text-lg mt-1">Inspect</p>
+                <p class="text-xs text-amber-700">stakes decide</p>
+            </div>
+            <div class="rounded-xl border-2 border-emerald-300 bg-emerald-50 p-4 text-center flex flex-col justify-center">
+                <span class="text-[10px] font-bold uppercase tracking-wider text-transparent">.</span>
+                <p class="font-extrabold text-emerald-900 text-lg mt-1">Iterate</p>
+                <p class="text-xs text-emerald-700">fast cycles</p>
+            </div>
+            <div class="rounded-xl border-2 border-rose-300 bg-rose-50 p-4 text-center flex flex-col justify-center">
+                <span class="text-[10px] font-bold uppercase tracking-wider text-indigo-600">ship gate</span>
+                <p class="font-extrabold text-rose-900 text-lg mt-1">Ship</p>
+                <p class="text-xs text-rose-700">needs humans</p>
+            </div>
+        </div>
+
+        <!-- Loop-back labels -->
+        <div class="flex flex-wrap gap-2 mt-4 text-[11px]">
+            <span class="inline-flex items-center gap-1 bg-slate-100 text-slate-600 px-2.5 py-1 rounded-full"><i data-lucide="rotate-ccw" class="w-3 h-3"></i> refine loop · Inspect → Iterate</span>
+            <span class="inline-flex items-center gap-1 bg-slate-100 text-slate-600 px-2.5 py-1 rounded-full"><i data-lucide="corner-up-left" class="w-3 h-3"></i> reframe · Inspect → Frame</span>
+            <span class="inline-flex items-center gap-1 bg-slate-100 text-slate-600 px-2.5 py-1 rounded-full"><i data-lucide="repeat" class="w-3 h-3"></i> next cycle · Ship → Frame</span>
+        </div>
+
+        <!-- Legend -->
+        <div class="flex flex-wrap gap-x-5 gap-y-2 mt-5 pt-4 border-t border-slate-100 text-xs text-slate-600">
+            <span class="inline-flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-emerald-200 border border-emerald-300"></span> synthetic reliable</span>
+            <span class="inline-flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-amber-200 border border-amber-400"></span> conditional — stakes decide</span>
+            <span class="inline-flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-rose-200 border border-rose-300"></span> humans required</span>
+            <span class="inline-flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-slate-200 border border-slate-300"></span> build step</span>
+            <span class="inline-flex items-center gap-1.5"><span class="w-3 h-3 rounded border-2 border-dashed border-indigo-300"></span> gate (dashed)</span>
+        </div>
+    </div>
+
+    <!-- SITUATION ROUTER (fork, not a forced gate) -->
+    <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+        <h3 class="font-bold text-lg text-slate-900 tracking-tight">How does your team build?</h3>
+        <p class="text-xs text-slate-500 mt-1 mb-5">Both frameworks share the same goal — knowing when to trust synthetic users. Pick the one that matches how you work.</p>
+
+        <!-- Path A: hero / primary -->
+        <button onclick="switchView('checkpoint')" class="w-full text-left bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-200 hover:border-blue-400 rounded-xl p-5 transition-all duration-200 group">
+            <div class="flex items-start gap-4">
+                <div class="p-2.5 bg-blue-600 text-white rounded-lg shrink-0"><i data-lucide="repeat" class="w-5 h-5"></i></div>
+                <div class="flex-1">
+                    <div class="flex items-center justify-between gap-2">
+                        <p class="font-bold text-slate-900 text-base">Building continuously with AI</p>
+                        <span class="text-blue-600 group-hover:translate-x-0.5 transition-transform"><i data-lucide="arrow-right" class="w-5 h-5"></i></span>
+                    </div>
+                    <p class="text-sm text-slate-600 mt-1 leading-relaxed">Sounds like you if you go from idea to working screen in hours, design and build blur together, there's no clear handoff between designing it and building it, and you ship faster than you can validate.</p>
+                    <span class="inline-block mt-2 text-xs font-semibold text-blue-700">→ Use the continuous-AI loop</span>
+                </div>
+            </div>
+        </button>
+
+        <!-- Path B: subordinate alternative -->
+        <div class="mt-3 text-center">
+            <button onclick="switchView('map')" class="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-slate-800 transition-colors">
+                <i data-lucide="layers" class="w-4 h-4"></i>
+                <span><strong class="font-semibold">Building in defined stages instead?</strong> See the staged framework</span>
+                <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+            </button>
+            <p class="text-xs text-slate-400 mt-1.5 max-w-2xl mx-auto">Sounds like you if you work in phases — discovery, design, build, QA — with handoffs between roles or teams and reviews between stages.</p>
+        </div>
+    </div>
+
+</div>
+
 <!-- VIEW 1: MAP VIEW -->
-<div id="view-map" class="space-y-8">
+<div id="view-map" class="hidden space-y-8">
 <div class="bg-gradient-to-r from-slate-950 via-slate-900 to-slate-800 rounded-2xl p-6 sm:p-8 text-white mb-8 shadow-xl relative overflow-hidden">
     <div class="absolute -right-16 -bottom-16 opacity-10 pointer-events-none"><i data-lucide="binary" class="w-64 h-64"></i></div>
     <div class="max-w-3xl relative z-10">
@@ -936,8 +1052,8 @@ const resultOutcomes = {
 
 // ===================== VIEW SWITCHING =====================
 function switchView(view) {
-    const views = { map:'view-map', checkpoint:'view-checkpoint', wizard:'view-wizard', sandbox:'view-sandbox', usability:'view-usability', rationale:'view-rationale' };
-    const btns  = { map:'btn-map', checkpoint:'btn-checkpoint', wizard:'btn-wizard', sandbox:'btn-sandbox', usability:'btn-usability', rationale:'btn-rationale' };
+    const views = { home:'view-home', map:'view-map', checkpoint:'view-checkpoint', wizard:'view-wizard', sandbox:'view-sandbox', usability:'view-usability', rationale:'view-rationale' };
+    const btns  = { home:'btn-home', map:'btn-map', checkpoint:'btn-checkpoint', wizard:'btn-wizard', sandbox:'btn-sandbox', usability:'btn-usability', rationale:'btn-rationale' };
     Object.values(views).forEach(id => document.getElementById(id).classList.add('hidden'));
     Object.values(btns).forEach(id => {
         const b = document.getElementById(id);
