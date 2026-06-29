@@ -809,8 +809,9 @@
             </div>
         </div>
         <div id="cp-strictness-readout" class="hidden rounded-lg border p-3.5 text-sm"></div>
-        <div class="flex justify-end pt-1">
-            <button onclick="cpSetStrictnessAndContinue()" class="bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm px-5 py-2.5 rounded-lg transition-colors flex items-center gap-2">Set strictness &amp; continue <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
+        <div class="flex justify-end pt-1 gap-2">
+            <button id="cp-triage-set-btn" onclick="cpSetStrictness()" class="bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm px-5 py-2.5 rounded-lg transition-colors flex items-center gap-2"><i data-lucide="gauge" class="w-4 h-4"></i> Set strictness</button>
+            <button id="cp-triage-continue-btn" onclick="cpGoTo('frame')" class="hidden bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-sm px-5 py-2.5 rounded-lg transition-colors flex items-center gap-2">Continue to Frame gate <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
         </div>
     </div>
 
@@ -1459,7 +1460,7 @@ function cpGoTo(panel) {
     lucide.createIcons();
 }
 
-function cpSetStrictnessAndContinue() {
+function cpSetStrictness() {
     const decision = document.getElementById('cp-decision').value.trim();
     if (!decision) { showToast("Decision required", "Describe the decision you're evaluating first.", "error"); return; }
     if (!cpState.reversibility || !cpState.stakes) { showToast("Triage incomplete", "Pick a reversibility and a stakes level.", "error"); return; }
@@ -1470,8 +1471,9 @@ function cpSetStrictnessAndContinue() {
     readout.className = `rounded-lg border p-3.5 text-sm ${s.cls}`;
     readout.innerHTML = `<p class="font-bold flex items-center gap-2"><i data-lucide="${s.icon}" class="w-4 h-4"></i> Strictness set: ${s.label}</p><p class="text-xs mt-1 opacity-90">${s.rationale}</p>`;
     readout.classList.remove('hidden');
+    document.getElementById('cp-triage-set-btn').innerHTML = `<i data-lucide="refresh-cw" class="w-4 h-4"></i> Recalculate`;
+    document.getElementById('cp-triage-continue-btn').classList.remove('hidden');
     lucide.createIcons();
-    setTimeout(() => cpGoTo('frame'), 650);
 }
 
 function cpShowGroundingFlag(v) {
@@ -1661,8 +1663,9 @@ function cpReset() {
         b.classList.remove('border-blue-600','bg-blue-50','text-blue-700','ring-1','ring-blue-200');
         b.classList.add('border-slate-200','text-slate-600');
     }));
-    ['cp-strictness-readout','cp-grounding-flag','cp-frame-result','cp-frame-continue-btn'].forEach(id => document.getElementById(id).classList.add('hidden'));
+    ['cp-strictness-readout','cp-grounding-flag','cp-frame-result','cp-frame-continue-btn','cp-triage-continue-btn'].forEach(id => document.getElementById(id).classList.add('hidden'));
     document.getElementById('cp-frame-run-btn').innerHTML = `<i data-lucide="sparkles" class="w-4 h-4"></i> Run synthetic stress-test`;
+    document.getElementById('cp-triage-set-btn').innerHTML = `<i data-lucide="gauge" class="w-4 h-4"></i> Set strictness`;
     cpGoTo('triage');
 }
 
