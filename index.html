@@ -878,26 +878,43 @@
         </div>
     </div>
 
-    <!-- Stepper -->
+    <!-- Resume banner (persistent runs) -->
+    <div id="cp-resume-banner" class="hidden bg-indigo-50 border border-indigo-200 rounded-xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div class="flex items-start gap-2.5 text-sm text-indigo-900">
+            <i data-lucide="history" class="w-5 h-5 shrink-0 mt-0.5"></i>
+            <p id="cp-resume-text" class="leading-relaxed"></p>
+        </div>
+        <div class="flex gap-2 shrink-0">
+            <button onclick="cpResume()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs px-4 py-2 rounded-lg transition-colors flex items-center gap-1.5"><i data-lucide="rotate-cw" class="w-4 h-4"></i> Resume run</button>
+            <button onclick="cpDiscard()" class="border border-indigo-200 hover:bg-indigo-100 text-indigo-700 font-semibold text-xs px-4 py-2 rounded-lg transition-colors">Start new</button>
+        </div>
+    </div>
+
+    <!-- Stepper (clickable; gates unlock once triage is complete) -->
     <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm">
         <div class="flex items-center justify-between gap-1 sm:gap-2 text-center" id="cp-stepper">
-            <div data-cp-step="triage" class="flex-1 flex flex-col items-center gap-1.5">
+            <div data-cp-step="triage" onclick="cpStepClick('triage')" class="cp-stepitem flex-1 flex flex-col items-center gap-1.5">
                 <span class="cp-dot w-8 h-8 rounded-full border-2 flex items-center justify-center text-xs font-bold transition-all">1</span>
                 <span class="cp-label text-[10px] sm:text-xs font-semibold">Triage</span>
             </div>
-            <div class="flex-[0.5] h-0.5 bg-slate-200 rounded -mt-5"></div>
-            <div data-cp-step="frame" class="flex-1 flex flex-col items-center gap-1.5">
+            <div class="flex-[0.4] h-0.5 bg-slate-200 rounded -mt-5"></div>
+            <div data-cp-step="frame" onclick="cpStepClick('frame')" class="cp-stepitem flex-1 flex flex-col items-center gap-1.5">
                 <span class="cp-dot w-8 h-8 rounded-full border-2 flex items-center justify-center text-xs font-bold transition-all">2</span>
                 <span class="cp-label text-[10px] sm:text-xs font-semibold">Frame</span>
             </div>
-            <div class="flex-[0.5] h-0.5 bg-slate-200 rounded -mt-5"></div>
-            <div data-cp-step="ship" class="flex-1 flex flex-col items-center gap-1.5">
+            <div class="flex-[0.4] h-0.5 bg-slate-200 rounded -mt-5"></div>
+            <div data-cp-step="inspect" onclick="cpStepClick('inspect')" class="cp-stepitem flex-1 flex flex-col items-center gap-1.5">
                 <span class="cp-dot w-8 h-8 rounded-full border-2 flex items-center justify-center text-xs font-bold transition-all">3</span>
+                <span class="cp-label text-[10px] sm:text-xs font-semibold">Inspect</span>
+            </div>
+            <div class="flex-[0.4] h-0.5 bg-slate-200 rounded -mt-5"></div>
+            <div data-cp-step="ship" onclick="cpStepClick('ship')" class="cp-stepitem flex-1 flex flex-col items-center gap-1.5">
+                <span class="cp-dot w-8 h-8 rounded-full border-2 flex items-center justify-center text-xs font-bold transition-all">4</span>
                 <span class="cp-label text-[10px] sm:text-xs font-semibold">Ship</span>
             </div>
-            <div class="flex-[0.5] h-0.5 bg-slate-200 rounded -mt-5"></div>
-            <div data-cp-step="report" class="flex-1 flex flex-col items-center gap-1.5">
-                <span class="cp-dot w-8 h-8 rounded-full border-2 flex items-center justify-center text-xs font-bold transition-all">4</span>
+            <div class="flex-[0.4] h-0.5 bg-slate-200 rounded -mt-5"></div>
+            <div data-cp-step="report" onclick="cpStepClick('report')" class="cp-stepitem flex-1 flex flex-col items-center gap-1.5">
+                <span class="cp-dot w-8 h-8 rounded-full border-2 flex items-center justify-center text-xs font-bold transition-all">5</span>
                 <span class="cp-label text-[10px] sm:text-xs font-semibold">Report</span>
             </div>
         </div>
@@ -956,7 +973,49 @@
             <button onclick="cpGoTo('triage')" class="text-slate-500 hover:text-slate-800 font-semibold text-sm flex items-center gap-1.5"><i data-lucide="arrow-left" class="w-4 h-4"></i> Back</button>
             <div class="flex gap-2">
                 <button id="cp-frame-run-btn" onclick="cpRunFrame()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-sm px-5 py-2.5 rounded-lg transition-colors flex items-center gap-2"><i data-lucide="sparkles" class="w-4 h-4"></i> Run synthetic stress-test</button>
-                <button id="cp-frame-continue-btn" onclick="cpGoTo('ship'); cpRunShip();" class="hidden bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm px-5 py-2.5 rounded-lg transition-colors flex items-center gap-2">Continue to Ship gate <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
+                <button id="cp-frame-continue-btn" onclick="cpGoTo('inspect')" class="hidden bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm px-5 py-2.5 rounded-lg transition-colors flex items-center gap-2">Continue to Inspect <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PANEL: INSPECT (conditional decision hub — P1) -->
+    <div id="cp-panel-inspect" class="cp-panel hidden bg-white border border-slate-200 rounded-xl p-6 shadow-sm space-y-5">
+        <div class="border-b border-slate-100 pb-4">
+            <h3 class="font-bold text-lg text-slate-900 flex items-center gap-2"><i data-lucide="scan-search" class="text-amber-500 w-5 h-5"></i> Inspect <span class="text-[10px] font-bold uppercase tracking-wider bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full">stakes decide</span></h3>
+            <p class="text-xs text-slate-500 mt-1">A directional read on what you've built so far — then you decide: refine, reframe, or proceed. The synthetic pass is <em>directional, not validation.</em></p>
+        </div>
+        <div class="rounded-lg border border-amber-200 bg-amber-50 text-amber-900 text-xs p-3 leading-relaxed flex gap-2">
+            <i data-lucide="eye-off" class="w-4 h-4 shrink-0 mt-0.5"></i>
+            <p><strong>Fidelity illusion:</strong> "looks finished" is not evidence anyone can use it. A polished screen and a working product are different claims — this pass can flag friction, but it cannot tell you the build actually works for real people.</p>
+        </div>
+        <div>
+            <label class="text-sm font-semibold text-slate-800 block mb-1.5">What did you build? <span class="font-normal text-slate-400">(paste a URL or describe the screen/flow)</span></label>
+            <textarea id="cp-inspect-artifact" rows="3" placeholder="e.g. https://app.example.com/export  — or — A modal that gates bulk CSV export behind an 'Upgrade to Pro' button, shown after the user selects >100 rows." class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3.5 py-2.5 text-sm text-slate-800 focus:outline-none focus:border-blue-500 resize-none"></textarea>
+        </div>
+        <div id="cp-inspect-result" class="hidden"></div>
+        <!-- Three-way decision -->
+        <div id="cp-inspect-decision" class="hidden pt-1">
+            <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Your call</p>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                <button onclick="cpDecision('refine')" class="text-left border-2 border-slate-200 hover:border-blue-400 hover:bg-blue-50 rounded-lg p-3 transition-all group">
+                    <p class="font-bold text-slate-900 text-sm flex items-center gap-1.5"><i data-lucide="rotate-ccw" class="w-4 h-4 text-blue-500"></i> Refine</p>
+                    <p class="text-[11px] text-slate-500 mt-0.5">Execution needs work. Improve it and re-inspect — stay fast.</p>
+                </button>
+                <button onclick="cpDecision('reframe')" class="text-left border-2 border-rose-200 hover:border-rose-400 hover:bg-rose-50 rounded-lg p-3 transition-all group">
+                    <p class="font-bold text-slate-900 text-sm flex items-center gap-1.5"><i data-lucide="corner-up-left" class="w-4 h-4 text-rose-500"></i> Reframe</p>
+                    <p class="text-[11px] text-slate-500 mt-0.5">The premise is wrong. Go back to Frame — the early-kill valve.</p>
+                </button>
+                <button onclick="cpDecision('proceed')" class="text-left border-2 border-emerald-200 hover:border-emerald-400 hover:bg-emerald-50 rounded-lg p-3 transition-all group">
+                    <p class="font-bold text-slate-900 text-sm flex items-center gap-1.5"><i data-lucide="arrow-right" class="w-4 h-4 text-emerald-500"></i> Proceed</p>
+                    <p class="text-[11px] text-slate-500 mt-0.5">Good enough. Advance to the Ship gate.</p>
+                </button>
+            </div>
+        </div>
+        <div class="flex justify-between items-center pt-1">
+            <button onclick="cpGoTo('frame')" class="text-slate-500 hover:text-slate-800 font-semibold text-sm flex items-center gap-1.5"><i data-lucide="arrow-left" class="w-4 h-4"></i> Back</button>
+            <div class="flex gap-2">
+                <button onclick="cpStepClick('ship')" class="text-slate-400 hover:text-slate-700 font-medium text-xs flex items-center gap-1">Skip to Ship <i data-lucide="chevrons-right" class="w-3.5 h-3.5"></i></button>
+                <button id="cp-inspect-run-btn" onclick="cpRunInspect()" class="bg-amber-500 hover:bg-amber-400 text-white font-semibold text-sm px-5 py-2.5 rounded-lg transition-colors flex items-center gap-2"><i data-lucide="scan-search" class="w-4 h-4"></i> Run directional pass</button>
             </div>
         </div>
     </div>
@@ -969,7 +1028,7 @@
         </div>
         <div id="cp-ship-result"><div class="text-center py-10 text-slate-400 text-sm"><i data-lucide="loader" class="w-6 h-6 animate-spin mx-auto mb-2"></i> Building your human-validation list…</div></div>
         <div class="flex justify-between items-center pt-1">
-            <button onclick="cpGoTo('frame')" class="text-slate-500 hover:text-slate-800 font-semibold text-sm flex items-center gap-1.5"><i data-lucide="arrow-left" class="w-4 h-4"></i> Back</button>
+            <button onclick="cpGoTo('inspect')" class="text-slate-500 hover:text-slate-800 font-semibold text-sm flex items-center gap-1.5"><i data-lucide="arrow-left" class="w-4 h-4"></i> Back</button>
             <button id="cp-ship-report-btn" onclick="cpBuildReport()" class="hidden bg-slate-950 hover:bg-slate-800 text-white font-semibold text-sm px-5 py-2.5 rounded-lg transition-colors flex items-center gap-2"><i data-lucide="file-text" class="w-4 h-4"></i> Generate run report</button>
         </div>
     </div>
@@ -1074,6 +1133,7 @@ function switchView(view) {
     if (view === 'wizard' && currentStep === 1 && Object.keys(answersLog).length === 0) {
         restartWizard();
     }
+    if (view === 'checkpoint' && typeof cpMaybeShowResume === 'function') cpMaybeShowResume();
 }
 
 function switchRationaleMode(mode) {
@@ -1520,8 +1580,10 @@ async function runAiRiskScreener() {
 // ===================== ACTIVE CHECKPOINT =====================
 const cpState = {
     decision: "", reversibility: null, stakes: null, strictness: null,
-    grounding: null, frame: null, ship: null, generatedAt: null
+    grounding: null, frame: null, inspectArtifact: "", inspect: null, inspectDecision: null,
+    ship: null, generatedAt: null, createdAt: null, framedAt: null, completed: false
 };
+const CP_STORE = 'preflight_checkpoint_run_v1';
 
 // Strictness model: high + irreversible => hard; low + reversible => loose; otherwise standard.
 function cpComputeStrictness(reversibility, stakes) {
@@ -1553,21 +1615,34 @@ function cpBindToggle(groupId, onSelect) {
     });
 }
 
+const CP_ORDER = ['triage','frame','inspect','ship','report'];
+
 function cpInit() {
     cpBindToggle('cp-reversibility', v => cpState.reversibility = v);
     cpBindToggle('cp-stakes', v => cpState.stakes = v);
     cpBindToggle('cp-grounding', v => { cpState.grounding = v; cpShowGroundingFlag(v); });
+    cpMaybeShowResume();
+}
+
+// A gate is unlocked once triage has produced a strictness; report needs a ship result.
+function cpIsUnlocked(step) {
+    if (step === 'triage') return true;
+    if (step === 'report') return !!cpState.ship;
+    return !!cpState.strictness; // frame, inspect, ship
 }
 
 function cpUpdateStepper(active) {
-    const order = ['triage','frame','ship','report'];
-    const activeIdx = order.indexOf(active);
+    const activeIdx = CP_ORDER.indexOf(active);
     document.querySelectorAll('#cp-stepper [data-cp-step]').forEach(el => {
+        const step = el.getAttribute('data-cp-step');
         const dot = el.querySelector('.cp-dot');
         const label = el.querySelector('.cp-label');
-        const idx = order.indexOf(el.getAttribute('data-cp-step'));
+        const idx = CP_ORDER.indexOf(step);
+        const unlocked = cpIsUnlocked(step);
         dot.classList.remove('border-blue-600','bg-blue-600','text-white','border-emerald-500','bg-emerald-500','border-slate-200','text-slate-400','text-slate-500');
         label.classList.remove('text-slate-900','text-slate-400');
+        el.classList.toggle('cursor-pointer', unlocked);
+        el.classList.toggle('opacity-50', !unlocked);
         if (idx < activeIdx) { dot.classList.add('border-emerald-500','bg-emerald-500','text-white'); label.classList.add('text-slate-900'); }
         else if (idx === activeIdx) { dot.classList.add('border-blue-600','bg-blue-600','text-white'); label.classList.add('text-slate-900'); }
         else { dot.classList.add('border-slate-200','text-slate-400'); label.classList.add('text-slate-400'); }
@@ -1581,19 +1656,133 @@ function cpGoTo(panel) {
     lucide.createIcons();
 }
 
+// Enter a gate, running the ship list on first arrival.
+function cpEnterGate(target) {
+    cpGoTo(target);
+    if (target === 'ship' && !cpState.ship) cpRunShip();
+}
+
+// Stepper click: enforce dependency rules + stale-decision check on re-entry.
+function cpStepClick(target) {
+    if (target === 'triage') { cpGoTo('triage'); return; }
+    if (!cpIsUnlocked(target)) {
+        showToast(target === 'report' ? 'No report yet' : 'Start with Triage',
+                  target === 'report' ? 'Complete the Ship gate first to generate a report.' : 'Set strictness in Triage first — it anchors the whole run.', 'info');
+        return;
+    }
+    if ((target === 'ship' || target === 'inspect') && cpIsStale()) { cpShowStalePrompt(target); return; }
+    cpEnterGate(target);
+}
+
+// ---- Stale-decision check (calibration catch on re-entry after a gap) ----
+function cpDaysSince(ts) { return ts ? Math.floor((Date.now() - ts) / 86400000) : 0; }
+function cpIsStale() { return cpState.framedAt && cpDaysSince(cpState.framedAt) >= 1; }
+
+function cpShowStalePrompt(target) {
+    const n = cpDaysSince(cpState.framedAt);
+    openGlobalModal('Still the same decision?', 'Stale-decision check', `
+        <p class="text-sm text-slate-700 leading-relaxed">You framed this <strong>${n} day${n === 1 ? '' : 's'} ago</strong>. Between framing and shipping, what gets built usually drifts from what was framed. Is what you're about to ${target === 'ship' ? 'ship' : 'inspect'} still the same decision you framed?</p>
+        <div class="flex flex-col sm:flex-row gap-2 mt-5">
+            <button onclick="cpStaleAnswer('yes','${target}')" class="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-sm px-4 py-2.5 rounded-lg transition-colors">Yes — same decision</button>
+            <button onclick="cpStaleAnswer('no')" class="flex-1 bg-rose-600 hover:bg-rose-500 text-white font-semibold text-sm px-4 py-2.5 rounded-lg transition-colors">No — it changed</button>
+        </div>`, 'history');
+}
+function cpStaleAnswer(ans, target) {
+    closeGlobalModal();
+    if (ans === 'yes') { cpEnterGate(target); }
+    else { showToast('Reframe', 'The decision changed — back to Frame to re-anchor it.', 'info'); cpGoTo('frame'); }
+}
+
+// ---- Persistent runs (frame now, ship later) ----
+function cpSave() {
+    try { cpState.lastSaved = Date.now(); localStorage.setItem(CP_STORE, JSON.stringify(cpState)); } catch(e) { /* storage unavailable */ }
+}
+function cpLoadSaved() {
+    try { const r = localStorage.getItem(CP_STORE); return r ? JSON.parse(r) : null; } catch(e) { return null; }
+}
+function cpMaybeShowResume() {
+    const s = cpLoadSaved();
+    const banner = document.getElementById('cp-resume-banner');
+    if (s && s.decision && s.strictness && !s.completed && !cpState.strictness) {
+        document.getElementById('cp-resume-text').innerHTML =
+            `Unfinished run: <strong>"${cpEsc(s.decision)}"</strong>${s.strictness ? ` · ${cpEsc(s.strictness.label)}` : ''}${s.framedAt ? ` · framed ${cpDaysSince(s.framedAt)} day${cpDaysSince(s.framedAt) === 1 ? '' : 's'} ago` : ''}. Pick up where you left off.`;
+        banner.classList.remove('hidden');
+        lucide.createIcons();
+    } else {
+        banner.classList.add('hidden');
+    }
+}
+function cpDiscard() {
+    try { localStorage.removeItem(CP_STORE); } catch(e) {}
+    document.getElementById('cp-resume-banner').classList.add('hidden');
+    cpReset();
+}
+function cpResume() {
+    const s = cpLoadSaved();
+    if (!s) return;
+    Object.assign(cpState, s);
+    cpRestoreUI();
+    document.getElementById('cp-resume-banner').classList.add('hidden');
+}
+
+// Programmatically reflect a toggle group's selected value.
+function cpSelectToggle(groupId, val) {
+    const g = document.getElementById(groupId);
+    if (!g || !val) return;
+    g.querySelectorAll('.cp-toggle').forEach(b => {
+        const on = b.getAttribute('data-val') === val;
+        ['border-blue-600','bg-blue-50','text-blue-700','ring-1','ring-blue-200'].forEach(c => b.classList.toggle(c, on));
+        b.classList.toggle('border-slate-200', !on);
+        b.classList.toggle('text-slate-600', !on);
+    });
+}
+
+// Rebuild the on-screen UI from cpState (used when resuming a saved run).
+function cpRestoreUI() {
+    document.getElementById('cp-decision').value = cpState.decision || "";
+    cpSelectToggle('cp-reversibility', cpState.reversibility);
+    cpSelectToggle('cp-stakes', cpState.stakes);
+    cpSelectToggle('cp-grounding', cpState.grounding);
+    if (cpState.grounding) cpShowGroundingFlag(cpState.grounding);
+    if (cpState.strictness) {
+        cpRenderStrictness(cpState.strictness);
+        document.getElementById('cp-triage-set-btn').innerHTML = `<i data-lucide="refresh-cw" class="w-4 h-4"></i> Recalculate`;
+        document.getElementById('cp-triage-continue-btn').classList.remove('hidden');
+    }
+    if (cpState.frame) { cpRenderFrame(cpState.frame); document.getElementById('cp-frame-continue-btn').classList.remove('hidden'); document.getElementById('cp-frame-run-btn').innerHTML = `<i data-lucide="refresh-cw" class="w-4 h-4"></i> Re-run`; }
+    if (cpState.inspectArtifact) document.getElementById('cp-inspect-artifact').value = cpState.inspectArtifact;
+    if (cpState.inspect) cpRenderInspect(cpState.inspect);
+    if (cpState.ship) { cpRenderShip(cpState.ship); document.getElementById('cp-ship-report-btn').classList.remove('hidden'); }
+    // Land on the furthest reached gate.
+    let land = 'triage';
+    if (cpState.completed) land = 'report';
+    else if (cpState.ship) land = 'ship';
+    else if (cpState.inspect) land = 'inspect';
+    else if (cpState.frame) land = 'frame';
+    else if (cpState.strictness) land = 'frame';
+    if (cpState.completed) cpBuildReport();
+    else cpGoTo(land);
+    lucide.createIcons();
+}
+
+function cpRenderStrictness(s) {
+    const readout = document.getElementById('cp-strictness-readout');
+    readout.className = `rounded-lg border p-3.5 text-sm ${s.cls}`;
+    readout.innerHTML = `<p class="font-bold flex items-center gap-2"><i data-lucide="${s.icon}" class="w-4 h-4"></i> Strictness set: ${s.label}</p><p class="text-xs mt-1 opacity-90">${s.rationale}</p>`;
+    readout.classList.remove('hidden');
+}
+
 function cpSetStrictness() {
     const decision = document.getElementById('cp-decision').value.trim();
     if (!decision) { showToast("Decision required", "Describe the decision you're evaluating first.", "error"); return; }
     if (!cpState.reversibility || !cpState.stakes) { showToast("Triage incomplete", "Pick a reversibility and a stakes level.", "error"); return; }
     cpState.decision = decision;
-    const s = cpComputeStrictness(cpState.reversibility, cpState.stakes);
-    cpState.strictness = s;
-    const readout = document.getElementById('cp-strictness-readout');
-    readout.className = `rounded-lg border p-3.5 text-sm ${s.cls}`;
-    readout.innerHTML = `<p class="font-bold flex items-center gap-2"><i data-lucide="${s.icon}" class="w-4 h-4"></i> Strictness set: ${s.label}</p><p class="text-xs mt-1 opacity-90">${s.rationale}</p>`;
-    readout.classList.remove('hidden');
+    if (!cpState.createdAt) cpState.createdAt = Date.now();
+    cpState.strictness = cpComputeStrictness(cpState.reversibility, cpState.stakes);
+    cpRenderStrictness(cpState.strictness);
     document.getElementById('cp-triage-set-btn').innerHTML = `<i data-lucide="refresh-cw" class="w-4 h-4"></i> Recalculate`;
     document.getElementById('cp-triage-continue-btn').classList.remove('hidden');
+    cpSave();
     lucide.createIcons();
 }
 
@@ -1638,28 +1827,11 @@ Include 3-4 objections. Every field must be filled with substantive, decision-sp
         const raw = await callGeminiAPI(prompt, sys, schema);
         const data = JSON.parse(raw.replace(/^```(?:json)?\s*/i,'').replace(/```\s*$/,'').trim());
         cpState.frame = data;
-        const green = (data.verdict || '').toLowerCase() === 'green';
-        let html = `<div class="rounded-lg border p-3.5 ${green?'bg-emerald-50 border-emerald-200 text-emerald-900':'bg-amber-50 border-amber-200 text-amber-900'}">
-            <p class="font-bold flex items-center gap-2"><i data-lucide="${green?'circle-check':'alert-triangle'}" class="w-4 h-4"></i> ${green?'Sound idea — proceed':'Proceed with caution'}</p>
-            <p class="text-xs mt-1 opacity-90">${cpEsc(data.verdictRationale)}</p>
-        </div>
-        <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider mt-4 mb-2 flex items-center gap-1.5"><i data-lucide="message-square-warning" class="w-3.5 h-3.5"></i> Objections worth holding in mind <span class="font-normal normal-case text-slate-400">(synthetic — idea expansion, not validation)</span></p>
-        <div class="space-y-2">`;
-        (data.objections || []).forEach(o => {
-            const title = o.title || o.objection || o.headline || '';
-            const detail = o.detail || o.description || '';
-            const who = o.whoPushesBack || o.who || '';
-            html += `<div class="border border-slate-200 rounded-lg p-3 bg-slate-50/60">
-                ${title ? `<p class="font-semibold text-slate-800 text-sm">${cpEsc(title)}</p>` : ''}
-                ${detail ? `<p class="text-xs text-slate-600 mt-0.5 leading-relaxed">${cpEsc(detail)}</p>` : ''}
-                ${who ? `<p class="text-[11px] text-slate-400 mt-1.5"><strong class="text-slate-500">Who pushes back:</strong> ${cpEsc(who)}</p>` : ''}
-            </div>`;
-        });
-        html += `</div>`;
-        const result = document.getElementById('cp-frame-result');
-        result.innerHTML = html; result.classList.remove('hidden');
+        cpState.framedAt = Date.now();
+        cpRenderFrame(data);
         document.getElementById('cp-frame-continue-btn').classList.remove('hidden');
         btn.innerHTML = `<i data-lucide="refresh-cw" class="w-4 h-4"></i> Re-run`;
+        cpSave();
         lucide.createIcons();
     } catch(e) {
         console.error(e);
@@ -1667,6 +1839,123 @@ Include 3-4 objections. Every field must be filled with substantive, decision-sp
         btn.innerHTML = orig; lucide.createIcons();
     } finally {
         btn.disabled = false;
+    }
+}
+
+function cpRenderFrame(data) {
+    const green = (data.verdict || '').toLowerCase() === 'green';
+    let html = `<div class="rounded-lg border p-3.5 ${green?'bg-emerald-50 border-emerald-200 text-emerald-900':'bg-amber-50 border-amber-200 text-amber-900'}">
+        <p class="font-bold flex items-center gap-2"><i data-lucide="${green?'circle-check':'alert-triangle'}" class="w-4 h-4"></i> ${green?'Sound idea — proceed':'Proceed with caution'}</p>
+        <p class="text-xs mt-1 opacity-90">${cpEsc(data.verdictRationale)}</p>
+    </div>
+    <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider mt-4 mb-2 flex items-center gap-1.5"><i data-lucide="message-square-warning" class="w-3.5 h-3.5"></i> Objections worth holding in mind <span class="font-normal normal-case text-slate-400">(synthetic — idea expansion, not validation)</span></p>
+    <div class="space-y-2">`;
+    (data.objections || []).forEach(o => {
+        const title = o.title || o.objection || o.headline || '';
+        const detail = o.detail || o.description || '';
+        const who = o.whoPushesBack || o.who || '';
+        html += `<div class="border border-slate-200 rounded-lg p-3 bg-slate-50/60">
+            ${title ? `<p class="font-semibold text-slate-800 text-sm">${cpEsc(title)}</p>` : ''}
+            ${detail ? `<p class="text-xs text-slate-600 mt-0.5 leading-relaxed">${cpEsc(detail)}</p>` : ''}
+            ${who ? `<p class="text-[11px] text-slate-400 mt-1.5"><strong class="text-slate-500">Who pushes back:</strong> ${cpEsc(who)}</p>` : ''}
+        </div>`;
+    });
+    html += `</div>`;
+    const result = document.getElementById('cp-frame-result');
+    result.innerHTML = html; result.classList.remove('hidden');
+}
+
+// ---- Inspect (P1): directional synthetic pass + three-way decision ----
+async function cpRunInspect() {
+    const art = document.getElementById('cp-inspect-artifact').value.trim();
+    if (!art) { showToast("Describe what you built", "Paste a URL or describe the screen to inspect.", "error"); return; }
+    cpState.inspectArtifact = art;
+    const btn = document.getElementById('cp-inspect-run-btn');
+    const orig = btn.innerHTML;
+    btn.disabled = true; btn.innerHTML = `<i data-lucide="loader" class="w-4 h-4 animate-spin"></i> Inspecting…`; lucide.createIcons();
+
+    const sys = `You are a usability heuristic evaluator doing a fast DIRECTIONAL pass on a built artifact. This is DIRECTIONAL, NOT validation — you cannot confirm anything works for real people; you can only flag likely friction. Be specific to the artifact described; avoid generic advice. Then suggest (not decide) whether the team should refine (execution needs work), reframe (the premise looks wrong), or proceed (good enough to advance).
+Return ONLY a JSON object with EXACTLY these keys (no markdown):
+{
+  "summary": "one-sentence directional read",
+  "findings": [ { "area": "what part of the UX", "observation": "the specific concern", "severity": "minor" | "moderate" | "major" } ],
+  "suggestedDecision": "refine" | "reframe" | "proceed",
+  "suggestionRationale": "one sentence on why"
+}
+Give 3-5 findings. Every field filled with substantive, artifact-specific text.`;
+    const schema = { type:"OBJECT", properties:{
+        summary:{type:"STRING"},
+        findings:{type:"ARRAY", items:{type:"OBJECT", properties:{ area:{type:"STRING"}, observation:{type:"STRING"}, severity:{type:"STRING"} }, required:["area","observation","severity"]}},
+        suggestedDecision:{type:"STRING"}, suggestionRationale:{type:"STRING"}
+    }, required:["summary","findings","suggestedDecision","suggestionRationale"]};
+    const prompt = `Decision being built: "${cpState.decision}"\nArtifact (URL or description): ${art}\nStakes: ${cpState.stakes}. Give a directional heuristic read and a suggested next move.`;
+
+    try {
+        const raw = await callGeminiAPI(prompt, sys, schema);
+        const data = JSON.parse(raw.replace(/^```(?:json)?\s*/i,'').replace(/```\s*$/,'').trim());
+        cpState.inspect = data;
+        cpRenderInspect(data);
+        btn.innerHTML = `<i data-lucide="refresh-cw" class="w-4 h-4"></i> Re-run`;
+        cpSave();
+        lucide.createIcons();
+    } catch(e) {
+        console.error(e);
+        showToast("Inspect failed", e.message || "Could not run the directional pass. Try again.", "error");
+        btn.innerHTML = orig; lucide.createIcons();
+    } finally {
+        btn.disabled = false;
+    }
+}
+
+function cpRenderInspect(data) {
+    const sevCls = { major:'bg-rose-100 text-rose-700 border-rose-200', moderate:'bg-amber-100 text-amber-700 border-amber-200', minor:'bg-slate-100 text-slate-600 border-slate-200' };
+    let html = `<div class="rounded-lg border border-amber-200 bg-amber-50/60 p-3.5">
+        <p class="font-bold text-amber-900 text-sm flex items-center gap-2"><i data-lucide="scan-search" class="w-4 h-4"></i> Directional read <span class="font-normal text-[10px] uppercase tracking-wider text-amber-600">not validation</span></p>
+        <p class="text-xs text-amber-900 mt-1 opacity-90">${cpEsc(data.summary)}</p>
+    </div><div class="space-y-2 mt-3">`;
+    (data.findings || []).forEach(f => {
+        const sev = (f.severity || 'minor').toLowerCase();
+        html += `<div class="border border-slate-200 rounded-lg p-3 bg-white">
+            <div class="flex items-center justify-between gap-2">
+                <p class="font-semibold text-slate-800 text-sm">${cpEsc(f.area)}</p>
+                <span class="text-[10px] uppercase font-bold border px-2 py-0.5 rounded-full ${sevCls[sev] || sevCls.minor}">${cpEsc(sev)}</span>
+            </div>
+            <p class="text-xs text-slate-600 mt-1 leading-relaxed">${cpEsc(f.observation)}</p>
+        </div>`;
+    });
+    html += `</div><div class="mt-3 text-xs text-slate-500 bg-slate-50 border border-slate-100 rounded-lg p-3"><strong>Synthetic suggestion (you decide):</strong> ${cpEsc(data.suggestedDecision)} — ${cpEsc(data.suggestionRationale)}</div>`;
+    const result = document.getElementById('cp-inspect-result');
+    result.innerHTML = html; result.classList.remove('hidden');
+    document.getElementById('cp-inspect-decision').classList.remove('hidden');
+}
+
+// Three-way decision; high-stakes reframe/proceed require explicit human confirmation.
+function cpDecision(kind) {
+    const hard = cpState.strictness && cpState.strictness.level === 'hard';
+    if (hard && (kind === 'reframe' || kind === 'proceed')) { cpConfirmHighStakes(kind); return; }
+    cpApplyDecision(kind);
+}
+function cpConfirmHighStakes(kind) {
+    openGlobalModal('High-stakes decision', 'Human confirmation required', `
+        <p class="text-sm text-slate-700 leading-relaxed">This is a high-stakes, hard-to-reverse decision. At this strictness the synthetic pass can <em>raise</em> the flag, but a human pulls the trigger.</p>
+        <p class="text-sm text-slate-900 font-semibold mt-2">Confirm: ${kind === 'reframe' ? 'reframe the premise and return to Frame' : 'proceed to the Ship gate'}?</p>
+        <div class="flex gap-2 mt-5">
+            <button onclick="cpConfirmDecisionYes('${kind}')" class="flex-1 bg-slate-950 hover:bg-slate-800 text-white font-semibold text-sm px-4 py-2.5 rounded-lg transition-colors">Yes, I confirm</button>
+            <button onclick="closeGlobalModal()" class="flex-1 border border-slate-200 hover:bg-slate-50 text-slate-700 font-semibold text-sm px-4 py-2.5 rounded-lg transition-colors">Cancel</button>
+        </div>`, 'shield-alert');
+}
+function cpConfirmDecisionYes(kind) { closeGlobalModal(); cpApplyDecision(kind); }
+function cpApplyDecision(kind) {
+    cpState.inspectDecision = kind;
+    cpSave();
+    if (kind === 'refine') {
+        showToast('Refine', 'Make your changes, then re-run the directional pass.', 'info');
+        document.getElementById('cp-inspect-decision').classList.add('hidden');
+    } else if (kind === 'reframe') {
+        showToast('Reframe', 'Back to Frame to re-anchor the premise.', 'info');
+        cpGoTo('frame');
+    } else if (kind === 'proceed') {
+        cpEnterGate('ship');
     }
 }
 
@@ -1700,24 +1989,9 @@ Every field must be filled with substantive, decision-specific text. Rank items 
         const raw = await callGeminiAPI(prompt, sys, schema);
         const data = JSON.parse(raw.replace(/^```(?:json)?\s*/i,'').replace(/```\s*$/,'').trim());
         cpState.ship = data;
-        const hard = s.level === 'hard';
-        let html = `<div class="rounded-lg border p-3.5 mb-4 ${hard?'bg-rose-50 border-rose-200 text-rose-900':s.level==='loose'?'bg-emerald-50 border-emerald-200 text-emerald-900':'bg-amber-50 border-amber-200 text-amber-900'}">
-            <p class="font-bold flex items-center gap-2"><i data-lucide="${hard?'octagon-alert':s.level==='loose'?'circle-check':'gauge'}" class="w-4 h-4"></i> ${hard?'Required before ship':s.level==='loose'?'Optional checklist':'Recommended before ship'}</p>
-            <p class="text-xs mt-1 opacity-90">${cpEsc(data.topLine)}</p>
-        </div><div class="space-y-2.5">`;
-        (data.items || []).sort((a,b)=>(a.rank||0)-(b.rank||0)).forEach(it => {
-            html += `<div class="border border-slate-200 rounded-lg p-3.5 bg-white flex gap-3">
-                <span class="w-7 h-7 shrink-0 rounded-lg bg-rose-100 text-rose-700 flex items-center justify-center font-bold text-sm">${it.rank}</span>
-                <div class="space-y-1">
-                    <p class="font-semibold text-slate-900 text-sm">${cpEsc(it.validate)}</p>
-                    <p class="text-xs text-slate-600 leading-relaxed"><strong class="text-slate-500">Why synthetic users can't tell you:</strong> ${cpEsc(it.whySynthFails)}</p>
-                    <p class="text-xs text-blue-700 leading-relaxed"><strong>Cheapest credible method:</strong> ${cpEsc(it.method)}</p>
-                </div>
-            </div>`;
-        });
-        html += `</div>`;
-        container.innerHTML = html;
+        cpRenderShip(data);
         document.getElementById('cp-ship-report-btn').classList.remove('hidden');
+        cpSave();
         lucide.createIcons();
     } catch(e) {
         console.error(e);
@@ -1727,8 +2001,31 @@ Every field must be filled with substantive, decision-specific text. Rank items 
     }
 }
 
+function cpRenderShip(data) {
+    const s = cpState.strictness || { level:'standard' };
+    const hard = s.level === 'hard';
+    let html = `<div class="rounded-lg border p-3.5 mb-4 ${hard?'bg-rose-50 border-rose-200 text-rose-900':s.level==='loose'?'bg-emerald-50 border-emerald-200 text-emerald-900':'bg-amber-50 border-amber-200 text-amber-900'}">
+        <p class="font-bold flex items-center gap-2"><i data-lucide="${hard?'octagon-alert':s.level==='loose'?'circle-check':'gauge'}" class="w-4 h-4"></i> ${hard?'Required before ship':s.level==='loose'?'Optional checklist':'Recommended before ship'}</p>
+        <p class="text-xs mt-1 opacity-90">${cpEsc(data.topLine)}</p>
+    </div><div class="space-y-2.5">`;
+    (data.items || []).sort((a,b)=>(a.rank||0)-(b.rank||0)).forEach(it => {
+        html += `<div class="border border-slate-200 rounded-lg p-3.5 bg-white flex gap-3">
+            <span class="w-7 h-7 shrink-0 rounded-lg bg-rose-100 text-rose-700 flex items-center justify-center font-bold text-sm">${it.rank}</span>
+            <div class="space-y-1">
+                <p class="font-semibold text-slate-900 text-sm">${cpEsc(it.validate)}</p>
+                <p class="text-xs text-slate-600 leading-relaxed"><strong class="text-slate-500">Why synthetic users can't tell you:</strong> ${cpEsc(it.whySynthFails)}</p>
+                <p class="text-xs text-blue-700 leading-relaxed"><strong>Cheapest credible method:</strong> ${cpEsc(it.method)}</p>
+            </div>
+        </div>`;
+    });
+    html += `</div>`;
+    document.getElementById('cp-ship-result').innerHTML = html;
+}
+
 function cpBuildReport() {
     cpState.generatedAt = new Date().toLocaleString();
+    cpState.completed = true;
+    cpSave();
     const s = cpState.strictness;
     const grLabel = { yes:'Yes — real data on this segment', some:'Some real data', none:'None — synthetic output is unvalidated' }[cpState.grounding] || '—';
     let html = `<div class="rounded-lg border ${s.cls} p-4">
@@ -1743,6 +2040,11 @@ function cpBuildReport() {
         html += `<div><p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Frame gate <span class="font-normal normal-case text-slate-400">(synthetic — directional only)</span></p>
             <p class="text-sm text-slate-700"><strong>${green?'Sound idea — proceed':'Proceed with caution'}:</strong> ${cpEsc(cpState.frame.verdictRationale)}</p>
             <ul class="list-disc list-inside text-xs text-slate-600 mt-1.5 space-y-0.5">${(cpState.frame.objections||[]).map(o=>`<li>${cpEsc(o.title)}</li>`).join('')}</ul></div>`;
+    }
+    if (cpState.inspect || cpState.inspectDecision) {
+        html += `<div><p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Inspect <span class="font-normal normal-case text-slate-400">(directional, not validation)</span></p>
+            ${cpState.inspect ? `<p class="text-sm text-slate-700">${cpEsc(cpState.inspect.summary)}</p>` : ''}
+            ${cpState.inspectDecision ? `<p class="text-xs text-slate-600 mt-1">Your call: <strong class="text-slate-800">${cpEsc(cpState.inspectDecision)}</strong></p>` : ''}</div>`;
     }
     if (cpState.ship) {
         html += `<div><p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Validate with real humans before ship</p>
@@ -1764,6 +2066,15 @@ function cpDownloadReport() {
         (cpState.frame.objections||[]).forEach(o => lines.push(`   - ${o.title}: ${o.detail} [who pushes back: ${o.whoPushesBack}]`));
         lines.push('');
     }
+    if (cpState.inspect || cpState.inspectDecision) {
+        lines.push('Inspect (directional, not validation):');
+        if (cpState.inspect) {
+            lines.push(`  ${cpState.inspect.summary}`);
+            (cpState.inspect.findings||[]).forEach(f => lines.push(`   - [${f.severity}] ${f.area}: ${f.observation}`));
+        }
+        if (cpState.inspectDecision) lines.push(`  Decision: ${cpState.inspectDecision}`);
+        lines.push('');
+    }
     if (cpState.ship) {
         lines.push('Validate with REAL HUMANS before ship:', `  ${cpState.ship.topLine}`);
         (cpState.ship.items||[]).sort((a,b)=>(a.rank||0)-(b.rank||0)).forEach(it => lines.push(`   ${it.rank}. ${it.validate}\n      Why synthetic users fail: ${it.whySynthFails}\n      Method: ${it.method}`));
@@ -1778,14 +2089,19 @@ function cpDownloadReport() {
 
 function cpReset() {
     cpState.decision=""; cpState.reversibility=null; cpState.stakes=null; cpState.strictness=null;
-    cpState.grounding=null; cpState.frame=null; cpState.ship=null; cpState.generatedAt=null;
+    cpState.grounding=null; cpState.frame=null; cpState.inspectArtifact=""; cpState.inspect=null;
+    cpState.inspectDecision=null; cpState.ship=null; cpState.generatedAt=null; cpState.createdAt=null;
+    cpState.framedAt=null; cpState.completed=false;
+    try { localStorage.removeItem(CP_STORE); } catch(e) {}
     document.getElementById('cp-decision').value = "";
+    document.getElementById('cp-inspect-artifact').value = "";
     ['cp-reversibility','cp-stakes','cp-grounding'].forEach(id => document.getElementById(id).querySelectorAll('.cp-toggle').forEach(b => {
         b.classList.remove('border-blue-600','bg-blue-50','text-blue-700','ring-1','ring-blue-200');
         b.classList.add('border-slate-200','text-slate-600');
     }));
-    ['cp-strictness-readout','cp-grounding-flag','cp-frame-result','cp-frame-continue-btn','cp-triage-continue-btn'].forEach(id => document.getElementById(id).classList.add('hidden'));
+    ['cp-strictness-readout','cp-grounding-flag','cp-frame-result','cp-frame-continue-btn','cp-triage-continue-btn','cp-inspect-result','cp-inspect-decision','cp-resume-banner'].forEach(id => document.getElementById(id).classList.add('hidden'));
     document.getElementById('cp-frame-run-btn').innerHTML = `<i data-lucide="sparkles" class="w-4 h-4"></i> Run synthetic stress-test`;
+    document.getElementById('cp-inspect-run-btn').innerHTML = `<i data-lucide="scan-search" class="w-4 h-4"></i> Run directional pass`;
     document.getElementById('cp-triage-set-btn').innerHTML = `<i data-lucide="gauge" class="w-4 h-4"></i> Set strictness`;
     cpGoTo('triage');
 }
