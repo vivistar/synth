@@ -135,7 +135,7 @@
         <div class="relative z-10 max-w-3xl">
             <span class="bg-blue-500/20 text-blue-300 border border-blue-500/30 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider">The Preflight Check for Synthetic Users</span>
             <h2 class="text-3xl sm:text-4xl font-extrabold mt-4 tracking-tight leading-tight">When AI builds at full speed, where do synthetic users help — and where will they fool you?</h2>
-            <p class="text-slate-300 mt-3 text-base leading-relaxed">You go from intent to a working screen in one continuous loop: <strong class="text-white">intent → generate → inspect → iterate → ship</strong>. There's no natural pause to validate. Preflight rides that loop, calling — at each turn — whether synthetic users are reliable enough to trust, or whether the answer needs real humans before you ship.</p>
+            <p class="text-slate-300 mt-3 text-lg leading-relaxed">You go from intent to a working screen in one continuous loop: <strong class="text-white">intent → generate → inspect → iterate → ship</strong>. There's no natural pause to validate. Preflight rides that loop, calling — at each turn — whether synthetic users are reliable enough to trust, or whether the answer needs real humans before you ship.</p>
             <div class="mt-6 flex flex-wrap gap-3">
                 <button onclick="switchView('checkpoint')" class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white px-5 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 shadow-lg shadow-blue-600/20">
                     <i data-lucide="plane-takeoff" class="w-4 h-4"></i> Run a checkpoint
@@ -151,7 +151,7 @@
     <div id="cp-loop-diagram" class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm scroll-mt-24">
         <div class="border-b border-slate-100 pb-4 mb-5">
             <h3 class="font-bold text-lg text-slate-900 flex items-center gap-2"><i data-lucide="git-branch" class="text-blue-500 w-5 h-5"></i> The continuous-AI loop</h3>
-            <p class="text-xs text-slate-500 mt-1">Each stage is colored by who you can trust there: green where synthetic users are reliable, red where humans are required, amber where the stakes decide.</p>
+            <p class="text-sm text-slate-500 mt-1">Each stage is colored by who you can trust there: green where synthetic users are reliable, red where humans are required, amber where the stakes decide.</p>
         </div>
 
         <!-- Triage banner -->
@@ -209,7 +209,7 @@
     <!-- SITUATION ROUTER (fork, not a forced gate) -->
     <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
         <h3 class="font-bold text-lg text-slate-900 tracking-tight">How does your team build?</h3>
-        <p class="text-xs text-slate-500 mt-1 mb-5">Both frameworks share the same goal — knowing when to trust synthetic users. Pick the one that matches how you work.</p>
+        <p class="text-sm text-slate-500 mt-1 mb-5">Both frameworks share the same goal — knowing when to trust synthetic users. Pick the one that matches how you work.</p>
 
         <!-- Path A: hero / primary -->
         <button onclick="switchView('checkpoint')" class="w-full text-left bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-200 hover:border-blue-400 rounded-xl p-5 transition-all duration-200 group">
@@ -220,7 +220,7 @@
                         <p class="font-bold text-slate-900 text-base">Building continuously with AI</p>
                         <span class="text-blue-600 group-hover:translate-x-0.5 transition-transform"><i data-lucide="arrow-right" class="w-5 h-5"></i></span>
                     </div>
-                    <p class="text-sm text-slate-600 mt-1 leading-relaxed">Sounds like you if you go from idea to working screen in hours, design and build blur together, there's no clear handoff between designing it and building it, and you ship faster than you can validate.</p>
+                    <p class="text-base text-slate-600 mt-1 leading-relaxed">Sounds like you if you go from idea to working screen in hours, design and build blur together, there's no clear handoff between designing it and building it, and you ship faster than you can validate.</p>
                     <span class="inline-block mt-2 text-xs font-semibold text-blue-700">→ Use the continuous-AI loop</span>
                 </div>
             </div>
@@ -233,7 +233,7 @@
                 <span><strong class="font-semibold">Building in defined stages instead?</strong> See the staged framework</span>
                 <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
             </button>
-            <p class="text-xs text-slate-400 mt-1.5 max-w-2xl mx-auto">Sounds like you if you work in phases — discovery, design, build, QA — with handoffs between roles or teams and reviews between stages.</p>
+            <p class="text-sm text-slate-400 mt-1.5 max-w-2xl mx-auto">Sounds like you if you work in phases — discovery, design, build, QA — with handoffs between roles or teams and reviews between stages.</p>
         </div>
     </div>
 
