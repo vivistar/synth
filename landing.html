@@ -9,7 +9,37 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap');
+:root {
+  --pf-dark:#0F2124; --pf-bg:#f5f4f0; --pf-alt:#eeecea; --pf-card:#fafaf9;
+  --pf-accent:#3a3aff; --pf-accent-hover:#2d2de0; --pf-accent-dark:#8080ff;
+  --pf-text:#0d0d0d; --pf-text2:#6b6860;
+  --pf-success:#16a34a; --pf-danger:#dc2626; --pf-amber:#f59e0b;
+  --pf-border:rgba(13,13,13,0.10); --pf-border-dark:rgba(255,255,255,0.10);
+}
+body { font-family:'Geist', system-ui, sans-serif !important; background:var(--pf-bg); color:var(--pf-text); }
+.pf-mono { font-family:'Geist Mono', ui-monospace, monospace; }
+.pf-display { font-weight:300; letter-spacing:-0.025em; line-height:1.05; }
+.pf-card { background:var(--pf-card); border:1px solid var(--pf-border); border-radius:1rem; }
+.pf-dark { background:var(--pf-dark); color:rgba(255,255,255,0.92); }
+.pf-btn { display:inline-flex; align-items:center; justify-content:center; gap:.5rem; border-radius:9999px; font-size:.875rem; font-weight:500; padding:.75rem 1.5rem; transition:all .18s ease; cursor:pointer; }
+.pf-btn-primary { background:var(--pf-accent); color:#fff; }
+.pf-btn-primary:hover { background:var(--pf-accent-hover); }
+.pf-pill { display:inline-flex; align-items:center; gap:.4rem; font-family:'Geist Mono', monospace; border-radius:9999px; font-size:.72rem; border:1px solid var(--pf-border); color:var(--pf-text2); padding:.35rem .85rem; }
+.pf-accent { color:var(--pf-accent); }
+/* ---- Global reskin layer: map legacy Tailwind neutrals to the palette.
+        Leave semantic emerald/amber/rose/indigo/violet alone. ---- */
+.bg-white { background-color:var(--pf-card) !important; }
+.bg-slate-50, .bg-slate-100, .bg-slate-950, .bg-slate-900 { }
+.bg-slate-50, .bg-slate-50\/50, .bg-slate-100 { background-color:var(--pf-alt) !important; }
+.text-slate-900, .text-slate-800 { color:var(--pf-text) !important; }
+.text-slate-700, .text-slate-600, .text-slate-500, .text-slate-400 { color:var(--pf-text2) !important; }
+.border-slate-200, .border-slate-100 { border-color:var(--pf-border) !important; }
+.bg-blue-600, .bg-blue-500 { background-color:var(--pf-accent) !important; }
+.hover\:bg-blue-500:hover, .hover\:bg-blue-700:hover, .hover\:bg-blue-600:hover { background-color:var(--pf-accent-hover) !important; }
+.text-blue-600, .text-blue-700, .text-blue-500 { color:var(--pf-accent) !important; }
+.border-blue-500, .border-blue-600, .border-blue-200 { border-color:var(--pf-accent) !important; }
+.shadow-sm, .shadow, .shadow-md, .shadow-lg, .shadow-xl { box-shadow:none !important; }
         body { font-family: 'Inter', sans-serif; }
 
         .gradient-text {
@@ -48,10 +78,7 @@
     <nav class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-100">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between">
             <div class="flex items-center gap-2.5">
-                <div class="p-1.5 bg-blue-600 rounded-lg">
-                    <i data-lucide="shield-check" class="w-4 h-4 text-white"></i>
-                </div>
-                <span class="font-bold text-slate-900 text-sm tracking-tight">The SaaS Preflight Check for Synthetic Users</span>
+                <span class="w-5 h-5 rounded-md" style="background:var(--pf-accent)"></span><span class="pf-mono text-sm font-semibold tracking-[0.18em]" style="color:var(--pf-text)">PREFLIGHT</span>
             </div>
             <div class="flex items-center gap-3">
                 <a href="https://github.com/vivistar/synth" target="_blank" class="flex items-center gap-1.5 text-xs font-semibold text-slate-600 hover:text-slate-900 transition-colors">
