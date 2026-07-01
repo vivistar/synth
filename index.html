@@ -75,6 +75,8 @@
         .pf-menu-row { transition:background .2s ease, padding-left .2s ease; border-radius:.5rem; }
         .pf-menu-row:hover { background:rgba(255,255,255,0.04); padding-left:.75rem; }
         #pf-menu-preview { transition:opacity .2s ease; }
+        @keyframes pfPreviewIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+        .pf-preview-in { animation:pfPreviewIn .28s cubic-bezier(.2,.7,.2,1) forwards; }
 
         /* ---- Global reskin layer: map legacy Tailwind neutrals to the
                 palette so every view adopts the base look ahead of its
@@ -207,19 +209,20 @@ function openMenu(){ const m=document.getElementById('pf-menu'); if(m){ m.classL
 function closeMenu(){ const m=document.getElementById('pf-menu'); if(m){ m.classList.add('hidden'); document.body.style.overflow=''; } }
 function pfNav(view){ closeMenu(); switchView(view); }
 const PF_PREVIEWS = {
-    checkpoint: { pill:'Live', title:'Active Checkpoint', body:'Run one decision through the loop — triage, frame, inspect, ship. Get an honest verdict on where synthetic users help and where you need real humans before you ship.' },
-    map:        { pill:'Beta', title:'8-Gate Stage Framework', body:'The staged reference model. Click any gate to inspect its operational guidance, risk alignment, and where it sits in the product and AI lifecycles.' },
-    wizard:     { pill:'Core', title:'Cohort Due Diligence', body:'An 8-gate due-diligence check you walk before running a synthetic cohort. Every gate is a clear proceed or stop decision.' },
-    rationale:  { pill:'Reference', title:'Lifecycle Rationale', body:'A positioning matrix showing where synthetic users genuinely help across the standard and agentic lifecycles — and where only real humans will do.' }
+    checkpoint: { num:'01', pill:'LIVE', body:'Run one decision through the loop and get an honest go / stop.' },
+    map:        { num:'02', pill:'BETA', body:'Inspect every gate across the staged framework.' },
+    wizard:     { num:'03', pill:'CORE', body:'Eight proceed / stop gates before you run a cohort.' },
+    rationale:  { num:'04', pill:'REFERENCE', body:'Where synthetic users help across the lifecycle — and where they don\'t.' }
 };
 function pfPreview(key){
     const el = document.getElementById('pf-menu-preview');
     if (!el) return;
     const p = key && PF_PREVIEWS[key];
     if (!p) { el.innerHTML = '<p class="text-white/40 text-sm">Hover a section to preview.</p>'; return; }
-    el.innerHTML = `<span class="pf-pill pf-pill-dark mb-3">${p.pill}</span>
-        <p class="pf-display text-2xl text-white mt-3">${p.title}</p>
-        <p class="text-white/60 text-sm mt-2 leading-relaxed">${p.body}</p>`;
+    el.innerHTML = `<div class="pf-preview-in">
+        <p class="pf-mono text-xs tracking-widest text-white/40">${p.num} / ${p.pill}</p>
+        <p class="text-xl text-white mt-3 leading-snug">${p.body}</p>
+    </div>`;
 }
 function toggleKeyPopover(e){ if(e) e.stopPropagation(); const p=document.getElementById('pf-key-popover'); if(p) p.classList.toggle('hidden'); }
 document.addEventListener('click', function(e){
