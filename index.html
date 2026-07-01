@@ -522,16 +522,17 @@ document.addEventListener('keydown', function(e){ if(e.key==='Escape'){ closeMen
 </div>
 <!-- VIEW 2: WIZARD -->
 <div id="view-wizard" class="hidden">
-<div class="max-w-3xl mx-auto bg-white border border-slate-200 rounded-2xl shadow-lg overflow-hidden">
-    <div class="bg-slate-900 px-6 py-4 flex justify-between items-center text-white border-b border-slate-800">
-        <div>
-            <span class="text-xs text-blue-400 font-semibold tracking-wider uppercase">8-Gate Framework Due Diligence Check</span>
-            <h3 class="text-lg font-bold">Before You Run a Synthetic Cohort</h3>
-        </div>
-        <span id="wizard-progress" class="bg-slate-800 px-3 py-1 rounded-full text-xs font-mono">Step 1 of 8</span>
+<div class="max-w-3xl mx-auto space-y-6">
+<div class="pf-dark rounded-2xl px-6 py-8 sm:px-10 flex justify-between items-start gap-4">
+    <div>
+        <span class="pf-mono text-xs tracking-[0.18em] uppercase" style="color:var(--pf-accent-dark)">8-Gate Framework Due Diligence Check</span>
+        <h3 class="pf-display text-2xl sm:text-3xl text-white mt-2">Before You Run a Synthetic Cohort</h3>
     </div>
-    <div class="w-full bg-slate-800 h-1">
-        <div id="progress-bar-fill" class="bg-blue-500 h-1 transition-all duration-300" style="width:12.5%;"></div>
+    <span id="wizard-progress" class="pf-pill pf-pill-dark shrink-0">Step 1 of 8</span>
+</div>
+<div class="pf-card overflow-hidden">
+    <div class="w-full h-1" style="background:var(--pf-alt)">
+        <div id="progress-bar-fill" class="h-1 transition-all duration-300" style="width:12.5%; background:var(--pf-accent)"></div>
     </div>
     <!-- Visual Step Tracker (Enhancement #5) -->
     <div class="px-8 pt-5 pb-0">
@@ -587,6 +588,7 @@ document.addEventListener('keydown', function(e){ if(e.key==='Escape'){ closeMen
             </div>
         </div>
     </div>
+</div>
 </div>
 </div>
 <!-- VIEW 3: SANDBOX -->
@@ -1169,17 +1171,18 @@ const stepsData = {
 };
 
 const wizardSteps = {
-    1: { title:"Have you clearly mapped out the SaaS product decision?", desc:"Before choosing any verification tools or personas, you must define the explicit business, architecture, billing plan, or feature gating choice you are evaluating.", choices:[{label:"Yes, we have a clear, documented SaaS decision target",next:2,action:"Proceed"},{label:"No, the decision parameters are open-ended / undefined",next:"reframe",action:"Stop"}] },
-    2: { title:"Check risk level: Is this a high-consequence SaaS decision?", desc:"If the consequences of incorrect research are high (e.g. churn of enterprise accounts, billing failures, or data security changes), we must handle synthetic validation carefully.", choices:[{label:"No, this is low-to-medium risk / easily reversible",next:3,action:"Proceed"},{label:"Yes, this directly impacts major security, enterprise plans, or MRR codes",next:"reframe",action:"Stop"}] },
+    1: { label:"Decision Clarity", title:"Do you have a clear, documented SaaS decision target?", desc:"Synthetic cohorts work best when the question is specific and bounded. Vague discovery questions bias the results before the run even starts.", choices:[{label:"Yes, we have a clear, documented SaaS decision target",next:2,action:"Proceed"},{label:"No, the question is still exploratory or undefined",next:"define-decision",action:"Stop"}] },
+    2: { label:"Risk Checkpoint", title:"Risk Level: Is this decision high-risk, high-consequence, or irreversible?", desc:"High-stakes, irreversible decisions require real human validation. Synthetics can supplement but should not be the primary signal for these calls.", choices:[{label:"No, this is low-to-medium risk and easily reversible",next:3,action:"Proceed"},{label:"Yes, this is high-risk or very hard to undo (direct impact to security, enterprise plans, or MRR)",next:"reframe",action:"Stop"}] },
     3: { title:"Fit the question: Is this query suitable for SaaS metrics?", desc:"LLMs validate structured interaction logic well. They fail at uncovering emergent enterprise buyer needs or finding unexpected user growth tracks.", choices:[{label:"No, it's a specific, structured interaction or pricing logic check",next:4,action:"Proceed"},{label:"Yes, it is speculative/creative/requires brand-new product discovery",next:"discovery",action:"Stop"}] },
     4: { title:"Confirm real SaaS usage data: Do you have live customer metrics?", desc:"To ground your synthetic users, you need verified, empirical feedback or telemetry from actual human beings. If not, synthetics are just generating generic bias.", choices:[{label:"Yes, we have telemetry, billing details, or user session data",next:5,action:"Proceed"},{label:"No, we have no real-world user metrics or support tickets yet",next:"humans-only",action:"Stop"}] },
-    5: { title:"Have you defined a precise synthetic SaaS user role?", desc:"Instead of generic prompts, write detailed instructions outlining explicit access rights, budget metrics, domain skills, and interface limitations.", choices:[{label:"Yes, the synthetic role parameters are clearly formulated",next:6,action:"Proceed"},{label:"No, we are using standard template prompts",next:"recalibrate",action:"Stop"}] },
+    5: { label:"Scope Checkpoint", title:"Is the interaction scope bounded and testable in a single session?", desc:"Flows that span multiple sessions, require memory, or depend on external state are unreliable for synthetic validation. Instead of generic prompts, write detailed instructions outlining explicit access rights, budget metrics, domain skills, and interface limitations.", choices:[{label:"Yes, the interaction fits within a single bounded session",next:6,action:"Proceed"},{label:"No, the flow requires multi-session context, external dependencies, or we are using standard template prompts",next:"recalibrate",action:"Stop"}] },
     6: { title:"Can you calibrate your synthetic agent against past SaaS releases?", desc:"Before querying on new features, run tests where you already have physical user research data. Does the synthetic agent replicate those existing results accurately?", choices:[{label:"Yes, the agent replicates historical drop-off states reliably",next:7,action:"Proceed"},{label:"No, we haven't or cannot test against known baselines",next:"recalibrate",action:"Stop"}] },
     7: { title:"Are you planning a human + synthetic hybrid research approach?", desc:"Relying 100% on synthetic data is risky. A proper governance framework ensures critical features are validated by real customer beta testers or design partners.", choices:[{label:"Yes, we have human check loops integrated",next:8,action:"Proceed"},{label:"No, this is planned as a synthetic-only verification",next:"humans-only",action:"Stop"}] },
     8: { title:"Have you set clear SaaS guardrails and dashboard labels?", desc:"Outputs must be transparently tagged as AI-simulated, and version histories must be tracked to prevent model updates from skewing outputs.", choices:[{label:"Yes, compliance labeling and drift reviews are defined",next:"success",action:"Proceed"},{label:"No, we don't have explicit tagging/label systems active",next:"brainstorm-only",action:"Stop"}] }
 };
 
 const resultOutcomes = {
+    "define-decision":{ title:"Define Your Decision First",           bg:"bg-rose-50 border-rose-200",       icon:"help-circle",   iconBg:"bg-rose-100 text-rose-600",       desc:"The risk profile of this decision is too high or your parameters are too loose. You need a concrete, answerable question before running synthetic users. You must scale down the scope of your core question or reframe it into safer, lower-stake queries before evaluating with synthetic testing." },
     "reframe":       { title:"Reframe Your Core Question First",       bg:"bg-rose-50 border-rose-200",       icon:"help-circle",   iconBg:"bg-rose-100 text-rose-600",       desc:"The risk profile of this decision is too high or your parameters are too loose. You must scale down the scope of your core question or reframe it into safer, lower-stake queries before evaluating with synthetic testing." },
     "discovery":     { title:"Initiate Human Discovery First",         bg:"bg-indigo-50 border-indigo-200",   icon:"compass",       iconBg:"bg-indigo-100 text-indigo-600",   desc:"The question you are asking requires exploratory research and generative intuition. Synthetics are terrible at identifying original human behaviors. Run live customer interviews, surveys, or usability groups first." },
     "humans-only":   { title:"Real Customers Only Here",               bg:"bg-amber-50 border-amber-200",     icon:"users-2",       iconBg:"bg-amber-100 text-amber-600",     desc:"Your process triggered a critical safety check: either you lack grounding baseline user data, or your workflow excludes human interaction. You MUST conduct this research cycle using only physical human validation." },
@@ -1320,7 +1323,7 @@ function renderWizardStep() {
     document.getElementById('wizard-progress').innerText       = `Step ${currentStep} of 8`;
     document.getElementById('progress-bar-fill').style.width   = `${(currentStep / 8) * 100}%`;
     document.getElementById('wizard-step-badge').innerText     = `Step ${currentStep}`;
-    document.getElementById('wizard-step-type').innerText      = stepsData[currentStep].type;
+    document.getElementById('wizard-step-type').innerText      = stepData.label || stepsData[currentStep].type;
     document.getElementById('wizard-question-title').innerText = stepData.title;
     document.getElementById('wizard-question-desc').innerText  = stepData.desc;
 
@@ -1336,16 +1339,21 @@ function renderWizardStep() {
     choicesContainer.classList.add('question-fade');
 
     stepData.choices.forEach(choice => {
+        const proceed = choice.action === 'Proceed';
+        const accent = proceed ? 'var(--pf-accent)' : 'var(--pf-danger)';
         const card = document.createElement('div');
-        card.className = "border border-slate-200 hover:border-blue-600 rounded-xl p-4 cursor-pointer transition-all bg-white hover:bg-slate-50 relative group flex justify-between items-center";
+        card.className = "pf-card p-4 cursor-pointer transition-all relative group flex justify-between items-center";
+        card.style.borderColor = 'var(--pf-border)';
+        card.onmouseenter = () => card.style.borderColor = accent;
+        card.onmouseleave = () => card.style.borderColor = 'var(--pf-border)';
         card.onclick = () => handleWizardAnswer(choice);
         card.innerHTML = `
-            <div class="space-y-1 pr-6">
-                <p class="font-semibold text-slate-900 text-sm">${choice.label}</p>
-                <span class="text-[10px] text-slate-400 font-medium uppercase tracking-wider">${choice.action} Decision</span>
+            <div class="space-y-1.5 pr-6">
+                <p class="font-medium text-sm" style="color:var(--pf-text)">${choice.label}</p>
+                <span class="pf-mono text-[10px] uppercase tracking-wider" style="color:${accent}">${choice.action} Decision</span>
             </div>
-            <div class="w-6 h-6 rounded-full border border-slate-200 group-hover:border-blue-500 group-hover:bg-blue-50 flex items-center justify-center shrink-0">
-                <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-slate-400 group-hover:text-blue-600"></i>
+            <div class="w-8 h-8 rounded-full border flex items-center justify-center shrink-0" style="border-color:${accent}">
+                <i data-lucide="chevron-right" class="w-4 h-4" style="color:${accent}"></i>
             </div>`;
         choicesContainer.appendChild(card);
     });
