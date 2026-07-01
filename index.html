@@ -63,6 +63,19 @@
         .pf-input { background:var(--pf-bg); border:1.5px solid var(--pf-border); border-radius:.75rem; color:var(--pf-text); }
         .pf-input:focus { outline:none; border-color:var(--pf-accent); }
 
+        /* Hero motion + interactive lifts */
+        @keyframes pfFadeUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+        .pf-fade { opacity:0; }
+        .pf-animate .pf-fade { animation:pfFadeUp .6s cubic-bezier(.2,.7,.2,1) forwards; }
+        .pf-animate .pf-d1 { animation-delay:.04s; } .pf-animate .pf-d2 { animation-delay:.14s; }
+        .pf-animate .pf-d3 { animation-delay:.26s; } .pf-animate .pf-d4 { animation-delay:.40s; }
+        .pf-btn { transition:transform .18s ease, background .18s ease; }
+        .pf-btn:hover { transform:translateY(-1px); }
+        /* Menu interactive rows + live preview */
+        .pf-menu-row { transition:background .2s ease, padding-left .2s ease; border-radius:.5rem; }
+        .pf-menu-row:hover { background:rgba(255,255,255,0.04); padding-left:.75rem; }
+        #pf-menu-preview { transition:opacity .2s ease; }
+
         /* ---- Global reskin layer: map legacy Tailwind neutrals to the
                 palette so every view adopts the base look ahead of its
                 per-view polish. Semantic emerald/amber/rose are left alone. ---- */
@@ -147,26 +160,26 @@
     <div class="max-w-6xl mx-auto px-6 md:px-10 pt-16 pb-24 grid grid-cols-1 lg:grid-cols-3 gap-16">
         <div class="lg:col-span-2">
             <p class="pf-mono text-xs tracking-widest" style="color:var(--pf-accent-dark)">NAVIGATION</p>
-            <div class="mt-8 divide-y divide-white/10 border-y border-white/10">
-                <button onclick="pfNav('checkpoint')" class="w-full group flex items-center gap-6 py-6 text-left">
+            <div class="mt-8 divide-y divide-white/10 border-y border-white/10" onmouseleave="pfPreview(null)">
+                <button onclick="pfNav('checkpoint')" onmouseenter="pfPreview('checkpoint')" class="pf-menu-row w-full group flex items-center gap-6 py-6 text-left">
                     <span class="pf-mono text-xs text-white/40">01</span>
                     <span class="text-3xl sm:text-4xl pf-display text-white flex-1">Active Checkpoint</span>
                     <span class="pf-pill pf-pill-dark">Live</span>
                     <i data-lucide="arrow-up-right" class="w-5 h-5 text-white/50 group-hover:text-white transition-colors"></i>
                 </button>
-                <button onclick="pfNav('map')" class="w-full group flex items-center gap-6 py-6 text-left">
+                <button onclick="pfNav('map')" onmouseenter="pfPreview('map')" class="pf-menu-row w-full group flex items-center gap-6 py-6 text-left">
                     <span class="pf-mono text-xs text-white/40">02</span>
                     <span class="text-3xl sm:text-4xl pf-display text-white flex-1">8-Gate Stage Framework</span>
                     <span class="pf-pill pf-pill-dark">Beta</span>
                     <i data-lucide="arrow-up-right" class="w-5 h-5 text-white/50 group-hover:text-white transition-colors"></i>
                 </button>
-                <button onclick="pfNav('wizard')" class="w-full group flex items-center gap-6 py-6 text-left">
+                <button onclick="pfNav('wizard')" onmouseenter="pfPreview('wizard')" class="pf-menu-row w-full group flex items-center gap-6 py-6 text-left">
                     <span class="pf-mono text-xs text-white/40">03</span>
                     <span class="text-3xl sm:text-4xl pf-display text-white flex-1">Cohort Due Diligence</span>
                     <span class="pf-pill pf-pill-dark">Core</span>
                     <i data-lucide="arrow-up-right" class="w-5 h-5 text-white/50 group-hover:text-white transition-colors"></i>
                 </button>
-                <button onclick="pfNav('rationale')" class="w-full group flex items-center gap-6 py-6 text-left">
+                <button onclick="pfNav('rationale')" onmouseenter="pfPreview('rationale')" class="pf-menu-row w-full group flex items-center gap-6 py-6 text-left">
                     <span class="pf-mono text-xs text-white/40">04</span>
                     <span class="text-3xl sm:text-4xl pf-display text-white flex-1">Lifecycle Rationale</span>
                     <span class="pf-pill pf-pill-dark">Reference</span>
@@ -175,8 +188,12 @@
             </div>
         </div>
         <div>
-            <p class="pf-mono text-xs tracking-widest" style="color:var(--pf-accent-dark)">TOOLS</p>
-            <div class="mt-8 flex flex-col gap-4">
+            <p class="pf-mono text-xs tracking-widest" style="color:var(--pf-accent-dark)">PREVIEW</p>
+            <div id="pf-menu-preview" class="mt-6 min-h-[7rem]">
+                <p class="text-white/40 text-sm">Hover a section to preview.</p>
+            </div>
+            <p class="pf-mono text-xs tracking-widest mt-12" style="color:var(--pf-accent-dark)">TOOLS</p>
+            <div class="mt-6 flex flex-col gap-4">
                 <button onclick="pfNav('sandbox')" class="text-left text-white/80 hover:text-white transition-colors">AI Sandbox &amp; Prompt Architect</button>
                 <button onclick="pfNav('usability')" class="text-left text-white/80 hover:text-white transition-colors">Usability Tester</button>
                 <button onclick="closeMenu(); showBuildSyntheticUsersGuide()" class="text-left text-white/80 hover:text-white transition-colors">How to Build Synthetic Users</button>
@@ -189,6 +206,21 @@
 function openMenu(){ const m=document.getElementById('pf-menu'); if(m){ m.classList.remove('hidden'); document.body.style.overflow='hidden'; if(window.lucide) lucide.createIcons(); } }
 function closeMenu(){ const m=document.getElementById('pf-menu'); if(m){ m.classList.add('hidden'); document.body.style.overflow=''; } }
 function pfNav(view){ closeMenu(); switchView(view); }
+const PF_PREVIEWS = {
+    checkpoint: { pill:'Live', title:'Active Checkpoint', body:'Run one decision through the loop — triage, frame, inspect, ship. Get an honest verdict on where synthetic users help and where you need real humans before you ship.' },
+    map:        { pill:'Beta', title:'8-Gate Stage Framework', body:'The staged reference model. Click any gate to inspect its operational guidance, risk alignment, and where it sits in the product and AI lifecycles.' },
+    wizard:     { pill:'Core', title:'Cohort Due Diligence', body:'An 8-gate due-diligence check you walk before running a synthetic cohort. Every gate is a clear proceed or stop decision.' },
+    rationale:  { pill:'Reference', title:'Lifecycle Rationale', body:'A positioning matrix showing where synthetic users genuinely help across the standard and agentic lifecycles — and where only real humans will do.' }
+};
+function pfPreview(key){
+    const el = document.getElementById('pf-menu-preview');
+    if (!el) return;
+    const p = key && PF_PREVIEWS[key];
+    if (!p) { el.innerHTML = '<p class="text-white/40 text-sm">Hover a section to preview.</p>'; return; }
+    el.innerHTML = `<span class="pf-pill pf-pill-dark mb-3">${p.pill}</span>
+        <p class="pf-display text-2xl text-white mt-3">${p.title}</p>
+        <p class="text-white/60 text-sm mt-2 leading-relaxed">${p.body}</p>`;
+}
 function toggleKeyPopover(e){ if(e) e.stopPropagation(); const p=document.getElementById('pf-key-popover'); if(p) p.classList.toggle('hidden'); }
 document.addEventListener('click', function(e){
     const p=document.getElementById('pf-key-popover');
@@ -203,19 +235,19 @@ document.addEventListener('keydown', function(e){ if(e.key==='Escape'){ closeMen
 <div id="view-home" class="space-y-8">
 
     <!-- HERO -->
-    <div class="pf-dark rounded-2xl px-6 py-10 sm:px-12 sm:py-16 relative overflow-hidden">
+    <div id="pf-hero" class="pf-dark pf-animate rounded-2xl px-6 py-10 sm:px-12 sm:py-16 relative overflow-hidden">
         <!-- tool pill row -->
-        <div class="flex flex-wrap gap-2 mb-10">
+        <div class="pf-fade pf-d1 flex flex-wrap gap-2 mb-10">
             <button onclick="switchView('sandbox')" class="pf-pill pf-pill-dark">AI Sandbox &amp; Prompt Architect</button>
             <button onclick="switchView('usability')" class="pf-pill pf-pill-dark">Usability Tester</button>
             <button onclick="switchView('rationale')" class="pf-pill pf-pill-dark">Lifecycle Rationale</button>
             <button onclick="showBuildSyntheticUsersGuide()" class="pf-pill pf-pill-dark">How to Build Synthetic Users</button>
             <button onclick="showUsabilityGuide()" class="pf-pill pf-pill-dark">Usability Evaluation Guide</button>
         </div>
-        <p class="pf-mono text-xs tracking-[0.2em] uppercase" style="color:var(--pf-accent-dark)">The Preflight Check for Synthetic Users</p>
-        <h1 class="pf-display text-4xl sm:text-6xl mt-5 max-w-4xl text-white">When AI builds at full speed, where do synthetic users help<span class="text-white/45"> — and where will they fool you?</span></h1>
-        <p class="mt-8 max-w-xl text-white/60 leading-relaxed">You go from <span class="pf-accent-dark">intent</span> to a working screen in one continuous loop: intent → generate → inspect → iterate → ship. There is no natural pause to validate.</p>
-        <div class="mt-10 flex flex-wrap gap-3">
+        <p class="pf-fade pf-d1 pf-mono text-xs tracking-[0.2em] uppercase" style="color:var(--pf-accent-dark)">The Preflight Check for Synthetic Users</p>
+        <h1 class="pf-fade pf-d2 pf-display text-4xl sm:text-6xl mt-5 max-w-4xl text-white">When AI builds at full speed, where do synthetic users help<span class="text-white/45"> — and where will they fool you?</span></h1>
+        <p class="pf-fade pf-d3 mt-8 max-w-xl text-white/60 leading-relaxed">You go from <span class="pf-accent-dark">intent</span> to a working screen in one continuous loop: intent → generate → inspect → iterate → ship. There is no natural pause to validate.</p>
+        <div class="pf-fade pf-d4 mt-10 flex flex-wrap gap-3">
             <button onclick="switchView('checkpoint')" class="pf-btn pf-btn-primary">Run a checkpoint</button>
             <a href="#cp-loop-diagram" class="pf-btn pf-btn-ondark">See the loop</a>
         </div>
@@ -1213,6 +1245,7 @@ function switchView(view) {
         restartWizard();
     }
     if (view === 'checkpoint' && typeof cpMaybeShowResume === 'function') cpMaybeShowResume();
+    if (view === 'home') { const hero = document.getElementById('pf-hero'); if (hero) { hero.classList.remove('pf-animate'); void hero.offsetWidth; hero.classList.add('pf-animate'); } }
 }
 
 function switchRationaleMode(mode) {
