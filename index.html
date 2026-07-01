@@ -71,12 +71,12 @@
         .pf-animate .pf-d3 { animation-delay:.26s; } .pf-animate .pf-d4 { animation-delay:.40s; }
         .pf-btn { transition:transform .18s ease, background .18s ease; }
         .pf-btn:hover { transform:translateY(-1px); }
-        /* Menu interactive rows + live preview */
-        .pf-menu-row { transition:background .2s ease, padding-left .2s ease; border-radius:.5rem; }
-        .pf-menu-row:hover { background:rgba(255,255,255,0.04); padding-left:.75rem; }
-        #pf-menu-preview { transition:opacity .2s ease; }
-        @keyframes pfPreviewIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
-        .pf-preview-in { animation:pfPreviewIn .28s cubic-bezier(.2,.7,.2,1) forwards; }
+        /* Menu rows: only the title changes color on hover — no background, no shift */
+        .pf-navtitle { transition:color .25s ease; }
+        .pf-menu-row:hover .pf-navtitle { color:var(--pf-accent); }
+        /* Live preview: smooth slide-up + fade, the only motion in the menu */
+        @keyframes pfPreviewIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+        .pf-preview-in { animation:pfPreviewIn .45s ease forwards; }
 
         /* ---- Global reskin layer: map legacy Tailwind neutrals to the
                 palette so every view adopts the base look ahead of its
@@ -159,31 +159,31 @@
         </div>
         <button onclick="closeMenu()" class="pf-mono text-xs tracking-widest text-white flex items-center gap-2">CLOSE <span class="w-7 h-7 rounded-full border border-white/30 flex items-center justify-center"><i data-lucide="x" class="w-4 h-4"></i></span></button>
     </div>
-    <div class="max-w-6xl mx-auto px-6 md:px-10 pt-16 pb-24 grid grid-cols-1 lg:grid-cols-3 gap-16">
+    <div class="max-w-6xl mx-auto px-6 md:px-10 pt-32 pb-24 grid grid-cols-1 lg:grid-cols-3 gap-16">
         <div class="lg:col-span-2">
             <p class="pf-mono text-xs tracking-widest" style="color:var(--pf-accent-dark)">NAVIGATION</p>
             <div class="mt-8 divide-y divide-white/10 border-y border-white/10" onmouseleave="pfPreview(null)">
                 <button onclick="pfNav('checkpoint')" onmouseenter="pfPreview('checkpoint')" class="pf-menu-row w-full group flex items-center gap-6 py-6 text-left">
                     <span class="pf-mono text-xs text-white/40">01</span>
-                    <span class="text-3xl sm:text-4xl pf-display text-white flex-1">Active Checkpoint</span>
+                    <span class="pf-navtitle text-3xl sm:text-4xl pf-display text-white flex-1">Active Checkpoint</span>
                     <span class="pf-pill pf-pill-dark">Live</span>
                     <i data-lucide="arrow-up-right" class="w-5 h-5 text-white/50 group-hover:text-white transition-colors"></i>
                 </button>
                 <button onclick="pfNav('map')" onmouseenter="pfPreview('map')" class="pf-menu-row w-full group flex items-center gap-6 py-6 text-left">
                     <span class="pf-mono text-xs text-white/40">02</span>
-                    <span class="text-3xl sm:text-4xl pf-display text-white flex-1">8-Gate Stage Framework</span>
+                    <span class="pf-navtitle text-3xl sm:text-4xl pf-display text-white flex-1">8-Gate Stage Framework</span>
                     <span class="pf-pill pf-pill-dark">Beta</span>
                     <i data-lucide="arrow-up-right" class="w-5 h-5 text-white/50 group-hover:text-white transition-colors"></i>
                 </button>
                 <button onclick="pfNav('wizard')" onmouseenter="pfPreview('wizard')" class="pf-menu-row w-full group flex items-center gap-6 py-6 text-left">
                     <span class="pf-mono text-xs text-white/40">03</span>
-                    <span class="text-3xl sm:text-4xl pf-display text-white flex-1">Cohort Due Diligence</span>
+                    <span class="pf-navtitle text-3xl sm:text-4xl pf-display text-white flex-1">Cohort Due Diligence</span>
                     <span class="pf-pill pf-pill-dark">Core</span>
                     <i data-lucide="arrow-up-right" class="w-5 h-5 text-white/50 group-hover:text-white transition-colors"></i>
                 </button>
                 <button onclick="pfNav('rationale')" onmouseenter="pfPreview('rationale')" class="pf-menu-row w-full group flex items-center gap-6 py-6 text-left">
                     <span class="pf-mono text-xs text-white/40">04</span>
-                    <span class="text-3xl sm:text-4xl pf-display text-white flex-1">Lifecycle Rationale</span>
+                    <span class="pf-navtitle text-3xl sm:text-4xl pf-display text-white flex-1">Lifecycle Rationale</span>
                     <span class="pf-pill pf-pill-dark">Reference</span>
                     <i data-lucide="arrow-up-right" class="w-5 h-5 text-white/50 group-hover:text-white transition-colors"></i>
                 </button>
