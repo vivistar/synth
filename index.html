@@ -564,18 +564,6 @@ document.addEventListener('DOMContentLoaded', pfUpdateHeader);
         </div>
     </div>
 </div>
-<div class="bg-gradient-to-br from-indigo-900 via-indigo-950 to-slate-900 rounded-xl p-6 text-white shadow-md relative overflow-hidden">
-    <div class="absolute -right-10 -bottom-10 opacity-10"><i data-lucide="brain-circuit" class="w-32 h-32 animate-pulse"></i></div>
-    <div class="relative z-10">
-        <span class="bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 px-2 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-wider">SaaS Diagnostic Screener</span>
-        <h4 class="font-bold text-lg mt-2 mb-2 flex items-center gap-2"><i data-lucide="zap" class="text-amber-400"></i> SaaS Risk Screener</h4>
-        <p class="text-xs text-indigo-200 mb-4 leading-relaxed">Type your SaaS feature, pricing, or onboarding hypothesis. The AI will run it against the 8-gate SaaS governance model to analyze feasibility issues.</p>
-        <textarea id="ai-screener-input" placeholder="e.g. We want to test a synthetic user cohort representing corporate IT directors to evaluate moving our enterprise self-serve plan limit from 10 users to 50 users." class="w-full h-24 bg-slate-900/80 border border-indigo-700/50 rounded-lg p-2.5 text-xs text-slate-100 placeholder-slate-400 focus:outline-none focus:border-indigo-400 transition mb-3 resize-none"></textarea>
-        <button id="ai-screener-btn" onclick="runAiRiskScreener()" class="w-full bg-blue-600 hover:bg-blue-500 active:bg-blue-700 disabled:opacity-60 disabled:cursor-not-allowed text-white text-xs font-semibold py-2.5 rounded-lg transition duration-200 flex items-center justify-center gap-1.5 shadow-sm">
-            <i data-lucide="cpu" class="w-4 h-4"></i> Run SaaS Gate Assessment
-        </button>
-    </div>
-</div>
 </div>
 </div>
 </div>
@@ -1233,17 +1221,49 @@ document.addEventListener('DOMContentLoaded', pfUpdateHeader);
 </div>
 
 <!-- Footer (Enhancement #21) -->
-<footer class="bg-white border-t border-slate-200 mt-16 py-8">
-    <div class="max-w-7xl mx-auto px-4 text-center text-slate-500 text-xs space-y-2">
-        <p class="font-medium">Preflight &bull; Powered by OpenRouter &bull; <span id="footer-year"></span></p>
-        <p>Always align synthetic persona configurations with physical customer telemetry, support tickets, and direct feedback channels.</p>
-        <!-- <p class="pt-1">A <strong class="text-slate-700">PRIME ISO Services, LLC</strong> product &bull;
-            <a href="terms.html" class="hover:text-slate-800 underline underline-offset-2 transition-colors">Terms of Service</a> &bull;
-            <a href="privacy.html" class="hover:text-slate-800 underline underline-offset-2 transition-colors">Privacy Policy</a> &bull;
-            <a href="trust.html" class="hover:text-slate-800 underline underline-offset-2 transition-colors">Trust Center</a>
-        </p> -->
-        <p><a href="references.html" class="hover:text-slate-800 underline underline-offset-2 transition-colors">References</a> &bull; Licensed under <a href="https://www.apache.org/licenses/LICENSE-2.0" target="_blank" class="hover:text-slate-800 underline underline-offset-2 transition-colors">Apache-2.0</a> &bull; <a href="https://github.com/vivistar/synth" target="_blank" class="hover:text-slate-800 underline underline-offset-2 transition-colors">github.com/vivistar/synth</a></p>
-        <p>&copy; Terry M Patterson. All rights reserved.</p>
+<footer class="pf-dark mt-16">
+    <div class="max-w-6xl mx-auto px-6 md:px-10 py-14">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10">
+            <div class="lg:col-span-5">
+                <div class="flex items-center gap-2.5">
+                    <span class="w-5 h-5 rounded-md" style="background:var(--pf-accent)"></span>
+                    <span class="pf-mono text-sm font-semibold tracking-[0.18em] text-white">PREFLIGHT</span>
+                </div>
+                <p class="text-sm text-white/50 mt-4 max-w-xs leading-relaxed">SaaS Preflight Check for Synthetic Users — know when to trust AI, and when to send in the humans.</p>
+            </div>
+            <div class="lg:col-span-3">
+                <p class="pf-mono text-[11px] tracking-widest text-white/40">PAGES</p>
+                <div class="mt-5 flex flex-col gap-3 items-start">
+                    <button onclick="switchView('home')" class="text-sm text-white/80 hover:text-white transition-colors">Home</button>
+                    <button onclick="switchView('checkpoint')" class="text-sm text-white/80 hover:text-white transition-colors">Active Checkpoint</button>
+                    <button onclick="switchView('wizard')" class="text-sm text-white/80 hover:text-white transition-colors">Cohort Due Diligence</button>
+                    <button onclick="switchView('map')" class="text-sm text-white/80 hover:text-white transition-colors">Interactive Map</button>
+                </div>
+            </div>
+            <div class="lg:col-span-4">
+                <p class="pf-mono text-[11px] tracking-widest text-white/40">RESOURCES</p>
+                <div class="mt-5 flex flex-col gap-3 items-start">
+                    <button onclick="switchView('sandbox')" class="text-sm text-white/80 hover:text-white transition-colors">AI Sandbox &amp; Prompt Architect</button>
+                    <button onclick="switchView('usability')" class="text-sm text-white/80 hover:text-white transition-colors">Usability Tester</button>
+                    <button onclick="switchView('rationale')" class="text-sm text-white/80 hover:text-white transition-colors">Lifecycle Rationale</button>
+                    <button onclick="showBuildSyntheticUsersGuide()" class="text-sm text-white/80 hover:text-white transition-colors">How to Build Synthetic Users</button>
+                    <button onclick="showUsabilityGuide()" class="text-sm text-white/80 hover:text-white transition-colors">Usability Evaluation Guide</button>
+                </div>
+            </div>
+        </div>
+        <p class="text-center text-white/50 text-sm mt-16 max-w-2xl mx-auto leading-relaxed">Always align synthetic persona configurations with physical customer telemetry, support tickets, and direct feedback channels.</p>
+        <div class="flex flex-wrap items-center justify-center gap-x-3 gap-y-2 mt-6 text-xs text-white/50">
+            <a href="references.html" class="hover:text-white underline underline-offset-2 transition-colors">References</a>
+            <span class="text-white/20">·</span>
+            <a href="https://www.apache.org/licenses/LICENSE-2.0" target="_blank" class="hover:text-white underline underline-offset-2 transition-colors">Apache-2.0</a>
+            <span class="text-white/20">·</span>
+            <a href="https://github.com/vivistar/synth" target="_blank" class="hover:text-white underline underline-offset-2 transition-colors">github.com/vivistar/synth</a>
+        </div>
+        <div class="mt-10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3" style="border-top:1px solid var(--pf-border-dark)">
+            <p class="pf-mono text-[11px] text-white/40">Preflight · Powered by OpenRouter · <span id="footer-year"></span></p>
+            <p class="text-xs text-white/40">&copy; Terry M Patterson. All rights reserved.</p>
+            <p class="pf-mono text-[11px] text-white/40 flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full" style="background:var(--pf-success)"></span> All systems nominal</p>
+        </div>
     </div>
 </footer>
 <script>
@@ -3532,6 +3552,12 @@ window.addEventListener('DOMContentLoaded', () => {
     // Set footer year (Enhancement #21)
     const yearEl = document.getElementById('footer-year');
     if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+    // Deep-link support: index.html#checkpoint etc. (used by cross-page footer links)
+    const hv = (location.hash || '').replace('#', '');
+    if (['home','checkpoint','wizard','map','sandbox','usability','rationale'].includes(hv)) {
+        switchView(hv);
+    }
 
     // Enhancement #18: ensure map button has active styling on load
     // switchView calls handle this, but on initial load map is already shown via HTML
