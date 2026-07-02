@@ -1308,7 +1308,7 @@ document.addEventListener('DOMContentLoaded', pfUpdateHeader);
         </div>
         <div class="mt-10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3" style="border-top:1px solid var(--pf-border-dark)">
             <p class="pf-mono text-[11px] text-white/40">Preflight · Powered by OpenRouter · <span id="footer-year"></span></p>
-            <p class="text-xs text-white/40">&copy; 2026 Terry M. Patterson &middot; Licensed under Apache-2.0</p>
+            <p class="text-xs text-white/40">&copy; <span class="pf-year"></span> Terry M. Patterson &middot; Licensed under Apache-2.0</p>
             <p class="pf-mono text-[11px] text-white/40 flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full" style="background:var(--pf-success)"></span> All systems nominal</p>
         </div>
     </div>
@@ -3596,9 +3596,8 @@ e.g. "Name their workspace and continue to the next step."
 
 // ===================== BOOTSTRAPPER =====================
 window.addEventListener('DOMContentLoaded', () => {
-    // Set footer year (Enhancement #21)
-    const yearEl = document.getElementById('footer-year');
-    if (yearEl) yearEl.textContent = new Date().getFullYear();
+    // Set footer year (Enhancement #21) — both the powered-by line and the copyright span
+    document.querySelectorAll('#footer-year, .pf-year').forEach(el => el.textContent = new Date().getFullYear());
 
     // Deep-link support: index.html#checkpoint etc. (used by cross-page footer links)
     const hv = (location.hash || '').replace('#', '');
