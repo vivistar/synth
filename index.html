@@ -658,64 +658,65 @@ document.addEventListener('DOMContentLoaded', pfUpdateHeader);
 </div>
 <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
 <div class="lg:col-span-5 space-y-4">
-    <!-- Quick Templates (Enhancement #10) -->
-    <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
+    <!-- Quick Templates -->
+    <div class="pf-card p-5">
         <div class="flex items-center gap-2 mb-3">
-            <i data-lucide="zap" class="w-4 h-4 text-amber-500"></i>
-            <h4 class="text-sm font-bold text-slate-900">Quick Templates</h4>
-            <span class="text-[10px] text-slate-400 ml-auto">Pre-fill all fields instantly</span>
+            <i data-lucide="zap" class="w-4 h-4" style="color:var(--pf-amber)"></i>
+            <h4 class="text-sm font-semibold" style="color:var(--pf-text)">Quick templates</h4>
+            <span class="pf-mono text-[10px] ml-auto" style="color:var(--pf-text2)">Pre-fills all fields instantly</span>
         </div>
         <div class="flex flex-wrap gap-2">
-            <button onclick="applyTemplate('enterprise-mfa')" class="text-[11px] font-semibold bg-blue-50 hover:bg-blue-100 text-blue-800 border border-blue-200 px-2.5 py-1.5 rounded-lg transition-all">Enterprise IT Admin Testing MFA</button>
-            <button onclick="applyTemplate('free-tier-limits')" class="text-[11px] font-semibold bg-indigo-50 hover:bg-indigo-100 text-indigo-800 border border-indigo-200 px-2.5 py-1.5 rounded-lg transition-all">Free Tier Dev Hitting Seat Limits</button>
-            <button onclick="applyTemplate('smb-upgrade')" class="text-[11px] font-semibold bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 px-2.5 py-1.5 rounded-lg transition-all">SMB Finance Lead Evaluating Upgrade</button>
+            <button onclick="applyTemplate('enterprise-mfa')" class="pf-pill">Enterprise IT Admin Testing MFA</button>
+            <button onclick="applyTemplate('free-tier-limits')" class="pf-pill">Free Tier Dev Hitting Seat Limits</button>
+            <button onclick="applyTemplate('smb-upgrade')" class="pf-pill">SMB Finance Lead Evaluating Upgrade</button>
         </div>
     </div>
-    <!-- Config Form -->
-    <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm space-y-5">
-        <div>
-            <div class="flex items-center gap-2 mb-2">
-                <span class="bg-blue-100 text-blue-800 text-xs px-2.5 py-1 rounded-full font-bold uppercase tracking-wider flex items-center gap-1">
-                    <i data-lucide="cog" class="w-3.5 h-3.5"></i> SaaS Console
-                </span>
+
+    <!-- Step 1 -->
+    <div class="pf-card p-6 space-y-4">
+        <div class="flex items-start gap-3">
+            <span class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-semibold shrink-0" style="background:var(--pf-accent);color:#fff">1</span>
+            <div>
+                <h4 class="font-semibold" style="color:var(--pf-text)">What decision are you testing?</h4>
+                <p class="text-xs mt-0.5" style="color:var(--pf-text2)">The specific SaaS product or UX change under evaluation</p>
             </div>
-            <h3 class="text-xl font-bold text-slate-900">Synthetic Persona Architect</h3>
-            <p class="text-xs text-slate-500 mt-1">Generate SaaS-specific prompt files utilizing Step 5 &amp; 8 with automated guardrails.</p>
+        </div>
+        <textarea id="architect-decision" placeholder="e.g. Forcing active enterprise SaaS managers to undergo an automated 2-step verification layout change to secure team databases." class="pf-input w-full text-sm p-3" rows="3"></textarea>
+        <p class="text-xs" style="color:var(--pf-text2)">Required to build the persona prompt.</p>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="pf-card p-6 space-y-4">
+        <div class="flex items-start gap-3">
+            <span class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-semibold shrink-0" style="background:var(--pf-accent);color:#fff">2</span>
+            <div>
+                <h4 class="font-semibold" style="color:var(--pf-text)">Who is the synthetic user?</h4>
+                <p class="text-xs mt-0.5" style="color:var(--pf-text2)">Role, tier, and behavioral profile shape the simulation</p>
+            </div>
         </div>
         <div>
-            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">SaaS Product Decision</label>
-            <textarea id="architect-decision" placeholder="e.g. Forcing active enterprise SaaS managers to undergo an automated 2-step verification layout change to secure team databases." class="w-full text-xs p-2.5 border border-slate-200 rounded-lg focus:outline-none focus:border-blue-500" rows="2"></textarea>
-        </div>
-        <div>
-            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Target Persona / Tier Level Profile</label>
-            <input type="text" id="architect-audience" placeholder="e.g. Free Tier developer users on AWS cloud deployments who spend zero budget but request high resource limits" class="w-full text-xs p-2.5 border border-slate-200 rounded-lg focus:outline-none focus:border-blue-500">
-        </div>
-        <div>
-            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Real SaaS Usage Baseline Data (Step 4 &amp; 6 Grounding)</label>
-            <textarea id="architect-data" placeholder="e.g. CS logs: Standard developers complain heavily about security steps that add > 30 seconds to setup times. Out of 100 tested, 45 abandoned onboarding entirely when MFA was enabled." class="w-full text-xs p-2.5 border border-slate-200 rounded-lg focus:outline-none focus:border-blue-500 h-24" rows="3"></textarea>
+            <label class="pf-mono block text-[11px] uppercase tracking-wider mb-1.5" style="color:var(--pf-text2)">Target persona &amp; tier</label>
+            <input type="text" id="architect-audience" placeholder="e.g. Free Tier developer users on AWS cloud deployments" class="pf-input w-full text-sm p-2.5">
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">SaaS User Permissions</label>
-                <select id="architect-expertise" class="w-full text-xs p-2 border border-slate-200 rounded-lg outline-none focus:border-blue-500">
+                <label class="pf-mono block text-[11px] uppercase tracking-wider mb-1.5" style="color:var(--pf-text2)">User permissions</label>
+                <select id="architect-expertise" class="pf-input w-full text-sm p-2">
                     <option value="highly specialized security administrator with full IAM privileges">Admin / IAM Owner</option>
                     <option value="standard daily active worker with low interface privileges">Standard Non-Admin User</option>
                     <option value="external contract operator with read-only dashboard levels">Guest / Read-Only</option>
                 </select>
             </div>
             <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Persona Biases</label>
-                <select id="architect-bias" class="w-full text-xs p-2 border border-slate-200 rounded-lg outline-none focus:border-blue-500">
+                <label class="pf-mono block text-[11px] uppercase tracking-wider mb-1.5" style="color:var(--pf-text2)">Persona bias</label>
+                <select id="architect-bias" class="pf-input w-full text-sm p-2">
                     <option value="severe cognitive load friction, low patience, zero toleration for workflow delays">Friction Sensitive</option>
                     <option value="fully cooperative rational enterprise corporate user">Hyper-Rational Corporate</option>
                 </select>
             </div>
-        </div>
-        <!-- Extra fields (Enhancement #11) -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Company Size</label>
-                <select id="architect-company-size" class="w-full text-xs p-2 border border-slate-200 rounded-lg outline-none focus:border-blue-500">
+                <label class="pf-mono block text-[11px] uppercase tracking-wider mb-1.5" style="color:var(--pf-text2)">Company size</label>
+                <select id="architect-company-size" class="pf-input w-full text-sm p-2">
                     <option value="Startup (1-50 employees)">Startup (1-50)</option>
                     <option value="SMB (51-500 employees)">SMB (51-500)</option>
                     <option value="Mid-Market (501-2000 employees)">Mid-Market (501-2000)</option>
@@ -723,8 +724,8 @@ document.addEventListener('DOMContentLoaded', pfUpdateHeader);
                 </select>
             </div>
             <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Industry Vertical</label>
-                <select id="architect-industry" class="w-full text-xs p-2 border border-slate-200 rounded-lg outline-none focus:border-blue-500">
+                <label class="pf-mono block text-[11px] uppercase tracking-wider mb-1.5" style="color:var(--pf-text2)">Industry vertical</label>
+                <select id="architect-industry" class="pf-input w-full text-sm p-2">
                     <option value="SaaS/Tech industry">SaaS/Tech</option>
                     <option value="Finance/Banking industry">Finance/Banking</option>
                     <option value="Healthcare industry">Healthcare</option>
@@ -733,65 +734,70 @@ document.addEventListener('DOMContentLoaded', pfUpdateHeader);
                 </select>
             </div>
         </div>
-        <div class="pt-2 border-t border-slate-100 flex items-center justify-between gap-4">
-            <button id="build-persona-btn" onclick="generateSystemPrompt()" class="flex-1 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 disabled:opacity-60 disabled:cursor-not-allowed text-white font-semibold text-xs py-2.5 px-4 rounded-lg transition-all flex items-center justify-center gap-1.5 shadow">
-                <i data-lucide="shield-alert" class="w-4 h-4"></i> Build SaaS Persona Prompt
-            </button>
-            <button onclick="clearSandboxConfig()" class="border border-slate-200 hover:bg-slate-50 text-slate-600 font-semibold text-xs py-2.5 px-4 rounded-lg transition-all flex items-center gap-1">
-                <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i> Clear
-            </button>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="pf-card p-6 space-y-4">
+        <div class="flex items-start gap-3">
+            <span class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-semibold shrink-0" style="background:var(--pf-accent);color:#fff">3</span>
+            <div>
+                <h4 class="font-semibold" style="color:var(--pf-text)">Ground in real usage data</h4>
+                <p class="text-xs mt-0.5" style="color:var(--pf-text2)">CS logs, NPS verbatim, session data — prevents stereotype drift</p>
+            </div>
         </div>
+        <textarea id="architect-data" placeholder="e.g. CS logs: Standard developers complain heavily about security steps that add > 30 seconds to setup times. Out of 100 tested, 45 abandoned onboarding entirely when MFA was enabled." class="pf-input w-full text-sm p-3 h-28" rows="3"></textarea>
+        <p class="text-xs" style="color:var(--pf-text2)">Optional but strongly recommended — prevents the persona from defaulting to generic assumptions.</p>
+    </div>
+
+    <!-- Actions -->
+    <div class="flex items-center gap-3">
+        <button id="build-persona-btn" onclick="generateSystemPrompt()" class="pf-btn pf-btn-primary flex-1 disabled:opacity-60 disabled:cursor-not-allowed">
+            <i data-lucide="shield-alert" class="w-4 h-4"></i> Build Persona Prompt
+        </button>
+        <button onclick="clearSandboxConfig()" class="pf-btn pf-btn-secondary">
+            <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i> Clear
+        </button>
     </div>
 </div>
 <!-- Right: Output + Chat -->
 <div class="lg:col-span-7 space-y-6">
-    <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm space-y-3">
-        <div class="flex justify-between items-center">
-            <h4 class="text-sm font-bold text-slate-900 flex items-center gap-1.5"><i data-lucide="file-text" class="text-slate-500"></i> SaaS System Instruction Prompt</h4>
-            <button onclick="copyGeneratedPrompt()" class="text-xs text-blue-600 font-semibold hover:text-blue-700 flex items-center gap-1">
-                <i data-lucide="copy" class="w-3.5 h-3.5"></i> Copy Prompt
-            </button>
+    <!-- System Instruction Prompt (dark header, light body) -->
+    <div class="pf-card overflow-hidden">
+        <div class="pf-dark px-5 py-4 flex justify-between items-center">
+            <h4 class="pf-mono text-xs tracking-wider uppercase text-white flex items-center gap-2"><i data-lucide="file-text" class="w-4 h-4" style="color:var(--pf-accent-dark)"></i> System Instruction Prompt</h4>
+            <button onclick="copyGeneratedPrompt()" class="pf-mono text-[11px] text-white/70 hover:text-white flex items-center gap-1"><i data-lucide="copy" class="w-3.5 h-3.5"></i> Copy</button>
         </div>
-        <!-- Editable prompt (Enhancement #12) -->
-        <textarea id="sandbox-system-prompt" class="w-full h-32 bg-slate-50 border border-slate-100 rounded-lg p-3 text-xs text-slate-600 font-mono resize-none focus:outline-none focus:border-blue-400 transition" placeholder="Instruction prompt will auto-generate here..."></textarea>
-        <p class="text-[11px] text-slate-400 italic">You can edit this prompt before starting the session.</p>
-        <!-- Prompt quality badge (Enhancement #16) -->
-        <div id="prompt-quality-badge" class="hidden text-[11px] font-semibold px-2.5 py-1 rounded-full w-fit"></div>
+        <div class="p-6 space-y-3">
+            <textarea id="sandbox-system-prompt" class="pf-input pf-mono w-full h-32 p-3 text-xs resize-none" placeholder="Complete the setup on the left and click Build Persona Prompt — the generated system instruction will appear here, ready to edit before launching the simulation."></textarea>
+            <p class="text-[11px] italic" style="color:var(--pf-text2)">You can edit this prompt before starting the session.</p>
+            <div id="prompt-quality-badge" class="hidden text-[11px] font-semibold px-2.5 py-1 rounded-full w-fit"></div>
+        </div>
     </div>
-    <!-- Chat Window -->
-    <div class="bg-slate-900 text-slate-100 border border-slate-800 rounded-xl shadow-lg flex flex-col h-[500px]">
-        <div class="px-5 py-4 border-b border-slate-800 flex justify-between items-center bg-slate-950 rounded-t-xl">
+    <!-- User Simulation Sandbox (dark card) -->
+    <div class="pf-dark rounded-2xl overflow-hidden flex flex-col h-[500px]" style="border:1px solid var(--pf-border-dark)">
+        <div class="px-5 py-4 flex justify-between items-center" style="border-bottom:1px solid var(--pf-border-dark)">
             <div class="flex items-center gap-2.5">
-                <div class="w-3.5 h-3.5 rounded-full bg-blue-500 pulse-soft"></div>
+                <div class="w-2.5 h-2.5 rounded-full pulse-soft" style="background:var(--pf-accent-dark)"></div>
                 <div>
-                    <h4 class="text-xs font-bold tracking-wider uppercase text-blue-400">SaaS User Simulation Sandbox</h4>
-                    <p id="chat-persona-subtitle" class="text-[10px] text-slate-400">Simulation inactive. Configure a persona on the left to launch interview sessions.</p>
+                    <h4 class="pf-mono text-xs tracking-wider uppercase text-white">User Simulation Sandbox <span class="text-white/40 normal-case">activates after prompt is built</span></h4>
+                    <p id="chat-persona-subtitle" class="text-[10px] text-white/50">Simulation inactive. Configure a persona on the left to launch interview sessions.</p>
                 </div>
             </div>
-            <div class="flex items-center gap-2">
-                <!-- Export chat (Enhancement #13) -->
-                <button onclick="exportChatTranscript()" id="export-chat-btn" disabled class="bg-slate-700 hover:bg-slate-600 disabled:opacity-50 disabled:cursor-not-allowed text-white text-[10px] font-bold px-3 py-1.5 rounded flex items-center gap-1 transition-all">
-                    <i data-lucide="download" class="w-3.5 h-3.5"></i> Export Chat
-                </button>
-                <button onclick="auditChatSession()" id="audit-btn" disabled class="bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed text-white text-[10px] font-bold px-3 py-1.5 rounded flex items-center gap-1 transition-all">
-                    <i data-lucide="clipboard-check" class="w-3.5 h-3.5"></i> Audit SaaS Drift (Step 6/8)
-                </button>
-                <button onclick="resetChat()" class="text-slate-400 hover:text-slate-100 transition-colors">
-                    <i data-lucide="trash-2" class="w-4 h-4"></i>
-                </button>
+            <div class="flex items-center gap-3">
+                <button onclick="exportChatTranscript()" id="export-chat-btn" disabled class="pf-mono text-[10px] text-white/70 hover:text-white disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-1"><i data-lucide="download" class="w-3.5 h-3.5"></i> Export</button>
+                <button onclick="auditChatSession()" id="audit-btn" disabled class="pf-mono text-[10px] text-white/70 hover:text-white disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-1"><i data-lucide="clipboard-check" class="w-3.5 h-3.5"></i> Audit Drift</button>
+                <button onclick="resetChat()" class="text-white/50 hover:text-white transition-colors"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
             </div>
         </div>
         <div id="sandbox-messages" class="flex-1 overflow-y-auto p-5 space-y-4 text-xs">
-            <div class="bg-slate-800/50 text-slate-300 p-4 rounded-lg border border-slate-800 text-center space-y-1">
-                <p class="font-bold text-slate-200">Simulation Waiting Room</p>
-                <p class="text-[11px]">Fill in the configuration parameters on the left and click <strong>Build SaaS Persona Prompt</strong>. You can then interview the user, observe how onboarding hurdles affect them, and evaluate alignment with your real-world usage logs.</p>
+            <div class="text-center space-y-1 py-10">
+                <p class="font-semibold text-white/90">Simulation waiting room</p>
+                <p class="text-[11px] text-white/50 max-w-sm mx-auto">Build your persona prompt on the left, then interview your synthetic customer here — ask interface, pricing, or onboarding questions.</p>
             </div>
         </div>
-        <div class="p-3 bg-slate-950 rounded-b-xl border-t border-slate-800 flex gap-2">
-            <input type="text" id="sandbox-chat-input" disabled onkeydown="if(event.key==='Enter')sendSandboxMessage()" placeholder="Ask your customer persona an interface or pricing question..." class="flex-1 bg-slate-900 border border-slate-800 rounded-lg px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-blue-500 placeholder-slate-500">
-            <button id="sandbox-chat-send-btn" disabled onclick="sendSandboxMessage()" class="bg-blue-600 hover:bg-blue-500 active:bg-blue-700 disabled:opacity-60 disabled:cursor-not-allowed text-white font-bold text-xs px-4 py-2.5 rounded-lg transition-colors flex items-center gap-1">
-                Send <i data-lucide="send" class="w-3.5 h-3.5"></i>
-            </button>
+        <div class="p-3 flex gap-2" style="border-top:1px solid var(--pf-border-dark)">
+            <input type="text" id="sandbox-chat-input" disabled onkeydown="if(event.key==='Enter')sendSandboxMessage()" placeholder="Build the persona prompt first..." class="flex-1 rounded-lg px-3.5 py-2.5 text-xs text-white placeholder-white/40 focus:outline-none" style="background:rgba(255,255,255,0.05); border:1px solid var(--pf-border-dark)">
+            <button id="sandbox-chat-send-btn" disabled onclick="sendSandboxMessage()" class="pf-btn pf-btn-primary text-xs disabled:opacity-60 disabled:cursor-not-allowed">Send <i data-lucide="send" class="w-3.5 h-3.5"></i></button>
         </div>
     </div>
 </div>
@@ -808,82 +814,101 @@ document.addEventListener('DOMContentLoaded', pfUpdateHeader);
 
 <!-- Left: Config -->
 <div class="lg:col-span-5 space-y-4">
-    <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm space-y-5">
-        <div>
-            <span class="bg-violet-100 text-violet-800 text-xs px-2.5 py-1 rounded-full font-bold uppercase tracking-wider flex items-center gap-1 w-fit mb-2">
-                <i data-lucide="monitor" class="w-3.5 h-3.5"></i> Usability Tester
-            </span>
-            <h3 class="text-xl font-bold text-slate-900">Synthetic Usability Evaluator</h3>
-            <p class="text-xs text-slate-500 mt-1">Paste a screenshot or describe the interface — the AI thinks aloud as your chosen persona.</p>
+    <!-- Step 1 -->
+    <div class="pf-card p-6 space-y-4">
+        <div class="flex items-start gap-3">
+            <span class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-semibold shrink-0" style="background:var(--pf-accent);color:#fff">1</span>
+            <div>
+                <h4 class="font-semibold" style="color:var(--pf-text)">What are you testing?</h4>
+                <p class="text-xs mt-0.5" style="color:var(--pf-text2)">URL or screenshot — at least one helps the evaluator orient</p>
+            </div>
         </div>
-
         <div>
-            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Interface URL <span class="text-slate-400 normal-case font-normal">(optional, for reference)</span></label>
-            <input type="url" id="usability-url" placeholder="https://app.example.com/onboarding" class="w-full text-xs p-2.5 border border-slate-200 rounded-lg focus:outline-none focus:border-violet-500 font-mono">
+            <label class="pf-mono block text-[11px] uppercase tracking-wider mb-1.5" style="color:var(--pf-text2)">Interface URL <span class="normal-case">(optional)</span></label>
+            <input type="url" id="usability-url" placeholder="https://app.example.com/onboarding" class="pf-input pf-mono w-full text-sm p-2.5">
         </div>
-
-        <!-- Screenshot upload/paste zone -->
         <div>
-            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Screenshot <span class="text-slate-400 normal-case font-normal">(paste, drag &amp; drop, or upload)</span></label>
+            <label class="pf-mono block text-[11px] uppercase tracking-wider mb-1.5" style="color:var(--pf-text2)">Screenshot <span class="normal-case">(paste, drag &amp; drop, or upload)</span></label>
             <div id="usability-drop-zone"
                  ondragover="event.preventDefault();this.classList.add('border-violet-400','bg-violet-50')"
                  ondragleave="this.classList.remove('border-violet-400','bg-violet-50')"
                  ondrop="handleUsabilityImageDrop(event)"
                  onclick="document.getElementById('usability-file-input').click()"
-                 class="relative border-2 border-dashed border-slate-200 rounded-xl p-4 text-center cursor-pointer hover:border-violet-300 hover:bg-violet-50 transition-all group">
+                 class="relative border-2 border-dashed rounded-xl p-4 text-center cursor-pointer transition-all group" style="border-color:var(--pf-border)">
                 <input type="file" id="usability-file-input" accept="image/*" class="hidden" onchange="handleUsabilityFileSelect(event)">
                 <div id="usability-drop-hint" class="space-y-1">
-                    <i data-lucide="image-plus" class="w-8 h-8 text-slate-300 group-hover:text-violet-400 mx-auto transition-colors"></i>
-                    <p class="text-xs text-slate-400">Click to upload or drag &amp; drop</p>
-                    <p class="text-[10px] text-slate-300">Or press <kbd class="bg-slate-100 border border-slate-200 rounded px-1 py-0.5 font-mono">Ctrl+V</kbd> anywhere to paste a screenshot</p>
+                    <i data-lucide="image-plus" class="w-8 h-8 mx-auto" style="color:var(--pf-text2)"></i>
+                    <p class="text-xs" style="color:var(--pf-text2)">Click to upload or drag &amp; drop</p>
+                    <p class="pf-mono text-[10px]" style="color:var(--pf-text2)">Or press <kbd class="border rounded px-1 py-0.5" style="border-color:var(--pf-border)">Ctrl+V</kbd> to paste</p>
                 </div>
-                <img id="usability-preview" src="" alt="Screenshot preview" class="hidden max-h-48 mx-auto rounded-lg shadow-sm object-contain">
+                <img id="usability-preview" src="" alt="Screenshot preview" class="hidden max-h-48 mx-auto rounded-lg object-contain">
                 <button id="usability-clear-img" onclick="clearUsabilityImage(event)" class="hidden absolute top-2 right-2 bg-slate-700 hover:bg-slate-900 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center font-bold leading-none">&times;</button>
             </div>
         </div>
-
         <div>
-            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Additional Description <span class="text-slate-400 normal-case font-normal">(optional if screenshot provided)</span></label>
-            <textarea id="usability-description" rows="3" placeholder="Add any context not visible in the screenshot — e.g. error states, hover effects, copy on previous screen, or what happens after clicking a button." class="w-full text-xs p-2.5 border border-slate-200 rounded-lg focus:outline-none focus:border-violet-500"></textarea>
+            <label class="pf-mono block text-[11px] uppercase tracking-wider mb-1.5" style="color:var(--pf-text2)">Additional context <span class="normal-case">(optional if screenshot provided)</span></label>
+            <textarea id="usability-description" rows="3" placeholder="Describe anything not visible in the screenshot — error states, hover effects, what happens after clicking a button." class="pf-input w-full text-sm p-2.5"></textarea>
         </div>
+    </div>
 
-        <div>
-            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Task to Evaluate</label>
-            <input type="text" id="usability-task" placeholder="e.g. Complete onboarding and reach the dashboard" class="w-full text-xs p-2.5 border border-slate-200 rounded-lg focus:outline-none focus:border-violet-500">
-        </div>
-
-        <div>
-            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Persona</label>
-            <select id="usability-persona-preset" onchange="applyUsabilityPersonaPreset(this.value)" class="w-full text-xs p-2 border border-slate-200 rounded-lg outline-none focus:border-violet-500 mb-2">
-                <option value="">— Choose a quick persona or write your own below —</option>
-                <option value="revops">Mid-market RevOps Manager (non-technical, evaluation committee)</option>
-                <option value="developer">Senior Developer (technical, skeptical of friction)</option>
-                <option value="smb-founder">SMB Founder (time-poor, wears many hats)</option>
-                <option value="enterprise-buyer">Enterprise IT Buyer (security-first, slow to commit)</option>
-                <option value="cs-manager">Customer Success Manager (power user, high expectations)</option>
-            </select>
-            <textarea id="usability-persona" rows="3" placeholder="Describe your synthetic user persona — role, goals, tech comfort level, frustrations, and any relevant context." class="w-full text-xs p-2.5 border border-slate-200 rounded-lg focus:outline-none focus:border-violet-500"></textarea>
-        </div>
-
-        <div>
-            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Evaluation Dimensions</label>
-            <div class="grid grid-cols-2 gap-2">
-                <label class="flex items-center gap-2 text-xs text-slate-600 cursor-pointer"><input type="checkbox" class="usability-dimension rounded" value="First impressions" checked> First impressions</label>
-                <label class="flex items-center gap-2 text-xs text-slate-600 cursor-pointer"><input type="checkbox" class="usability-dimension rounded" value="Navigation clarity" checked> Navigation clarity</label>
-                <label class="flex items-center gap-2 text-xs text-slate-600 cursor-pointer"><input type="checkbox" class="usability-dimension rounded" value="Terminology &amp; labels" checked> Terminology &amp; labels</label>
-                <label class="flex items-center gap-2 text-xs text-slate-600 cursor-pointer"><input type="checkbox" class="usability-dimension rounded" value="Task completion likelihood" checked> Task completion likelihood</label>
-                <label class="flex items-center gap-2 text-xs text-slate-600 cursor-pointer"><input type="checkbox" class="usability-dimension rounded" value="Cognitive load" checked> Cognitive load</label>
-                <label class="flex items-center gap-2 text-xs text-slate-600 cursor-pointer"><input type="checkbox" class="usability-dimension rounded" value="Trust &amp; credibility" checked> Trust &amp; credibility</label>
-                <label class="flex items-center gap-2 text-xs text-slate-600 cursor-pointer"><input type="checkbox" class="usability-dimension rounded" value="Mobile/accessibility concerns"> Mobile/accessibility concerns</label>
-                <label class="flex items-center gap-2 text-xs text-slate-600 cursor-pointer"><input type="checkbox" class="usability-dimension rounded" value="Conversion friction"> Conversion friction</label>
+    <!-- Step 2 -->
+    <div class="pf-card p-6 space-y-4">
+        <div class="flex items-start gap-3">
+            <span class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-semibold shrink-0" style="background:var(--pf-accent);color:#fff">2</span>
+            <div>
+                <h4 class="font-semibold" style="color:var(--pf-text)">What should the user accomplish?</h4>
+                <p class="text-xs mt-0.5" style="color:var(--pf-text2)">A specific task keeps the evaluation focused and actionable</p>
             </div>
         </div>
+        <input type="text" id="usability-task" placeholder="e.g. Complete onboarding and reach the dashboard" class="pf-input w-full text-sm p-2.5">
+        <p class="text-xs" style="color:var(--pf-text2)">Required — the evaluator needs a task to attempt.</p>
+    </div>
 
-        <div class="pt-2 border-t border-slate-100 flex gap-3">
-            <button id="usability-run-btn" onclick="runUsabilityEvaluation()" class="flex-1 bg-violet-600 hover:bg-violet-700 disabled:opacity-60 disabled:cursor-not-allowed text-white font-semibold text-xs py-2.5 px-4 rounded-lg transition-all flex items-center justify-center gap-1.5 shadow">
+    <!-- Step 3 -->
+    <div class="pf-card p-6 space-y-4">
+        <div class="flex items-start gap-3">
+            <span class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-semibold shrink-0" style="background:var(--pf-accent);color:#fff">3</span>
+            <div>
+                <h4 class="font-semibold" style="color:var(--pf-text)">Who is doing the evaluating?</h4>
+                <p class="text-xs mt-0.5" style="color:var(--pf-text2)">Pick a quick persona or describe your own below</p>
+            </div>
+        </div>
+        <select id="usability-persona-preset" onchange="applyUsabilityPersonaPreset(this.value)" class="pf-input w-full text-sm p-2">
+            <option value="">— Choose a quick persona —</option>
+            <option value="revops">Mid-market RevOps Manager (non-technical, evaluation committee)</option>
+            <option value="developer">Senior Developer (technical, skeptical of friction)</option>
+            <option value="smb-founder">SMB Founder (time-poor, wears many hats)</option>
+            <option value="enterprise-buyer">Enterprise IT Buyer (security-first, slow to commit)</option>
+            <option value="cs-manager">Customer Success Manager (power user, high expectations)</option>
+        </select>
+        <textarea id="usability-persona" rows="3" placeholder="Or describe your own — role, goals, tech comfort level, frustrations, and any relevant context." class="pf-input w-full text-sm p-2.5"></textarea>
+        <p class="text-xs" style="color:var(--pf-text2)">Required — the persona determines how the interface is judged.</p>
+    </div>
+
+    <!-- Step 4 -->
+    <div class="pf-card p-6 space-y-4">
+        <div class="flex items-start gap-3">
+            <span class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-semibold shrink-0" style="background:var(--pf-accent);color:#fff">4</span>
+            <div>
+                <h4 class="font-semibold" style="color:var(--pf-text)">What should be evaluated?</h4>
+                <p class="text-xs mt-0.5" style="color:var(--pf-text2)">Core dimensions are on by default</p>
+            </div>
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+            <label class="flex items-center gap-2 text-sm cursor-pointer" style="color:var(--pf-text2)"><input type="checkbox" class="usability-dimension rounded" value="First impressions" checked> First impressions</label>
+            <label class="flex items-center gap-2 text-sm cursor-pointer" style="color:var(--pf-text2)"><input type="checkbox" class="usability-dimension rounded" value="Navigation clarity" checked> Navigation clarity</label>
+            <label class="flex items-center gap-2 text-sm cursor-pointer" style="color:var(--pf-text2)"><input type="checkbox" class="usability-dimension rounded" value="Terminology &amp; labels" checked> Terminology &amp; labels</label>
+            <label class="flex items-center gap-2 text-sm cursor-pointer" style="color:var(--pf-text2)"><input type="checkbox" class="usability-dimension rounded" value="Task completion likelihood" checked> Task completion likelihood</label>
+            <label class="flex items-center gap-2 text-sm cursor-pointer" style="color:var(--pf-text2)"><input type="checkbox" class="usability-dimension rounded" value="Cognitive load" checked> Cognitive load</label>
+            <label class="flex items-center gap-2 text-sm cursor-pointer" style="color:var(--pf-text2)"><input type="checkbox" class="usability-dimension rounded" value="Trust &amp; credibility" checked> Trust &amp; credibility</label>
+            <label class="flex items-center gap-2 text-sm cursor-pointer" style="color:var(--pf-text2)"><input type="checkbox" class="usability-dimension rounded" value="Mobile/accessibility concerns"> Mobile / accessibility</label>
+            <label class="flex items-center gap-2 text-sm cursor-pointer" style="color:var(--pf-text2)"><input type="checkbox" class="usability-dimension rounded" value="Conversion friction"> Conversion friction</label>
+        </div>
+        <div class="pt-2 flex gap-3">
+            <button id="usability-run-btn" onclick="runUsabilityEvaluation()" class="pf-btn pf-btn-primary flex-1 disabled:opacity-60 disabled:cursor-not-allowed">
                 <i data-lucide="play" class="w-4 h-4"></i> Run Evaluation
             </button>
-            <button onclick="clearUsabilityForm()" class="border border-slate-200 hover:bg-slate-50 text-slate-600 font-semibold text-xs py-2.5 px-4 rounded-lg transition-all flex items-center gap-1">
+            <button onclick="clearUsabilityForm()" class="pf-btn pf-btn-secondary">
                 <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i> Clear
             </button>
         </div>
@@ -892,44 +917,39 @@ document.addEventListener('DOMContentLoaded', pfUpdateHeader);
 
 <!-- Right: Results + Follow-up chat -->
 <div class="lg:col-span-7 space-y-6">
-    <!-- Report panel -->
-    <div id="usability-report-panel" class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
-        <div class="bg-slate-900 px-5 py-4 flex items-center justify-between">
-            <div class="flex items-center gap-2.5">
-                <div class="w-3 h-3 rounded-full bg-violet-500 pulse-soft"></div>
-                <h4 class="text-xs font-bold tracking-wider uppercase text-violet-300">Usability Evaluation Report</h4>
-            </div>
-            <button onclick="copyUsabilityReport()" id="copy-usability-btn" class="hidden text-[10px] text-slate-300 hover:text-white font-semibold flex items-center gap-1 transition-colors">
-                <i data-lucide="copy" class="w-3.5 h-3.5"></i> Copy Report
+    <!-- Evaluation Report (dark header, light body) -->
+    <div id="usability-report-panel" class="pf-card overflow-hidden">
+        <div class="pf-dark px-5 py-4 flex items-center justify-between">
+            <h4 class="pf-mono text-xs tracking-wider uppercase text-white flex items-center gap-2"><span class="w-2 h-2 rounded-full pulse-soft" style="background:var(--pf-accent-dark)"></span> Evaluation Report</h4>
+            <button onclick="copyUsabilityReport()" id="copy-usability-btn" class="hidden pf-mono text-[11px] text-white/70 hover:text-white flex items-center gap-1 transition-colors">
+                <i data-lucide="copy" class="w-3.5 h-3.5"></i> Copy
             </button>
         </div>
-        <div id="usability-report-body" class="p-6 text-xs text-slate-500 italic min-h-[300px]">
-            Configure a persona and interface on the left, then click <strong>Run Evaluation</strong> to generate a structured think-aloud report.
+        <div id="usability-report-body" class="p-6 text-sm italic min-h-[300px]" style="color:var(--pf-text2)">
+            Complete the setup on the left, then click <strong>Run Evaluation</strong> to generate a structured think-aloud report.
         </div>
     </div>
 
-    <!-- Follow-up chat -->
-    <div class="bg-slate-900 text-slate-100 border border-slate-800 rounded-xl shadow-lg flex flex-col" style="height:380px">
-        <div class="px-5 py-3.5 border-b border-slate-800 bg-slate-950 rounded-t-xl flex items-center justify-between">
-            <div class="flex items-center gap-2">
-                <div class="w-3 h-3 rounded-full bg-violet-500 pulse-soft"></div>
+    <!-- Ask the Evaluator (dark card) -->
+    <div class="pf-dark rounded-2xl overflow-hidden flex flex-col" style="height:380px; border:1px solid var(--pf-border-dark)">
+        <div class="px-5 py-3.5 flex items-center justify-between" style="border-bottom:1px solid var(--pf-border-dark)">
+            <div class="flex items-center gap-2.5">
+                <span class="w-2 h-2 rounded-full pulse-soft" style="background:var(--pf-accent-dark)"></span>
                 <div>
-                    <h4 class="text-xs font-bold tracking-wider uppercase text-violet-400">Follow-up Probe</h4>
-                    <p id="usability-chat-subtitle" class="text-[10px] text-slate-400">Run an evaluation first, then ask the persona follow-up questions.</p>
+                    <h4 class="pf-mono text-xs tracking-wider uppercase text-white">Ask the Evaluator <span class="text-white/40 normal-case">activates after evaluation</span></h4>
+                    <p id="usability-chat-subtitle" class="text-[10px] text-white/50">Run an evaluation first, then probe the persona with follow-up questions.</p>
                 </div>
             </div>
-            <button onclick="resetUsabilityChat()" class="text-slate-400 hover:text-slate-100 transition-colors">
+            <button onclick="resetUsabilityChat()" class="text-white/50 hover:text-white transition-colors">
                 <i data-lucide="trash-2" class="w-4 h-4"></i>
             </button>
         </div>
         <div id="usability-messages" class="flex-1 overflow-y-auto p-4 space-y-3 text-xs">
-            <div class="bg-slate-800/50 text-slate-400 p-3 rounded-lg text-center text-[11px]">Follow-up chat activates after the evaluation runs.</div>
+            <div class="text-center text-[11px] py-8 text-white/50">Run an evaluation first, then probe the persona with follow-up questions.</div>
         </div>
-        <div class="p-3 bg-slate-950 rounded-b-xl border-t border-slate-800 flex gap-2">
-            <input type="text" id="usability-chat-input" disabled onkeydown="if(event.key==='Enter')sendUsabilityMessage()" placeholder="Ask the persona a follow-up question..." class="flex-1 bg-slate-900 border border-slate-800 rounded-lg px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-violet-500 placeholder-slate-500">
-            <button id="usability-chat-send" disabled onclick="sendUsabilityMessage()" class="bg-violet-600 hover:bg-violet-500 disabled:opacity-60 disabled:cursor-not-allowed text-white font-bold text-xs px-4 py-2.5 rounded-lg transition-colors flex items-center gap-1">
-                Send <i data-lucide="send" class="w-3.5 h-3.5"></i>
-            </button>
+        <div class="p-3 flex gap-2" style="border-top:1px solid var(--pf-border-dark)">
+            <input type="text" id="usability-chat-input" disabled onkeydown="if(event.key==='Enter')sendUsabilityMessage()" placeholder="Run an evaluation first..." class="flex-1 rounded-lg px-3.5 py-2.5 text-xs text-white placeholder-white/40 focus:outline-none" style="background:rgba(255,255,255,0.05); border:1px solid var(--pf-border-dark)">
+            <button id="usability-chat-send" disabled onclick="sendUsabilityMessage()" class="pf-btn pf-btn-primary text-xs disabled:opacity-60 disabled:cursor-not-allowed">Send <i data-lucide="send" class="w-3.5 h-3.5"></i></button>
         </div>
     </div>
 </div>
