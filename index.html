@@ -88,6 +88,26 @@
         /* Full-bleed helper (break out of the centered max-width container) */
         .pf-fullbleed { width:100vw; margin-left:calc(50% - 50vw); }
 
+        /* App hero flight-path background — the landing's takeoff, now at cruising altitude */
+        .pf-hero-bg { position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:0; }
+        .pf-blob { position:absolute; border-radius:9999px; filter:blur(64px); }
+        .pf-blob-a { width:520px; height:520px; left:-10%; top:-28%; background:radial-gradient(circle, rgba(58,58,255,0.42), transparent 70%); animation:pfDrift1 22s ease-in-out infinite; }
+        .pf-blob-b { width:440px; height:440px; right:-8%; top:-6%; background:radial-gradient(circle, rgba(0,181,216,0.30), transparent 70%); animation:pfDrift2 27s ease-in-out infinite; }
+        .pf-grid { position:absolute; inset:0; background-image:linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px); background-size:46px 46px; -webkit-mask-image:radial-gradient(ellipse 78% 68% at 50% 38%, #000 30%, transparent 78%); mask-image:radial-gradient(ellipse 78% 68% at 50% 38%, #000 30%, transparent 78%); }
+        .pf-flightpath { position:absolute; inset:0; width:100%; height:100%; }
+        .pf-path { fill:none; stroke:rgba(128,128,255,0.34); stroke-width:1.6; stroke-dasharray:5 9; animation:pfDash 10s linear infinite; }
+        .pf-path-2 { stroke:rgba(0,181,216,0.22); stroke-width:1.2; stroke-dasharray:4 12; animation-duration:16s; }
+        .pf-path-3 { stroke:rgba(56,178,172,0.18); stroke-width:0.9; stroke-dasharray:6 10; animation-duration:22s; filter:blur(1.1px); }
+        .pf-waypoint { fill:rgba(128,128,255,0.5); }
+        .pf-waypoint-far { fill:rgba(56,178,172,0.28); }
+        .pf-plane { fill:#b7b7ff; filter:drop-shadow(0 0 5px rgba(128,128,255,0.9)); }
+        .pf-plane-2 { fill:#6fe3f5; filter:drop-shadow(0 0 4px rgba(0,181,216,0.8)); }
+        .pf-plane-3 { fill:#7fe0d8; filter:drop-shadow(0 0 3px rgba(56,178,172,0.65)) blur(0.4px); }
+        @keyframes pfDash { to { stroke-dashoffset:-140; } }
+        @keyframes pfDrift1 { 0%,100% { transform:translate(0,0) scale(1); } 50% { transform:translate(5%,7%) scale(1.12); } }
+        @keyframes pfDrift2 { 0%,100% { transform:translate(0,0) scale(1); } 50% { transform:translate(-7%,-5%) scale(1.16); } }
+        @media (prefers-reduced-motion: reduce) { .pf-blob, .pf-path, .pf-path-2, .pf-path-3 { animation:none; } }
+
         /* ---- Global reskin layer: map legacy Tailwind neutrals to the
                 palette so every view adopts the base look ahead of its
                 per-view polish. Semantic emerald/amber/rose are left alone. ---- */
@@ -261,7 +281,25 @@ document.addEventListener('DOMContentLoaded', pfUpdateHeader);
 
     <!-- HERO (full-bleed dark, sits under the transparent header) -->
     <div id="pf-hero" class="pf-dark pf-animate pf-fullbleed -mt-24 relative overflow-hidden">
-        <div class="max-w-6xl mx-auto px-6 md:px-10 pt-28 pb-16 sm:pb-24">
+        <!-- cruising flight paths (continuation of the landing's takeoff) -->
+        <div class="pf-hero-bg" aria-hidden="true">
+            <div class="pf-grid"></div>
+            <div class="pf-blob pf-blob-a"></div>
+            <div class="pf-blob pf-blob-b"></div>
+            <svg class="pf-flightpath" viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice">
+                <path id="afp1" class="pf-path" d="M -80 120 C 240 90, 500 165, 770 135 S 1150 80, 1320 140"/>
+                <path id="afp2" class="pf-path pf-path-2" d="M -80 200 C 300 170, 600 245, 890 210 S 1180 150, 1320 205"/>
+                <path id="afp3" class="pf-path pf-path-3" d="M -80 60 C 320 40, 620 110, 910 88 S 1180 44, 1320 96"/>
+                <circle cx="300" cy="98" r="2.5" class="pf-waypoint"/>
+                <circle cx="770" cy="135" r="2.5" class="pf-waypoint"/>
+                <circle cx="1055" cy="96" r="2.5" class="pf-waypoint"/>
+                <circle cx="910" cy="88" r="2" class="pf-waypoint-far"/>
+                <circle r="4.5" class="pf-plane"><animateMotion dur="15s" repeatCount="indefinite" rotate="auto"><mpath href="#afp1"/></animateMotion></circle>
+                <circle r="3" class="pf-plane pf-plane-2"><animateMotion dur="20s" begin="1.5s" repeatCount="indefinite" rotate="auto"><mpath href="#afp2"/></animateMotion></circle>
+                <circle r="2" class="pf-plane pf-plane-3"><animateMotion dur="26s" begin="3s" repeatCount="indefinite" rotate="auto"><mpath href="#afp3"/></animateMotion></circle>
+            </svg>
+        </div>
+        <div class="relative z-10 max-w-6xl mx-auto px-6 md:px-10 pt-28 pb-16 sm:pb-24">
             <!-- tool pill row -->
             <div class="pf-fade pf-d1 flex flex-wrap gap-2 mb-10">
                 <button onclick="switchView('sandbox')" class="pf-pill pf-pill-dark">AI Sandbox &amp; Prompt Architect</button>
