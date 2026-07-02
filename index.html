@@ -20,9 +20,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Synthetic Users Preflight Check — The Preflight Check for Synthetic Users</title>
-    <meta name="description" content="The Synthetic Users Preflight Check helps teams vibe coding with AI know when synthetic users help and when they'll fool you — a continuous-AI loop framework with synthetic-vs-human verdicts.">
-    <meta property="og:title" content="Synthetic Users Preflight Check — The Preflight Check for Synthetic Users">
+    <title>Synthetic Users Preflight Check: The Preflight Check for Synthetic Users</title>
+    <meta name="description" content="The Synthetic Users Preflight Check helps teams vibe coding with AI know when synthetic users help and when they'll fool you: a continuous-AI loop framework with synthetic-vs-human verdicts.">
+    <meta property="og:title" content="Synthetic Users Preflight Check: The Preflight Check for Synthetic Users">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
@@ -242,7 +242,7 @@ const PF_PREVIEWS = {
     checkpoint: { num:'01', pill:'LIVE', body:'Run one decision through the loop and get an honest go / stop.' },
     map:        { num:'02', pill:'BETA', body:'Inspect every gate across the staged framework.' },
     wizard:     { num:'03', pill:'CORE', body:'Eight proceed / stop gates before you run a cohort.' },
-    rationale:  { num:'04', pill:'REFERENCE', body:'Where synthetic users help across the lifecycle — and where they don\'t.' }
+    rationale:  { num:'04', pill:'REFERENCE', body:'Where synthetic users help across the lifecycle, and where they don\'t.' }
 };
 function pfPreview(key){
     const el = document.getElementById('pf-menu-preview');
@@ -333,7 +333,7 @@ document.addEventListener('DOMContentLoaded', pfUpdateHeader);
         <div class="pf-card p-6">
             <!-- Triage (plain text) -->
             <div class="pb-4 mb-6" style="border-bottom:1px solid var(--pf-border)">
-                <p class="font-semibold text-sm" style="color:var(--pf-text)">Triage gate — runs first, sets how hard the exit is</p>
+                <p class="font-semibold text-sm" style="color:var(--pf-text)">Triage gate: runs first, sets how hard the exit is</p>
                 <p class="pf-mono text-xs mt-1" style="color:var(--pf-text2)">Reversible, low-stakes → loose exit &nbsp;·&nbsp; Irreversible, high-stakes → hard exit</p>
             </div>
 
@@ -376,7 +376,7 @@ document.addEventListener('DOMContentLoaded', pfUpdateHeader);
         <!-- Legend -->
         <div class="flex flex-wrap gap-x-5 gap-y-2 mt-5 pt-4 border-t border-slate-100 text-xs text-slate-600">
             <span class="inline-flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-emerald-200 border border-emerald-300"></span> synthetic reliable</span>
-            <span class="inline-flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-amber-200 border border-amber-400"></span> conditional — stakes decide</span>
+            <span class="inline-flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-amber-200 border border-amber-400"></span> conditional: stakes decide</span>
             <span class="inline-flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-rose-200 border border-rose-300"></span> humans required</span>
             <span class="inline-flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-slate-200 border border-slate-300"></span> build step</span>
             <span class="inline-flex items-center gap-1.5"><span class="w-3 h-3 rounded border-2 border-dashed border-indigo-300"></span> gate (dashed)</span>
@@ -388,7 +388,7 @@ document.addEventListener('DOMContentLoaded', pfUpdateHeader);
     <div class="pf-fullbleed" style="background:var(--pf-alt)">
     <div class="max-w-6xl mx-auto px-6 md:px-10 py-14">
         <h3 class="pf-display text-2xl sm:text-3xl text-slate-900 tracking-tight">How does your team build?</h3>
-        <p class="text-sm text-slate-500 mt-1 mb-5">Both frameworks share the same goal — knowing when to trust synthetic users. Pick the one that matches how you work.</p>
+        <p class="text-sm text-slate-500 mt-1 mb-5">Both frameworks share the same goal: knowing when to trust synthetic users. Pick the one that matches how you work.</p>
 
         <!-- Path A: hero / primary -->
         <button onclick="switchView('checkpoint')" class="w-full text-left bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-200 hover:border-blue-400 rounded-xl p-5 transition-all duration-200 group">
@@ -414,7 +414,7 @@ document.addEventListener('DOMContentLoaded', pfUpdateHeader);
                         <p class="font-bold text-slate-900 text-base">Building in defined stages</p>
                         <span class="text-slate-400 group-hover:text-blue-600 group-hover:translate-x-0.5 transition-all"><i data-lucide="arrow-right" class="w-5 h-5"></i></span>
                     </div>
-                    <p class="text-base text-slate-600 mt-1 leading-relaxed">Sounds like you if you work in phases — discovery, design, build, QA — with handoffs between roles or teams and reviews between stages.</p>
+                    <p class="text-base text-slate-600 mt-1 leading-relaxed">Sounds like you if you work in phases (discovery, design, build, QA) with handoffs between roles or teams and reviews between stages.</p>
                     <span class="inline-block mt-2 text-xs font-semibold text-slate-500 group-hover:text-blue-700 transition-colors">→ See the staged framework</span>
                 </div>
             </div>
@@ -778,11 +778,11 @@ document.addEventListener('DOMContentLoaded', pfUpdateHeader);
             <span class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-semibold shrink-0" style="background:var(--pf-accent);color:#fff">3</span>
             <div>
                 <h4 class="font-semibold" style="color:var(--pf-text)">Ground in real usage data</h4>
-                <p class="text-xs mt-0.5" style="color:var(--pf-text2)">CS logs, NPS verbatim, session data — prevents stereotype drift</p>
+                <p class="text-xs mt-0.5" style="color:var(--pf-text2)">CS logs, NPS verbatim, session data: prevents stereotype drift</p>
             </div>
         </div>
         <textarea id="architect-data" placeholder="e.g. CS logs: Standard developers complain heavily about security steps that add > 30 seconds to setup times. Out of 100 tested, 45 abandoned onboarding entirely when MFA was enabled." class="pf-input w-full text-sm p-3 h-28" rows="3"></textarea>
-        <p class="text-xs" style="color:var(--pf-text2)">Optional but strongly recommended — prevents the persona from defaulting to generic assumptions.</p>
+        <p class="text-xs" style="color:var(--pf-text2)">Optional but strongly recommended: prevents the persona from defaulting to generic assumptions.</p>
     </div>
 
     <!-- Actions -->
@@ -804,7 +804,7 @@ document.addEventListener('DOMContentLoaded', pfUpdateHeader);
             <button onclick="copyGeneratedPrompt()" class="pf-mono text-[11px] text-white/70 hover:text-white flex items-center gap-1"><i data-lucide="copy" class="w-3.5 h-3.5"></i> Copy</button>
         </div>
         <div class="p-6 space-y-3">
-            <textarea id="sandbox-system-prompt" class="pf-input pf-mono w-full h-32 p-3 text-xs resize-none" placeholder="Complete the setup on the left and click Build Persona Prompt — the generated system instruction will appear here, ready to edit before launching the simulation."></textarea>
+            <textarea id="sandbox-system-prompt" class="pf-input pf-mono w-full h-32 p-3 text-xs resize-none" placeholder="Complete the setup on the left and click Build Persona Prompt: the generated system instruction will appear here, ready to edit before launching the simulation."></textarea>
             <p class="text-[11px] italic" style="color:var(--pf-text2)">You can edit this prompt before starting the session.</p>
             <div id="prompt-quality-badge" class="hidden text-[11px] font-semibold px-2.5 py-1 rounded-full w-fit"></div>
         </div>
@@ -828,7 +828,7 @@ document.addEventListener('DOMContentLoaded', pfUpdateHeader);
         <div id="sandbox-messages" class="flex-1 overflow-y-auto p-5 space-y-4 text-xs">
             <div class="text-center space-y-1 py-10">
                 <p class="font-semibold text-white/90">Simulation waiting room</p>
-                <p class="text-[11px] text-white/50 max-w-sm mx-auto">Build your persona prompt on the left, then interview your synthetic customer here — ask interface, pricing, or onboarding questions.</p>
+                <p class="text-[11px] text-white/50 max-w-sm mx-auto">Build your persona prompt on the left, then interview your synthetic customer here: ask interface, pricing, or onboarding questions.</p>
             </div>
         </div>
         <div class="p-3 flex gap-2" style="border-top:1px solid var(--pf-border-dark)">
@@ -844,7 +844,7 @@ document.addEventListener('DOMContentLoaded', pfUpdateHeader);
 <div class="pf-dark rounded-2xl px-6 py-8 sm:px-10">
     <p class="pf-mono text-xs tracking-[0.2em] uppercase" style="color:var(--pf-accent-dark)">Usability Tester</p>
     <h2 class="pf-display text-3xl sm:text-4xl text-white mt-2">Synthetic Usability Evaluator</h2>
-    <p class="mt-3 max-w-2xl text-white/60 text-sm leading-relaxed">Describe an interface and a task. A synthetic persona thinks aloud as they attempt it — surfacing friction, confusion, and trust gaps before real users encounter them.</p>
+    <p class="mt-3 max-w-2xl text-white/60 text-sm leading-relaxed">Describe an interface and a task. A synthetic persona thinks aloud as they attempt it: surfacing friction, confusion, and trust gaps before real users encounter them.</p>
 </div>
 <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
 
@@ -856,7 +856,7 @@ document.addEventListener('DOMContentLoaded', pfUpdateHeader);
             <span class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-semibold shrink-0" style="background:var(--pf-accent);color:#fff">1</span>
             <div>
                 <h4 class="font-semibold" style="color:var(--pf-text)">What are you testing?</h4>
-                <p class="text-xs mt-0.5" style="color:var(--pf-text2)">URL or screenshot — at least one helps the evaluator orient</p>
+                <p class="text-xs mt-0.5" style="color:var(--pf-text2)">URL or screenshot: at least one helps the evaluator orient</p>
             </div>
         </div>
         <div>
@@ -883,7 +883,7 @@ document.addEventListener('DOMContentLoaded', pfUpdateHeader);
         </div>
         <div>
             <label class="pf-mono block text-[11px] uppercase tracking-wider mb-1.5" style="color:var(--pf-text2)">Additional context <span class="normal-case">(optional if screenshot provided)</span></label>
-            <textarea id="usability-description" rows="3" placeholder="Describe anything not visible in the screenshot — error states, hover effects, what happens after clicking a button." class="pf-input w-full text-sm p-2.5"></textarea>
+            <textarea id="usability-description" rows="3" placeholder="Describe anything not visible in the screenshot: error states, hover effects, what happens after clicking a button." class="pf-input w-full text-sm p-2.5"></textarea>
         </div>
     </div>
 
@@ -897,7 +897,7 @@ document.addEventListener('DOMContentLoaded', pfUpdateHeader);
             </div>
         </div>
         <input type="text" id="usability-task" placeholder="e.g. Complete onboarding and reach the dashboard" class="pf-input w-full text-sm p-2.5">
-        <p class="text-xs" style="color:var(--pf-text2)">Required — the evaluator needs a task to attempt.</p>
+        <p class="text-xs" style="color:var(--pf-text2)">Required: the evaluator needs a task to attempt.</p>
     </div>
 
     <!-- Step 3 -->
@@ -910,15 +910,15 @@ document.addEventListener('DOMContentLoaded', pfUpdateHeader);
             </div>
         </div>
         <select id="usability-persona-preset" onchange="applyUsabilityPersonaPreset(this.value)" class="pf-input w-full text-sm p-2">
-            <option value="">— Choose a quick persona —</option>
+            <option value="">Choose a quick persona</option>
             <option value="revops">Mid-market RevOps Manager (non-technical, evaluation committee)</option>
             <option value="developer">Senior Developer (technical, skeptical of friction)</option>
             <option value="smb-founder">SMB Founder (time-poor, wears many hats)</option>
             <option value="enterprise-buyer">Enterprise IT Buyer (security-first, slow to commit)</option>
             <option value="cs-manager">Customer Success Manager (power user, high expectations)</option>
         </select>
-        <textarea id="usability-persona" rows="3" placeholder="Or describe your own — role, goals, tech comfort level, frustrations, and any relevant context." class="pf-input w-full text-sm p-2.5"></textarea>
-        <p class="text-xs" style="color:var(--pf-text2)">Required — the persona determines how the interface is judged.</p>
+        <textarea id="usability-persona" rows="3" placeholder="Or describe your own: role, goals, tech comfort level, frustrations, and any relevant context." class="pf-input w-full text-sm p-2.5"></textarea>
+        <p class="text-xs" style="color:var(--pf-text2)">Required: the persona determines how the interface is judged.</p>
     </div>
 
     <!-- Step 4 -->
@@ -1157,7 +1157,7 @@ document.addEventListener('DOMContentLoaded', pfUpdateHeader);
     <div id="cp-panel-frame" class="cp-panel hidden bg-white border border-slate-200 rounded-xl p-6 shadow-sm space-y-5">
         <div class="border-b border-slate-100 pb-4">
             <h3 class="font-bold text-lg text-slate-900 flex items-center gap-2"><i data-lucide="lightbulb" class="text-emerald-500 w-5 h-5"></i> Frame gate</h3>
-            <p class="text-xs text-slate-500 mt-1">A cheap synthetic gut-check — mostly a green light. It expands your thinking with objections and edge cases. This is <em>idea expansion, not validation.</em></p>
+            <p class="text-xs text-slate-500 mt-1">A cheap synthetic gut-check: mostly a green light. It expands your thinking with objections and edge cases. This is <em>idea expansion, not validation.</em></p>
         </div>
         <div>
             <label class="text-sm font-semibold text-slate-800 block mb-2">Do you have real research or data on this user segment?</label>
@@ -1182,15 +1182,15 @@ document.addEventListener('DOMContentLoaded', pfUpdateHeader);
     <div id="cp-panel-inspect" class="cp-panel hidden bg-white border border-slate-200 rounded-xl p-6 shadow-sm space-y-5">
         <div class="border-b border-slate-100 pb-4">
             <h3 class="font-bold text-lg text-slate-900 flex items-center gap-2"><i data-lucide="scan-search" class="text-amber-500 w-5 h-5"></i> Inspect <span class="text-[10px] font-bold uppercase tracking-wider bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full">stakes decide</span></h3>
-            <p class="text-xs text-slate-500 mt-1">A directional read on what you've built so far — then you decide: refine, reframe, or proceed. The synthetic pass is <em>directional, not validation.</em></p>
+            <p class="text-xs text-slate-500 mt-1">A directional read on what you've built so far, then you decide: refine, reframe, or proceed. The synthetic pass is <em>directional, not validation.</em></p>
         </div>
         <div class="rounded-lg border border-amber-200 bg-amber-50 text-amber-900 text-xs p-3 leading-relaxed flex gap-2">
             <i data-lucide="eye-off" class="w-4 h-4 shrink-0 mt-0.5"></i>
-            <p><strong>Fidelity illusion:</strong> "looks finished" is not evidence anyone can use it. A polished screen and a working product are different claims — this pass can flag friction, but it cannot tell you the build actually works for real people.</p>
+            <p><strong>Fidelity illusion:</strong> "looks finished" is not evidence anyone can use it. A polished screen and a working product are different claims: this pass can flag friction, but it cannot tell you the build actually works for real people.</p>
         </div>
         <div>
             <label class="text-sm font-semibold text-slate-800 block mb-1.5">What did you build? <span class="font-normal text-slate-400">(paste a URL or describe the screen/flow)</span></label>
-            <textarea id="cp-inspect-artifact" rows="3" placeholder="e.g. https://app.example.com/export  — or — A modal that gates bulk CSV export behind an 'Upgrade to Pro' button, shown after the user selects >100 rows." class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3.5 py-2.5 text-sm text-slate-800 focus:outline-none focus:border-blue-500 resize-none"></textarea>
+            <textarea id="cp-inspect-artifact" rows="3" placeholder="e.g. https://app.example.com/export or A modal that gates bulk CSV export behind an 'Upgrade to Pro' button, shown after the user selects >100 rows." class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3.5 py-2.5 text-sm text-slate-800 focus:outline-none focus:border-blue-500 resize-none"></textarea>
         </div>
         <div id="cp-inspect-result" class="hidden"></div>
         <!-- Three-way decision -->
@@ -1199,11 +1199,11 @@ document.addEventListener('DOMContentLoaded', pfUpdateHeader);
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
                 <button onclick="cpDecision('refine')" class="text-left border-2 border-slate-200 hover:border-blue-400 hover:bg-blue-50 rounded-lg p-3 transition-all group">
                     <p class="font-bold text-slate-900 text-sm flex items-center gap-1.5"><i data-lucide="rotate-ccw" class="w-4 h-4 text-blue-500"></i> Refine</p>
-                    <p class="text-[11px] text-slate-500 mt-0.5">Execution needs work. Improve it and re-inspect — stay fast.</p>
+                    <p class="text-[11px] text-slate-500 mt-0.5">Execution needs work. Improve it and re-inspect. Stay fast.</p>
                 </button>
                 <button onclick="cpDecision('reframe')" class="text-left border-2 border-rose-200 hover:border-rose-400 hover:bg-rose-50 rounded-lg p-3 transition-all group">
                     <p class="font-bold text-slate-900 text-sm flex items-center gap-1.5"><i data-lucide="corner-up-left" class="w-4 h-4 text-rose-500"></i> Reframe</p>
-                    <p class="text-[11px] text-slate-500 mt-0.5">The premise is wrong. Go back to Frame — the early-kill valve.</p>
+                    <p class="text-[11px] text-slate-500 mt-0.5">The premise is wrong. Go back to Frame: the early-kill valve.</p>
                 </button>
                 <button onclick="cpDecision('proceed')" class="text-left border-2 border-emerald-200 hover:border-emerald-400 hover:bg-emerald-50 rounded-lg p-3 transition-all group">
                     <p class="font-bold text-slate-900 text-sm flex items-center gap-1.5"><i data-lucide="arrow-right" class="w-4 h-4 text-emerald-500"></i> Proceed</p>
@@ -1224,7 +1224,7 @@ document.addEventListener('DOMContentLoaded', pfUpdateHeader);
     <div id="cp-panel-ship" class="cp-panel hidden bg-white border border-slate-200 rounded-xl p-6 shadow-sm space-y-5">
         <div class="border-b border-slate-100 pb-4">
             <h3 class="font-bold text-lg text-slate-900 flex items-center gap-2"><i data-lucide="flag" class="text-rose-500 w-5 h-5"></i> Ship gate</h3>
-            <p class="text-xs text-slate-500 mt-1">Before this ships, validate these things with <strong>real humans</strong> — ranked by where synthetic users are least reliable, sized to a scarce budget.</p>
+            <p class="text-xs text-slate-500 mt-1">Before this ships, validate these things with <strong>real humans</strong>: ranked by where synthetic users are least reliable, sized to a scarce budget.</p>
         </div>
         <div id="cp-ship-result"><div class="text-center py-10 text-slate-400 text-sm"><i data-lucide="loader" class="w-6 h-6 animate-spin mx-auto mb-2"></i> Building your human-validation list…</div></div>
         <div class="flex justify-between items-center pt-1">
@@ -1276,7 +1276,7 @@ document.addEventListener('DOMContentLoaded', pfUpdateHeader);
                     <span class="w-5 h-5 rounded-md" style="background:var(--pf-accent)"></span>
                     <span class="pf-mono text-sm font-semibold tracking-[0.18em] text-white">PREFLIGHT</span>
                 </div>
-                <p class="text-sm text-white/50 mt-4 max-w-xs leading-relaxed">SaaS Preflight Check for Synthetic Users — know when to trust AI, and when to send in the humans.</p>
+                <p class="text-sm text-white/50 mt-4 max-w-xs leading-relaxed">SaaS Preflight Check for Synthetic Users: know when to trust AI, and when to send in the humans.</p>
             </div>
             <div class="lg:col-span-3">
                 <p class="pf-mono text-[11px] tracking-widest text-white/40">PAGES</p>
@@ -1824,14 +1824,14 @@ const CP_STORE = 'preflight_checkpoint_run_v1';
 function cpComputeStrictness(reversibility, stakes) {
     if (stakes === 'high' && reversibility === 'irreversible') {
         return { level: 'hard', label: 'Hard exit', cls: 'bg-rose-50 border-rose-200 text-rose-900', icon: 'octagon-alert',
-            rationale: 'High stakes and hard to undo — the ship gate will require real human validation before you proceed.' };
+            rationale: 'High stakes and hard to undo: the ship gate will require real human validation before you proceed.' };
     }
     if (stakes === 'low' && reversibility === 'reversible') {
         return { level: 'loose', label: 'Loose exit', cls: 'bg-emerald-50 border-emerald-200 text-emerald-900', icon: 'circle-check',
-            rationale: 'Low stakes and easy to undo — move fast. The ship gate will be a short, optional checklist.' };
+            rationale: 'Low stakes and easy to undo: move fast. The ship gate will be a short, optional checklist.' };
     }
     return { level: 'standard', label: 'Standard exit', cls: 'bg-amber-50 border-amber-200 text-amber-900', icon: 'gauge',
-        rationale: 'Mixed risk — the ship gate will flag the validations worth doing, but won\'t hard-block you.' };
+        rationale: 'Mixed risk: the ship gate will flag the validations worth doing, but won\'t hard-block you.' };
 }
 
 // Generic single-select toggle group wiring
@@ -1902,7 +1902,7 @@ function cpStepClick(target) {
     if (target === 'triage') { cpGoTo('triage'); return; }
     if (!cpIsUnlocked(target)) {
         showToast(target === 'report' ? 'No report yet' : 'Start with Triage',
-                  target === 'report' ? 'Complete the Ship gate first to generate a report.' : 'Set strictness in Triage first — it anchors the whole run.', 'info');
+                  target === 'report' ? 'Complete the Ship gate first to generate a report.' : 'Set strictness in Triage first: it anchors the whole run.', 'info');
         return;
     }
     if ((target === 'ship' || target === 'inspect') && cpIsStale()) { cpShowStalePrompt(target); return; }
@@ -1918,14 +1918,14 @@ function cpShowStalePrompt(target) {
     openGlobalModal('Still the same decision?', 'Stale-decision check', `
         <p class="text-sm text-slate-700 leading-relaxed">You framed this <strong>${n} day${n === 1 ? '' : 's'} ago</strong>. Between framing and shipping, what gets built usually drifts from what was framed. Is what you're about to ${target === 'ship' ? 'ship' : 'inspect'} still the same decision you framed?</p>
         <div class="flex flex-col sm:flex-row gap-2 mt-5">
-            <button onclick="cpStaleAnswer('yes','${target}')" class="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-sm px-4 py-2.5 rounded-lg transition-colors">Yes — same decision</button>
-            <button onclick="cpStaleAnswer('no')" class="flex-1 bg-rose-600 hover:bg-rose-500 text-white font-semibold text-sm px-4 py-2.5 rounded-lg transition-colors">No — it changed</button>
+            <button onclick="cpStaleAnswer('yes','${target}')" class="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-sm px-4 py-2.5 rounded-lg transition-colors">Yes: same decision</button>
+            <button onclick="cpStaleAnswer('no')" class="flex-1 bg-rose-600 hover:bg-rose-500 text-white font-semibold text-sm px-4 py-2.5 rounded-lg transition-colors">No: it changed</button>
         </div>`, 'history');
 }
 function cpStaleAnswer(ans, target) {
     closeGlobalModal();
     if (ans === 'yes') { cpEnterGate(target); }
-    else { showToast('Reframe', 'The decision changed — back to Frame to re-anchor it.', 'info'); cpGoTo('frame'); }
+    else { showToast('Reframe', 'The decision changed: back to Frame to re-anchor it.', 'info'); cpGoTo('frame'); }
 }
 
 // ---- Persistent runs (frame now, ship later) ----
@@ -2080,10 +2080,10 @@ Include 3-4 objections. Every field must be filled with substantive, decision-sp
 function cpRenderFrame(data) {
     const green = (data.verdict || '').toLowerCase() === 'green';
     let html = `<div class="rounded-lg border p-3.5 ${green?'bg-emerald-50 border-emerald-200 text-emerald-900':'bg-amber-50 border-amber-200 text-amber-900'}">
-        <p class="font-bold flex items-center gap-2"><i data-lucide="${green?'circle-check':'alert-triangle'}" class="w-4 h-4"></i> ${green?'Sound idea — proceed':'Proceed with caution'}</p>
+        <p class="font-bold flex items-center gap-2"><i data-lucide="${green?'circle-check':'alert-triangle'}" class="w-4 h-4"></i> ${green?'Sound idea: proceed':'Proceed with caution'}</p>
         <p class="text-xs mt-1 opacity-90">${cpEsc(data.verdictRationale)}</p>
     </div>
-    <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider mt-4 mb-2 flex items-center gap-1.5"><i data-lucide="message-square-warning" class="w-3.5 h-3.5"></i> Objections worth holding in mind <span class="font-normal normal-case text-slate-400">(synthetic — idea expansion, not validation)</span></p>
+    <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider mt-4 mb-2 flex items-center gap-1.5"><i data-lucide="message-square-warning" class="w-3.5 h-3.5"></i> Objections worth holding in mind <span class="font-normal normal-case text-slate-400">(synthetic: idea expansion, not validation)</span></p>
     <div class="space-y-2">`;
     (data.objections || []).forEach(o => {
         const title = o.title || o.objection || o.headline || '';
@@ -2109,7 +2109,7 @@ async function cpRunInspect() {
     const orig = btn.innerHTML;
     btn.disabled = true; btn.innerHTML = `<i data-lucide="loader" class="w-4 h-4 animate-spin"></i> Inspecting…`; lucide.createIcons();
 
-    const sys = `You are a usability heuristic evaluator doing a fast DIRECTIONAL pass on a built artifact. This is DIRECTIONAL, NOT validation — you cannot confirm anything works for real people; you can only flag likely friction. Be specific to the artifact described; avoid generic advice. Then suggest (not decide) whether the team should refine (execution needs work), reframe (the premise looks wrong), or proceed (good enough to advance).
+    const sys = `You are a usability heuristic evaluator doing a fast DIRECTIONAL pass on a built artifact. This is DIRECTIONAL, NOT validation: you cannot confirm anything works for real people; you can only flag likely friction. Be specific to the artifact described; avoid generic advice. Then suggest (not decide) whether the team should refine (execution needs work), reframe (the premise looks wrong), or proceed (good enough to advance).
 Return ONLY a JSON object with EXACTLY these keys (no markdown):
 {
   "summary": "one-sentence directional read",
@@ -2158,7 +2158,7 @@ function cpRenderInspect(data) {
             <p class="text-xs text-slate-600 mt-1 leading-relaxed">${cpEsc(f.observation)}</p>
         </div>`;
     });
-    html += `</div><div class="mt-3 text-xs text-slate-500 bg-slate-50 border border-slate-100 rounded-lg p-3"><strong>Synthetic suggestion (you decide):</strong> ${cpEsc(data.suggestedDecision)} — ${cpEsc(data.suggestionRationale)}</div>`;
+    html += `</div><div class="mt-3 text-xs text-slate-500 bg-slate-50 border border-slate-100 rounded-lg p-3"><strong>Synthetic suggestion (you decide):</strong> ${cpEsc(data.suggestedDecision)}: ${cpEsc(data.suggestionRationale)}</div>`;
     const result = document.getElementById('cp-inspect-result');
     result.innerHTML = html; result.classList.remove('hidden');
     document.getElementById('cp-inspect-decision').classList.remove('hidden');
@@ -2201,7 +2201,7 @@ async function cpRunShip() {
     lucide.createIcons();
 
     const s = cpState.strictness;
-    const sys = `You are a rigorous research strategist. Given a SaaS product decision, produce a RANKED list of what must be validated with REAL HUMANS before shipping — ordered by where synthetic/AI users are LEAST reliable (real desirability, willingness to pay/adopt, genuine emotional response, task completion under real conditions, error recovery, novel-copy comprehension, population/conversion effects over time). Be specific to THIS decision — no generic "test usability". Size to a scarce budget: most important first.
+    const sys = `You are a rigorous research strategist. Given a SaaS product decision, produce a RANKED list of what must be validated with REAL HUMANS before shipping: ordered by where synthetic/AI users are LEAST reliable (real desirability, willingness to pay/adopt, genuine emotional response, task completion under real conditions, error recovery, novel-copy comprehension, population/conversion effects over time). Be specific to THIS decision: no generic "test usability". Size to a scarce budget: most important first.
 Return ONLY a JSON object with EXACTLY these keys (no other keys, no markdown):
 {
   "topLine": "one sentence framing what this list is and how firm it is",
@@ -2215,7 +2215,7 @@ Every field must be filled with substantive, decision-specific text. Rank items 
         items:{type:"ARRAY", items:{type:"OBJECT", properties:{ rank:{type:"NUMBER"}, validate:{type:"STRING"}, whySynthFails:{type:"STRING"}, method:{type:"STRING"} }, required:["rank","validate","whySynthFails","method"]}}
     }, required:["topLine","items"]};
 
-    const budgetHint = s.level === 'loose' ? 'Keep it short (2–3 items), framed as optional — this is low-stakes and reversible.'
+    const budgetHint = s.level === 'loose' ? 'Keep it short (2–3 items), framed as optional: this is low-stakes and reversible.'
         : s.level === 'hard' ? 'This is high-stakes and irreversible. Be firm: 4–6 items, and make clear validation is required before ship.'
         : 'Give 3–4 prioritized items.';
     const prompt = `Decision: "${cpState.decision}"\nReversibility: ${cpState.reversibility}. Stakes: ${cpState.stakes}. Strictness: ${s.level}.\nGrounding on this segment: ${cpState.grounding}.\n${budgetHint}`;
@@ -2262,7 +2262,7 @@ function cpBuildReport() {
     cpState.completed = true;
     cpSave();
     const s = cpState.strictness;
-    const grLabel = { yes:'Yes — real data on this segment', some:'Some real data', none:'None — synthetic output is unvalidated' }[cpState.grounding] || '—';
+    const grLabel = { yes:'Yes: real data on this segment', some:'Some real data', none:'None: synthetic output is unvalidated' }[cpState.grounding] || 'N/A';
     let html = `<div class="rounded-lg border ${s.cls} p-4">
         <p class="text-[10px] uppercase font-bold tracking-widest opacity-70">Decision</p>
         <p class="font-semibold text-sm mt-0.5">${cpEsc(cpState.decision)}</p>
@@ -2272,8 +2272,8 @@ function cpBuildReport() {
 
     if (cpState.frame) {
         const green = (cpState.frame.verdict||'').toLowerCase()==='green';
-        html += `<div><p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Frame gate <span class="font-normal normal-case text-slate-400">(synthetic — directional only)</span></p>
-            <p class="text-sm text-slate-700"><strong>${green?'Sound idea — proceed':'Proceed with caution'}:</strong> ${cpEsc(cpState.frame.verdictRationale)}</p>
+        html += `<div><p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Frame gate <span class="font-normal normal-case text-slate-400">(synthetic: directional only)</span></p>
+            <p class="text-sm text-slate-700"><strong>${green?'Sound idea: proceed':'Proceed with caution'}:</strong> ${cpEsc(cpState.frame.verdictRationale)}</p>
             <ul class="list-disc list-inside text-xs text-slate-600 mt-1.5 space-y-0.5">${(cpState.frame.objections||[]).map(o=>`<li>${cpEsc(o.title)}</li>`).join('')}</ul></div>`;
     }
     if (cpState.inspect || cpState.inspectDecision) {
@@ -2292,12 +2292,12 @@ function cpBuildReport() {
 
 function cpDownloadReport() {
     const s = cpState.strictness;
-    const lines = ['Preflight — Active Checkpoint Run Report', '======================================', `Date: ${cpState.generatedAt || new Date().toLocaleString()}`, '',
+    const lines = ['Preflight: Active Checkpoint Run Report', '======================================', `Date: ${cpState.generatedAt || new Date().toLocaleString()}`, '',
         `Decision: ${cpState.decision}`,
         `Triage: ${cpState.reversibility} · ${cpState.stakes} stakes -> ${s ? s.label : '-'}`,
         `Grounding: ${cpState.grounding || '-'}`, ''];
     if (cpState.frame) {
-        lines.push('Frame gate (synthetic — directional only):', `  Verdict: ${cpState.frame.verdict} — ${cpState.frame.verdictRationale}`, '  Objections:');
+        lines.push('Frame gate (synthetic: directional only):', `  Verdict: ${cpState.frame.verdict}: ${cpState.frame.verdictRationale}`, '  Objections:');
         (cpState.frame.objections||[]).forEach(o => lines.push(`   - ${o.title}: ${o.detail} [who pushes back: ${o.whoPushesBack}]`));
         lines.push('');
     }
@@ -2730,7 +2730,7 @@ function showBuildSyntheticUsersGuide() {
 
             <div class="bg-blue-50 border border-blue-200 rounded-xl p-4 flex gap-3">
                 <i data-lucide="info" class="w-5 h-5 text-blue-600 shrink-0 mt-0.5"></i>
-                <p class="text-blue-900 text-xs leading-relaxed">Synthetic users are AI-generated personas that simulate how real user segments think, respond, and behave. Built well, they compress weeks of discovery into hours — but only when grounded in real data and governed by the 8-gate framework in this tool.</p>
+                <p class="text-blue-900 text-xs leading-relaxed">Synthetic users are AI-generated personas that simulate how real user segments think, respond, and behave. Built well, they compress weeks of discovery into hours, but only when grounded in real data and governed by the 8-gate framework in this tool.</p>
             </div>
 
             <!-- STEP 1 -->
@@ -2747,7 +2747,7 @@ function showBuildSyntheticUsersGuide() {
                             "NPS verbatims and CSAT comments segmented by plan/role/industry",
                             "Session recordings and heatmap patterns from tools like FullStory or Hotjar",
                             "Sales call transcripts or win/loss interview notes",
-                            "Usage telemetry — which features each cohort actually uses vs. ignores"
+                            "Usage telemetry: which features each cohort actually uses vs. ignores"
                         ].map(t => `<li class="flex gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-blue-500 shrink-0 mt-0.5"></i><span>${t}</span></li>`).join('')}
                     </ul>
                     <p class="mt-3 text-slate-500">Aim for at least 3–5 distinct data points per segment before building a persona. Thin data = hallucinated behavior.</p>
@@ -2769,10 +2769,10 @@ function showBuildSyntheticUsersGuide() {
                             ["Transactional", "Plan tier, seat count, expansion history, billing cycle, churn date + reason"],
                             ["Operational", "Support ticket themes, escalation frequency, time-to-resolution patterns"],
                             ["Social", "LinkedIn job descriptions, community posts, conference talk abstracts"],
-                            ["Comparative", "Competitor review excerpts (G2/Capterra) — what they praise and what they miss"]
+                            ["Comparative", "Competitor review excerpts (G2/Capterra): what they praise and what they miss"]
                         ].map(([label, desc]) => `<div class="bg-slate-50 border border-slate-200 rounded-lg p-2.5"><p class="font-semibold text-slate-800 mb-0.5">${label}</p><p class="text-slate-500 text-[11px]">${desc}</p></div>`).join('')}
                     </div>
-                    <p class="text-slate-500 pt-1">Paste or summarize each layer into a single <strong>Corpus Document</strong> — a living raw-material file you update quarterly. This is the input to your persona brief, not the brief itself.</p>
+                    <p class="text-slate-500 pt-1">Paste or summarize each layer into a single <strong>Corpus Document</strong>: a living raw-material file you update quarterly. This is the input to your persona brief, not the brief itself.</p>
                     <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 text-blue-900 text-[11px] leading-relaxed">
                         <strong>Corpus threshold:</strong> Aim for signals from at least 5–10 real users per segment before treating any pattern as representative. Single data points are anecdotes; patterns across 5+ are signals worth encoding.
                     </div>
@@ -2796,7 +2796,7 @@ function showBuildSyntheticUsersGuide() {
                         <p><strong>Real quotes:</strong> "We need this to integrate with HubSpot on day one or we can't move forward."</p>
                         <p><strong>Inferred (not directly observed):</strong> Likely has 2–4 direct reports managing ops tools</p>
                     </div>
-                    <p class="mt-2 text-slate-500">The <strong>Source</strong> and <strong>Inferred</strong> fields prevent the brief from silently drifting toward stereotype over time — they show what you know vs. what you're assuming.</p>
+                    <p class="mt-2 text-slate-500">The <strong>Source</strong> and <strong>Inferred</strong> fields prevent the brief from silently drifting toward stereotype over time: they show what you know vs. what you're assuming.</p>
                 </div>
             </div>
 
@@ -2832,10 +2832,10 @@ function showBuildSyntheticUsersGuide() {
 
                     <!-- Corpus -->
                     <div>
-                        <p class="font-bold text-slate-800 mb-1.5 flex items-center gap-1.5"><i data-lucide="database" class="w-3.5 h-3.5 text-slate-500"></i> Step 1 — Raw Corpus (abbreviated)</p>
+                        <p class="font-bold text-slate-800 mb-1.5 flex items-center gap-1.5"><i data-lucide="database" class="w-3.5 h-3.5 text-slate-500"></i> Step 1: Raw Corpus (abbreviated)</p>
                         <div class="bg-slate-50 border border-slate-200 rounded-lg p-3 text-[11px] font-mono text-slate-600 space-y-1.5 leading-relaxed">
                             <p><strong>Behavioral:</strong> 23% of Pro users export to CSV weekly; top 3 features by session time = custom dashboards, API access, scheduled reports</p>
-                            <p><strong>Attitudinal (NPS verbatims, n=18, Pro plan):</strong> "I'd pay more if you added team permissions." / "The API docs are outdated and cost us 2 days." / "Love the dashboards — hate that I can't share them without upgrading everyone."</p>
+                            <p><strong>Attitudinal (NPS verbatims, n=18, Pro plan):</strong> "I'd pay more if you added team permissions." / "The API docs are outdated and cost us 2 days." / "Love the dashboards, hate that I can't share them without upgrading everyone."</p>
                             <p><strong>Transactional:</strong> Avg. Pro tenure = 14 months; 11% expanded to Team within 6 months; churn reason most cited = "pricing jumped too fast"</p>
                             <p><strong>Support tickets (last 90 days):</strong> 34 tickets tagged "permissions", 21 tagged "API rate limits", 9 tagged "export limits"</p>
                             <p><strong>Competitive (G2 reviews of competitor):</strong> Praised for granular role controls; criticized for no usage-based option</p>
@@ -2844,13 +2844,13 @@ function showBuildSyntheticUsersGuide() {
 
                     <!-- Persona Brief -->
                     <div>
-                        <p class="font-bold text-slate-800 mb-1.5 flex items-center gap-1.5"><i data-lucide="user-check" class="w-3.5 h-3.5 text-blue-500"></i> Step 2 — Persona Brief (synthesized)</p>
+                        <p class="font-bold text-slate-800 mb-1.5 flex items-center gap-1.5"><i data-lucide="user-check" class="w-3.5 h-3.5 text-blue-500"></i> Step 2: Persona Brief (synthesized)</p>
                         <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 text-[11px] text-slate-700 space-y-1.5 leading-relaxed">
-                            <p><strong>Name:</strong> "Power-User PM" segment — Pro plan, 12–18 month tenure, data-heavy workflows</p>
+                            <p><strong>Name:</strong> "Power-User PM" segment: Pro plan, 12–18 month tenure, data-heavy workflows</p>
                             <p><strong>Goals:</strong> Automate reporting for exec team, expand API usage without IT dependency, control who sees what without paying for full seats</p>
                             <p><strong>Frustrations:</strong> Feels locked out of features they already rely on; perceives pricing jumps as arbitrary; doesn't trust API docs</p>
                             <p><strong>Behavior:</strong> Evaluates upgrades individually (not by committee); will pay more if ROI is explicit; churns when pricing feels punitive, not when price is high</p>
-                            <p><strong>Real quotes:</strong> "I'd pay more if you added team permissions." / "Love the dashboards — hate that I can't share them without upgrading everyone."</p>
+                            <p><strong>Real quotes:</strong> "I'd pay more if you added team permissions." / "Love the dashboards, hate that I can't share them without upgrading everyone."</p>
                             <p><strong>Sources:</strong> 18 NPS verbatims, 34 support tickets, session telemetry (n=23% of Pro cohort), 14-month avg. tenure data</p>
                             <p><strong>Inferred:</strong> Likely individual contributor or team lead with informal budget authority; technical enough to use APIs but not an engineer</p>
                         </div>
@@ -2858,7 +2858,7 @@ function showBuildSyntheticUsersGuide() {
 
                     <!-- Cohort Prompt -->
                     <div>
-                        <p class="font-bold text-slate-800 mb-1.5 flex items-center gap-1.5"><i data-lucide="terminal" class="w-3.5 h-3.5 text-violet-500"></i> Step 3 — Cohort System Prompt (ready to paste)</p>
+                        <p class="font-bold text-slate-800 mb-1.5 flex items-center gap-1.5"><i data-lucide="terminal" class="w-3.5 h-3.5 text-violet-500"></i> Step 3: Cohort System Prompt (ready to paste)</p>
                         <div class="bg-slate-950 rounded-lg p-3 text-[11px] font-mono text-slate-300 leading-relaxed whitespace-pre-wrap">You are Jordan, a Senior Product Analyst at a 120-person B2B SaaS company. You have been on the Pro plan of this analytics tool for 14 months and use it daily.
 
 Your primary goals:
@@ -2867,13 +2867,13 @@ Your primary goals:
 - Control data visibility (who sees which dashboards) without buying full seats for everyone
 
 Your biggest frustrations with this tool:
-- Permissions feel like an afterthought — you've submitted 3 support tickets about it in the last quarter
+- Permissions feel like an afterthought: you've submitted 3 support tickets about it in the last quarter
 - The API docs are outdated; you lost two days last month troubleshooting a rate-limit issue that wasn't documented
 - You feel like features you already rely on are being slowly gated behind a higher tier you don't fully need
 
 How you evaluate upgrades:
 - You will pay more, but only if the ROI is obvious and you can show it to your manager in a one-pager
-- You do NOT evaluate by committee — you test it yourself first and then advocate internally
+- You do NOT evaluate by committee: you test it yourself first and then advocate internally
 - A pricing jump with no clear feature unlock feels punitive; you'd rather churn than feel extorted
 
 Your communication style:
@@ -2881,7 +2881,7 @@ Your communication style:
 - Use these phrases naturally when relevant: "I'd pay more if you added team permissions" and "I can't share dashboards without upgrading everyone and that doesn't make sense"
 
 Your blind spots:
-- You are not a software engineer — you use APIs but don't understand infrastructure constraints
+- You are not a software engineer: you use APIs but don't understand infrastructure constraints
 - You underestimate how long migrations take and tend to push for faster timelines than are realistic
 
 Constraints:
@@ -2891,7 +2891,7 @@ Constraints:
                     </div>
 
                     <div class="bg-emerald-50 border border-emerald-200 rounded-lg p-3 text-emerald-900 text-[11px] leading-relaxed">
-                        <strong>What makes this prompt corpus-grounded:</strong> Every behavioral trait, frustration, and verbatim quote traces to a specific data layer in the corpus. Nothing was invented. The "Inferred" field from the brief becomes the <em>Blind spots</em> section — keeping the AI honest about what this persona plausibly doesn't know.
+                        <strong>What makes this prompt corpus-grounded:</strong> Every behavioral trait, frustration, and verbatim quote traces to a specific data layer in the corpus. Nothing was invented. The "Inferred" field from the brief becomes the <em>Blind spots</em> section: keeping the AI honest about what this persona plausibly doesn't know.
                     </div>
                 </div>
             </div>
@@ -2911,7 +2911,7 @@ Constraints:
                         ${[
                             "Create a new study and paste your persona brief into the participant configuration",
                             "Upload supporting data (CSV exports, survey results) as grounding context",
-                            "Run moderated or unmoderated sessions — ask your feature questions directly to the cohort",
+                            "Run moderated or unmoderated sessions: ask your feature questions directly to the cohort",
                             "Export transcripts and use them as calibration data to validate or update your persona brief"
                         ].map(t => `<li class="flex gap-2"><i data-lucide="arrow-right" class="w-3.5 h-3.5 text-indigo-500 shrink-0 mt-0.5"></i><span>${t}</span></li>`).join('')}
                     </ul>
@@ -2936,7 +2936,7 @@ Constraints:
                             "Do the synthetic user's feature priorities match your actual top-requested features in your backlog?",
                             "Does the stated willingness-to-pay align with your real conversion data by plan tier?",
                             "Are the cited integration needs consistent with your CRM's most-used connectors?",
-                            "Run the same question to 3 real users and compare — flag divergences as calibration gaps"
+                            "Run the same question to 3 real users and compare: flag divergences as calibration gaps"
                         ].map(t => `<li class="flex gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-500 shrink-0 mt-0.5"></i><span>${t}</span></li>`).join('')}
                     </ul>
                     <p class="mt-2 text-slate-500">Aim for &ge;70% alignment with real signals before using synthetic outputs in roadmap decisions.</p>
@@ -2950,11 +2950,11 @@ Constraints:
                     <h4 class="font-bold text-white text-sm">Document, Version, and Govern</h4>
                 </div>
                 <div class="p-4 space-y-2 text-xs text-slate-700 leading-relaxed">
-                    <p>Treat persona briefs like code — version them and track what changed:</p>
+                    <p>Treat persona briefs like code: version them and track what changed:</p>
                     <ul class="space-y-1.5 mt-2">
                         ${[
                             "Store persona briefs in a shared doc with a version date and what data informed this version",
-                            "Flag when a brief hasn't been updated in 90+ days — user behavior drifts",
+                            "Flag when a brief hasn't been updated in 90+ days: user behavior drifts",
                             "Record which product decisions were influenced by synthetic sessions and their outcomes",
                             "Use the Run Simulator in this tool quarterly to re-validate that your cohorts still pass governance gates"
                         ].map(t => `<li class="flex gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-blue-500 shrink-0 mt-0.5"></i><span>${t}</span></li>`).join('')}
@@ -2978,7 +2978,7 @@ Constraints:
                     <!-- Template 1: Persona Brief -->
                     <div class="border border-slate-200 rounded-xl overflow-hidden">
                         <div class="flex items-center justify-between bg-slate-100 px-4 py-2.5">
-                            <span class="text-xs font-bold text-slate-700 uppercase tracking-wide">Template 1 — Persona Brief</span>
+                            <span class="text-xs font-bold text-slate-700 uppercase tracking-wide">Template 1: Persona Brief</span>
                             <button onclick="copyTemplate('tpl-persona')" class="flex items-center gap-1.5 text-xs text-blue-600 hover:text-blue-800 font-semibold transition-colors">
                                 <i data-lucide="copy" class="w-3.5 h-3.5"></i> Copy
                             </button>
@@ -2986,7 +2986,7 @@ Constraints:
                         <pre id="tpl-persona" class="p-4 text-[11px] leading-relaxed text-slate-700 bg-white overflow-x-auto whitespace-pre-wrap font-mono">## Synthetic User Persona Brief
 
 **Segment name:** [e.g. Mid-Market RevOps Manager]
-**Version:** v1.0 — [Date]
+**Version:** v1.0, [Date]
 **Data sources used:** [e.g. NPS verbatims Q1 2025, 12 sales call transcripts, FullStory sessions]
 
 ---
@@ -2999,12 +2999,12 @@ Constraints:
 - Reporting structure: [e.g. Reports to VP of Sales]
 
 ### Goals (ranked by priority)
-1. [Primary goal — use their words if possible]
+1. [Primary goal, use their words if possible]
 2. [Secondary goal]
 3. [Tertiary goal]
 
 ### Top Frustrations
-- [Frustration 1 — ideally verbatim from support tickets or interviews]
+- [Frustration 1, ideally verbatim from support tickets or interviews]
 - [Frustration 2]
 - [Frustration 3]
 
@@ -3024,14 +3024,14 @@ Constraints:
 
 ### Calibration notes
 - Last validated against real data: [Date]
-- Alignment score with real users: [e.g. 78% — 3 of 4 priority features matched backlog top-10]
+- Alignment score with real users: [e.g. 78%, 3 of 4 priority features matched backlog top-10]
 - Next review due: [Date + 90 days]</pre>
                     </div>
 
                     <!-- Template 2: Cohort Prompt -->
                     <div class="border border-slate-200 rounded-xl overflow-hidden">
                         <div class="flex items-center justify-between bg-slate-100 px-4 py-2.5">
-                            <span class="text-xs font-bold text-slate-700 uppercase tracking-wide">Template 2 — Cohort System Prompt</span>
+                            <span class="text-xs font-bold text-slate-700 uppercase tracking-wide">Template 2: Cohort System Prompt</span>
                             <button onclick="copyTemplate('tpl-prompt')" class="flex items-center gap-1.5 text-xs text-blue-600 hover:text-blue-800 font-semibold transition-colors">
                                 <i data-lucide="copy" class="w-3.5 h-3.5"></i> Copy
                             </button>
@@ -3050,13 +3050,13 @@ Your biggest frustrations with tools like this one:
 - [Frustration 2]
 
 How you evaluate software:
-- [Evaluation behavior — e.g. "You always ask for a security review before any tool touches customer data"]
-- [Deal breakers — e.g. "You will not move forward without a native HubSpot integration"]
-- [Process — e.g. "You need a business case doc before presenting to your CFO"]
+- [Evaluation behavior: e.g. "You always ask for a security review before any tool touches customer data"]
+- [Deal breakers: e.g. "You will not move forward without a native HubSpot integration"]
+- [Process: e.g. "You need a business case doc before presenting to your CFO"]
 
 Your communication style:
-- [Tone — e.g. "Direct, data-driven, skeptical of vendor claims without proof"]
-- [Language — use these phrases naturally: "[real quote 1]", "[real quote 2]"]
+- [Tone: e.g. "Direct, data-driven, skeptical of vendor claims without proof"]
+- [Language, use these phrases naturally: "[real quote 1]", "[real quote 2]"]
 
 Your blind spots (things you don't know or actively avoid):
 - [e.g. "You are not technical and avoid discussions about APIs or infrastructure"]
@@ -3064,14 +3064,14 @@ Your blind spots (things you don't know or actively avoid):
 
 Constraints:
 - Stay fully in character. Do not break persona or refer to yourself as an AI.
-- If asked about something outside your experience, respond as this persona would — with honest uncertainty, not fabricated expertise.
+- If asked about something outside your experience, respond as this persona would, with honest uncertainty, not fabricated expertise.
 - Base your opinions on the context above, not on general knowledge about your industry.</pre>
                     </div>
 
                     <!-- Template 3: Calibration Checklist -->
                     <div class="border border-slate-200 rounded-xl overflow-hidden">
                         <div class="flex items-center justify-between bg-slate-100 px-4 py-2.5">
-                            <span class="text-xs font-bold text-slate-700 uppercase tracking-wide">Template 3 — Calibration Checklist</span>
+                            <span class="text-xs font-bold text-slate-700 uppercase tracking-wide">Template 3: Calibration Checklist</span>
                             <button onclick="copyTemplate('tpl-calibration')" class="flex items-center gap-1.5 text-xs text-blue-600 hover:text-blue-800 font-semibold transition-colors">
                                 <i data-lucide="copy" class="w-3.5 h-3.5"></i> Copy
                             </button>
@@ -3105,12 +3105,12 @@ Question tested: "[Paste the question you asked the synthetic user]"
 | User 2    |                   | Y / N             |
 | User 3    |                   | Y / N             |
 
-Alignment score: [X/3 matched] — [Pass ≥2/3 to proceed / Fail → update persona brief]
+Alignment score: [X/3 matched]: [Pass ≥2/3 to proceed / Fail → update persona brief]
 
 ### Decision
 
-[ ] PASS — persona is calibrated, cleared for use in roadmap hypothesis testing
-[ ] FAIL — update persona brief with divergence notes before next session
+[ ] PASS: persona is calibrated, cleared for use in roadmap hypothesis testing
+[ ] FAIL: update persona brief with divergence notes before next session
 
 **Notes:**
 [Free text]
@@ -3121,7 +3121,7 @@ Alignment score: [X/3 matched] — [Pass ≥2/3 to proceed / Fail → update per
                     <!-- Template 4: syntheticusers.com Study Setup -->
                     <div class="border border-indigo-100 rounded-xl overflow-hidden">
                         <div class="flex items-center justify-between bg-indigo-50 px-4 py-2.5">
-                            <span class="text-xs font-bold text-indigo-700 uppercase tracking-wide">Template 4 — syntheticusers.com Study Setup</span>
+                            <span class="text-xs font-bold text-indigo-700 uppercase tracking-wide">Template 4: syntheticusers.com Study Setup</span>
                             <button onclick="copyTemplate('tpl-study')" class="flex items-center gap-1.5 text-xs text-indigo-600 hover:text-indigo-800 font-semibold transition-colors">
                                 <i data-lucide="copy" class="w-3.5 h-3.5"></i> Copy
                             </button>
@@ -3139,9 +3139,9 @@ Alignment score: [X/3 matched] — [Pass ≥2/3 to proceed / Fail → update per
 
 ### Study configuration
 
-**Study name:** [Feature or hypothesis you are testing] — [Segment name] — [Date]
+**Study name:** [Feature or hypothesis you are testing], [Segment name], [Date]
 
-**Participant configuration (paste your Cohort System Prompt — Template 2 here)**
+**Participant configuration (paste your Cohort System Prompt, Template 2 here)**
 
 **Grounding documents to upload:**
 - NPS verbatim export (last 90 days, filtered to this segment)
@@ -3156,7 +3156,7 @@ Opening (warm-up):
 "Walk me through how you currently handle [problem area]. What does a typical week look like?"
 
 Core hypothesis questions:
-1. "[Your primary hypothesis question — open-ended]"
+1. "[Your primary hypothesis question, open-ended]"
 2. "How important is [specific feature] compared to [alternative]? Why?"
 3. "What would have to be true for you to switch from your current solution?"
 
@@ -3183,7 +3183,7 @@ Closing:
     `;
     openGlobalModal(
         'How to Build Synthetic Users',
-        'A step-by-step guide for product managers — from raw data to governed AI cohorts',
+        'A step-by-step guide for product managers: from raw data to governed AI cohorts',
         html,
         'users'
     );
@@ -3197,7 +3197,7 @@ function showKeySecurityInfo() {
                 <i data-lucide="shield-check" class="w-5 h-5 text-emerald-600 shrink-0 mt-0.5"></i>
                 <div>
                     <p class="font-bold text-emerald-900 mb-1">Your key is handled securely</p>
-                    <p class="text-emerald-800 text-xs leading-relaxed">When you enter a custom OpenRouter key, it is sent directly from your browser to OpenRouter over HTTPS — it never passes through any intermediary server. When no custom key is provided, the app routes requests through a Vercel serverless function that holds the key server-side, invisible to the browser.</p>
+                    <p class="text-emerald-800 text-xs leading-relaxed">When you enter a custom OpenRouter key, it is sent directly from your browser to OpenRouter over HTTPS: it never passes through any intermediary server. When no custom key is provided, the app routes requests through a Vercel serverless function that holds the key server-side, invisible to the browser.</p>
                 </div>
             </div>
 
@@ -3239,7 +3239,7 @@ function showKeySecurityInfo() {
 
             <div class="bg-indigo-50 border border-indigo-100 rounded-xl p-4 flex gap-3 text-xs text-indigo-900">
                 <i data-lucide="info" class="w-4 h-4 text-indigo-500 shrink-0 mt-0.5"></i>
-                <p><strong>No key entered?</strong> When deployed on Vercel, the app automatically uses the <code class='bg-slate-100 px-1 rounded text-[11px]'>OPENROUTER_API_KEY</code> environment variable set in your Vercel project — no key needed from the user. Running locally without a key will cause AI features to fail; add your key to the field or set the env var in a <code class='bg-slate-100 px-1 rounded text-[11px]'>.env</code> file.</p>
+                <p><strong>No key entered?</strong> When deployed on Vercel, the app automatically uses the <code class='bg-slate-100 px-1 rounded text-[11px]'>OPENROUTER_API_KEY</code> environment variable set in your Vercel project: no key needed from the user. Running locally without a key will cause AI features to fail; add your key to the field or set the env var in a <code class='bg-slate-100 px-1 rounded text-[11px]'>.env</code> file.</p>
             </div>
         </div>
     `;
@@ -3253,9 +3253,9 @@ function showKeySecurityInfo() {
 
 // ===================== USABILITY TESTER =====================
 const USABILITY_PERSONA_PRESETS = {
-    revops: "You are a mid-market RevOps Manager at a 150-person B2B SaaS company. You are non-technical, evaluation decisions are made by committee, and you're skeptical of tools that can't prove ROI quickly. You're time-constrained and frustrated by complex onboarding. You have moderate tech literacy — comfortable with Salesforce and HubSpot but not with APIs or developer tooling.",
+    revops: "You are a mid-market RevOps Manager at a 150-person B2B SaaS company. You are non-technical, evaluation decisions are made by committee, and you're skeptical of tools that can't prove ROI quickly. You're time-constrained and frustrated by complex onboarding. You have moderate tech literacy: comfortable with Salesforce and HubSpot but not with APIs or developer tooling.",
     developer: "You are a senior software engineer at a 60-person startup. You are highly technical, impatient with friction, and quick to judge whether a tool respects your time. You read documentation before tutorials, and you immediately look for an API or CLI. You'll abandon a tool that buries technical details behind marketing copy.",
-    "smb-founder": "You are the founder of a 12-person e-commerce company. You wear many hats — you're simultaneously the CEO, head of ops, and sometimes do customer support. You're time-poor, budget-conscious, and evaluate tools based on how fast you can see value. You have low tolerance for lengthy setup flows.",
+    "smb-founder": "You are the founder of a 12-person e-commerce company. You wear many hats: you're simultaneously the CEO, head of ops, and sometimes do customer support. You're time-poor, budget-conscious, and evaluate tools based on how fast you can see value. You have low tolerance for lengthy setup flows.",
     "enterprise-buyer": "You are an IT Director at a 3,000-person financial services firm. Security and compliance come before everything else. You will not approve a tool that doesn't have SSO, a DPA, and SOC 2 documentation readily available. You evaluate slowly and involve legal, procurement, and InfoSec before any commitment.",
     "cs-manager": "You are a Customer Success Manager at a mid-size SaaS company. You use 6–8 tools daily and have very high expectations for UI clarity and workflow efficiency. You're frustrated by tools that require too many clicks, hide key actions in menus, or don't surface the information you need at a glance.",
 };
@@ -3349,36 +3349,36 @@ async function runUsabilityEvaluation() {
     const reportBody = document.getElementById('usability-report-body');
     reportBody.innerHTML = `<div class="flex items-center gap-3 text-slate-400"><span class="typing-dots"><span></span><span></span><span></span></span><span>Thinking as your persona...</span></div>`;
 
-    usabilitySystemPrompt = `You are roleplaying as the following synthetic user persona:\n\n${persona}\n\nYou are being asked to evaluate a software interface. Think aloud as this persona — be specific, opinionated, and realistic. Surface real concerns this persona would have. Do not be generically positive. Stay completely in character throughout.`;
+    usabilitySystemPrompt = `You are roleplaying as the following synthetic user persona:\n\n${persona}\n\nYou are being asked to evaluate a software interface. Think aloud as this persona: be specific, opinionated, and realistic. Surface real concerns this persona would have. Do not be generically positive. Stay completely in character throughout.`;
 
     const evalPrompt = `You are evaluating the following interface:
 URL: ${url || '(not provided)'}
 ${description ? `Additional context: ${description}` : ''}
 Task you are trying to accomplish: ${task || '(general exploration)'}
-${usabilityImageBase64 ? 'A screenshot of the interface is attached — evaluate based on what you can see in the image.' : ''}
+${usabilityImageBase64 ? 'A screenshot of the interface is attached: evaluate based on what you can see in the image.' : ''}
 
 Provide a structured usability evaluation covering these dimensions: ${dimensions.join(', ')}.
 
 Format your response as follows:
 
 ## Think-Aloud Walkthrough
-(Narrate your first-person experience attempting the task — what you notice, what confuses you, what you'd click, where you'd pause or give up)
+(Narrate your first-person experience attempting the task: what you notice, what confuses you, what you'd click, where you'd pause or give up)
 
 ## Dimension Ratings
 For each dimension, give a rating (1–5) and 1–2 sentence explanation:
-${dimensions.map(d => `- **${d}**: [rating/5] — [explanation]`).join('\n')}
+${dimensions.map(d => `- **${d}**: [rating/5]: [explanation]`).join('\n')}
 
 ## Top 3 Usability Concerns
-(Ranked by severity — most critical first)
+(Ranked by severity: most critical first)
 1.
 2.
 3.
 
 ## Recommended Fixes
-(Specific, actionable — what would make this interface work better for this persona)
+(Specific, actionable: what would make this interface work better for this persona)
 
 ## Likelihood to Complete Task
-(Low / Medium / High) — and why`;
+(Low / Medium / High), and why`;
 
     try {
         let result;
@@ -3435,7 +3435,7 @@ ${dimensions.map(d => `- **${d}**: [rating/5] — [explanation]`).join('\n')}
         document.getElementById('copy-usability-btn').classList.remove('hidden');
         document.getElementById('usability-chat-input').disabled = false;
         document.getElementById('usability-chat-send').disabled = false;
-        document.getElementById('usability-chat-subtitle').textContent = `Persona active — ask follow-up questions`;
+        document.getElementById('usability-chat-subtitle').textContent = `Persona active: ask follow-up questions`;
         document.getElementById('usability-messages').innerHTML = `<div class="bg-slate-800/50 text-slate-300 p-3 rounded-lg text-[11px] text-center">Evaluation complete. Ask the persona follow-up questions below.</div>`;
     } catch(e) {
         reportBody.innerHTML = `<p class="text-rose-500">Evaluation failed: ${e.message}</p>`;
@@ -3503,7 +3503,7 @@ function showUsabilityGuide() {
         <div class="space-y-5 text-sm">
             <div class="bg-violet-50 border border-violet-200 rounded-xl p-4 flex gap-3">
                 <i data-lucide="info" class="w-5 h-5 text-violet-600 shrink-0 mt-0.5"></i>
-                <p class="text-violet-900 text-xs leading-relaxed">Synthetic usability evaluation uses AI personas to simulate how a specific user type would experience an interface — surfacing terminology mismatches, cognitive load, and navigation confusion before you run a single real session.</p>
+                <p class="text-violet-900 text-xs leading-relaxed">Synthetic usability evaluation uses AI personas to simulate how a specific user type would experience an interface: surfacing terminology mismatches, cognitive load, and navigation confusion before you run a single real session.</p>
             </div>
 
             <div>
@@ -3511,8 +3511,8 @@ function showUsabilityGuide() {
                 <div class="space-y-2.5">
                     ${[
                         ["Describe the interface in plain text","The AI cannot visit URLs. Write what's visible: layout, labels, buttons, copy, form fields, and any instructions shown. The more specific, the more accurate the evaluation."],
-                        ["Define the task","Give the persona a clear goal — e.g. 'Complete account setup and reach the main dashboard.' Vague tasks produce vague evaluations."],
-                        ["Choose or write a persona","Use a preset (RevOps Manager, Developer, SMB Founder…) or write your own. The more specific the persona — goals, frustrations, tech literacy — the more realistic the output."],
+                        ["Define the task","Give the persona a clear goal: e.g. 'Complete account setup and reach the main dashboard.' Vague tasks produce vague evaluations."],
+                        ["Choose or write a persona","Use a preset (RevOps Manager, Developer, SMB Founder…) or write your own. The more specific the persona (goals, frustrations, tech literacy) the more realistic the output."],
                         ["Select evaluation dimensions","Check only the dimensions that matter for this test. First impressions and task completion are useful for almost every test. Accessibility and mobile concerns are relevant only if that audience is in scope."],
                         ["Probe with follow-up questions","After the report generates, use the Follow-up Probe chat to go deeper: 'What would make you trust this screen more?' or 'Where would you go if the Continue button didn't work?'"]
                     ].map(([t,b]) => `
@@ -3525,7 +3525,7 @@ function showUsabilityGuide() {
 
             <div class="border border-slate-200 rounded-xl overflow-hidden">
                 <div class="flex items-center justify-between bg-slate-100 px-4 py-2.5">
-                    <span class="text-xs font-bold text-slate-700 uppercase tracking-wide">Template — Usability Evaluation Session Brief</span>
+                    <span class="text-xs font-bold text-slate-700 uppercase tracking-wide">Template: Usability Evaluation Session Brief</span>
                     <button onclick="copyTemplate('tpl-usability')" class="flex items-center gap-1.5 text-xs text-violet-600 hover:text-violet-800 font-semibold transition-colors">
                         <i data-lucide="copy" class="w-3.5 h-3.5"></i> Copy
                     </button>
@@ -3533,7 +3533,7 @@ function showUsabilityGuide() {
                 <pre id="tpl-usability" class="p-4 text-[11px] leading-relaxed text-slate-700 bg-white overflow-x-auto whitespace-pre-wrap font-mono">## Usability Evaluation Session Brief
 
 **Product / Feature:** [Name of screen or flow being evaluated]
-**URL:** [URL — for reference only, describe the interface below]
+**URL:** [URL: for reference only, describe the interface below]
 **Date:** [Date]
 **Evaluator:** [Your name]
 **Persona used:** [Persona name or preset]
@@ -3573,7 +3573,7 @@ e.g. "Name their workspace and continue to the next step."
 
 ### Follow-up Questions to Probe After Report
 1. [e.g. "What would make you more confident before clicking Continue?"]
-2. [e.g. "What does 'workspace' mean to you — is that term clear?"]
+2. [e.g. "What does 'workspace' mean to you: is that term clear?"]
 3. [e.g. "If the Continue button didn't work, what would you do next?"]
 
 ---
@@ -3587,7 +3587,7 @@ e.g. "Name their workspace and continue to the next step."
 
             <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 flex gap-3">
                 <i data-lucide="alert-triangle" class="w-5 h-5 text-amber-600 shrink-0 mt-0.5"></i>
-                <p class="text-xs text-amber-900 leading-relaxed"><strong>Synthetic usability evaluation is not a substitute for real usability testing.</strong> Use it to prioritize which problems to investigate and to prepare sharper questions for real sessions — not to validate final design decisions.</p>
+                <p class="text-xs text-amber-900 leading-relaxed"><strong>Synthetic usability evaluation is not a substitute for real usability testing.</strong> Use it to prioritize which problems to investigate and to prepare sharper questions for real sessions: not to validate final design decisions.</p>
             </div>
         </div>
     `;
