@@ -315,16 +315,49 @@ body { font-family:'Geist', system-ui, sans-serif !important; background:var(--p
 
     </main>
 
-    <footer class="bg-white border-t border-slate-200 mt-16 py-8">
-        <div class="max-w-7xl mx-auto px-4 text-center text-slate-500 text-xs space-y-2">
-            <p class="font-medium">Preflight &bull; Powered by OpenRouter</p>
-            <!-- <p>A <strong class="text-slate-700">PRIME ISO Services, LLC</strong> product &bull;
-                <a href="terms.html" class="hover:text-slate-800 underline underline-offset-2">Terms of Service</a> &bull;
-                <a href="privacy.html" class="hover:text-slate-800 underline underline-offset-2">Privacy Policy</a> &bull;
-                <a href="trust.html" class="hover:text-slate-800 underline underline-offset-2">Trust Center</a>
-            </p> -->
-            <p>Licensed under <a href="https://www.apache.org/licenses/LICENSE-2.0" target="_blank" class="hover:text-slate-800 underline underline-offset-2">Apache-2.0</a> &bull; <a href="https://github.com/vivistar/synth" target="_blank" class="hover:text-slate-800 underline underline-offset-2">github.com/vivistar/synth</a></p>
-            <p id="footer-year-trust"></p>
+    <footer class="pf-dark mt-16">
+        <div class="max-w-6xl mx-auto px-6 md:px-10 py-14">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10">
+                <div class="lg:col-span-5">
+                    <div class="flex items-center gap-2.5">
+                        <span class="w-5 h-5 rounded-md" style="background:var(--pf-accent)"></span>
+                        <span class="pf-mono text-sm font-semibold tracking-[0.18em] text-white">PREFLIGHT</span>
+                    </div>
+                    <p class="text-sm text-white/50 mt-4 max-w-xs leading-relaxed">SaaS Preflight Check for Synthetic Users — know when to trust AI, and when to send in the humans.</p>
+                </div>
+                <div class="lg:col-span-3">
+                    <p class="pf-mono text-[11px] tracking-widest text-white/40">PAGES</p>
+                    <div class="mt-5 flex flex-col gap-3 items-start">
+                        <a href="index.html" class="text-sm text-white/80 hover:text-white transition-colors">Home</a>
+                        <a href="index.html#checkpoint" class="text-sm text-white/80 hover:text-white transition-colors">Active Checkpoint</a>
+                        <a href="index.html#wizard" class="text-sm text-white/80 hover:text-white transition-colors">Cohort Due Diligence</a>
+                        <a href="index.html#map" class="text-sm text-white/80 hover:text-white transition-colors">Interactive Map</a>
+                    </div>
+                </div>
+                <div class="lg:col-span-4">
+                    <p class="pf-mono text-[11px] tracking-widest text-white/40">RESOURCES</p>
+                    <div class="mt-5 flex flex-col gap-3 items-start">
+                        <a href="index.html#sandbox" class="text-sm text-white/80 hover:text-white transition-colors">AI Sandbox &amp; Prompt Architect</a>
+                        <a href="index.html#usability" class="text-sm text-white/80 hover:text-white transition-colors">Usability Tester</a>
+                        <a href="index.html#rationale" class="text-sm text-white/80 hover:text-white transition-colors">Lifecycle Rationale</a>
+                        <a href="index.html" class="text-sm text-white/80 hover:text-white transition-colors">How to Build Synthetic Users</a>
+                        <a href="index.html" class="text-sm text-white/80 hover:text-white transition-colors">Usability Evaluation Guide</a>
+                    </div>
+                </div>
+            </div>
+            <p class="text-center text-white/50 text-sm mt-16 max-w-2xl mx-auto leading-relaxed">Always align synthetic persona configurations with physical customer telemetry, support tickets, and direct feedback channels.</p>
+            <div class="flex flex-wrap items-center justify-center gap-x-3 gap-y-2 mt-6 text-xs text-white/50">
+                <a href="references.html" class="hover:text-white underline underline-offset-2 transition-colors">References</a>
+                <span class="text-white/20">·</span>
+                <a href="https://www.apache.org/licenses/LICENSE-2.0" target="_blank" class="hover:text-white underline underline-offset-2 transition-colors">Apache-2.0</a>
+                <span class="text-white/20">·</span>
+                <a href="https://github.com/vivistar/synth" target="_blank" class="hover:text-white underline underline-offset-2 transition-colors">github.com/vivistar/synth</a>
+            </div>
+            <div class="mt-10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3" style="border-top:1px solid var(--pf-border-dark)">
+                <p class="pf-mono text-[11px] text-white/40">Preflight · Powered by OpenRouter · 2026</p>
+                <p class="text-xs text-white/40">&copy; Terry M Patterson. All rights reserved.</p>
+                <p class="pf-mono text-[11px] text-white/40 flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full" style="background:var(--pf-success)"></span> All systems nominal</p>
+            </div>
         </div>
     </footer>
 
