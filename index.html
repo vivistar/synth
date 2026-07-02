@@ -288,45 +288,45 @@ document.addEventListener('DOMContentLoaded', pfUpdateHeader);
         </div>
 
         <!-- Triage banner -->
-        <div class="rounded-xl border border-slate-200 bg-slate-50 p-4 mb-6">
-            <p class="font-bold text-slate-900 text-sm">Triage gate — runs first, sets how hard the exit is</p>
-            <p class="text-xs text-slate-500 mt-0.5">Reversible, low-stakes → loose exit &nbsp;·&nbsp; Irreversible, high-stakes → hard exit</p>
+        <div class="rounded-xl p-4 mb-6" style="border:1px solid var(--pf-border); background:var(--pf-alt)">
+            <p class="font-semibold text-sm" style="color:var(--pf-text)">Triage gate — runs first, sets how hard the exit is</p>
+            <p class="pf-mono text-xs mt-1" style="color:var(--pf-text2)">Reversible, low-stakes → loose exit &nbsp;·&nbsp; Irreversible, high-stakes → hard exit</p>
         </div>
 
         <!-- Stages -->
         <div class="grid grid-cols-1 sm:grid-cols-5 gap-3 items-stretch">
             <div class="rounded-xl border-2 border-emerald-300 bg-emerald-50 p-4 text-center flex flex-col justify-center">
-                <span class="text-[10px] font-bold uppercase tracking-wider text-indigo-600">entry gate</span>
-                <p class="font-extrabold text-emerald-900 text-lg mt-1">Frame</p>
-                <p class="text-xs text-emerald-700">test the idea</p>
+                <span class="pf-mono text-[10px] uppercase tracking-wider text-emerald-700">entry gate</span>
+                <p class="font-semibold text-emerald-900 text-lg mt-1.5">Frame</p>
+                <p class="text-xs text-emerald-700 mt-0.5">test the idea</p>
             </div>
-            <div class="rounded-xl border-2 border-slate-300 bg-slate-50 p-4 text-center flex flex-col justify-center">
-                <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">build step</span>
-                <p class="font-extrabold text-slate-800 text-lg mt-1">Generate</p>
-                <p class="text-xs text-slate-500">just build</p>
+            <div class="rounded-xl border-2 p-4 text-center flex flex-col justify-center" style="border-color:var(--pf-border); background:var(--pf-alt)">
+                <span class="pf-mono text-[10px] uppercase tracking-wider" style="color:var(--pf-text2)">build step</span>
+                <p class="font-semibold text-lg mt-1.5" style="color:var(--pf-text)">Generate</p>
+                <p class="text-xs mt-0.5" style="color:var(--pf-text2)">just build</p>
             </div>
             <div class="rounded-xl border-2 border-dashed border-amber-400 bg-amber-50 p-4 text-center flex flex-col justify-center">
-                <span class="text-[10px] font-bold uppercase tracking-wider text-indigo-600">decision</span>
-                <p class="font-extrabold text-amber-900 text-lg mt-1">Inspect</p>
-                <p class="text-xs text-amber-700">stakes decide</p>
+                <span class="pf-mono text-[10px] uppercase tracking-wider text-amber-700">decision</span>
+                <p class="font-semibold text-amber-900 text-lg mt-1.5">Inspect</p>
+                <p class="text-xs text-amber-700 mt-0.5">stakes decide</p>
             </div>
             <div class="rounded-xl border-2 border-emerald-300 bg-emerald-50 p-4 text-center flex flex-col justify-center">
-                <span class="text-[10px] font-bold uppercase tracking-wider text-transparent">.</span>
-                <p class="font-extrabold text-emerald-900 text-lg mt-1">Iterate</p>
-                <p class="text-xs text-emerald-700">fast cycles</p>
+                <span class="pf-mono text-[10px] uppercase tracking-wider text-transparent">step</span>
+                <p class="font-semibold text-emerald-900 text-lg mt-1.5">Iterate</p>
+                <p class="text-xs text-emerald-700 mt-0.5">fast cycles</p>
             </div>
             <div class="rounded-xl border-2 border-rose-300 bg-rose-50 p-4 text-center flex flex-col justify-center">
-                <span class="text-[10px] font-bold uppercase tracking-wider text-indigo-600">ship gate</span>
-                <p class="font-extrabold text-rose-900 text-lg mt-1">Ship</p>
-                <p class="text-xs text-rose-700">needs humans</p>
+                <span class="pf-mono text-[10px] uppercase tracking-wider text-rose-700">ship gate</span>
+                <p class="font-semibold text-rose-900 text-lg mt-1.5">Ship</p>
+                <p class="text-xs text-rose-700 mt-0.5">needs humans</p>
             </div>
         </div>
 
         <!-- Loop-back labels -->
-        <div class="flex flex-wrap gap-2 mt-4 text-[11px]">
-            <span class="inline-flex items-center gap-1 bg-slate-100 text-slate-600 px-2.5 py-1 rounded-full"><i data-lucide="rotate-ccw" class="w-3 h-3"></i> refine loop · Inspect → Iterate</span>
-            <span class="inline-flex items-center gap-1 bg-slate-100 text-slate-600 px-2.5 py-1 rounded-full"><i data-lucide="corner-up-left" class="w-3 h-3"></i> reframe · Inspect → Frame</span>
-            <span class="inline-flex items-center gap-1 bg-slate-100 text-slate-600 px-2.5 py-1 rounded-full"><i data-lucide="repeat" class="w-3 h-3"></i> next cycle · Ship → Frame</span>
+        <div class="flex flex-wrap gap-2 mt-4">
+            <span class="pf-mono inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px]" style="background:var(--pf-alt); color:var(--pf-text2)"><i data-lucide="rotate-ccw" class="w-3 h-3"></i> refine loop · Inspect → Iterate</span>
+            <span class="pf-mono inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px]" style="background:var(--pf-alt); color:var(--pf-text2)"><i data-lucide="corner-up-left" class="w-3 h-3"></i> reframe · Inspect → Frame</span>
+            <span class="pf-mono inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px]" style="background:var(--pf-alt); color:var(--pf-text2)"><i data-lucide="repeat" class="w-3 h-3"></i> next cycle · Ship → Frame</span>
         </div>
 
         <!-- Legend -->
