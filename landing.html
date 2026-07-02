@@ -84,8 +84,8 @@ body { font-family:'Geist', system-ui, sans-serif !important; background:var(--p
         .pf-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.045) 1px, transparent 1px); background-size: 46px 46px; -webkit-mask-image: radial-gradient(ellipse 72% 62% at 50% 42%, #000 28%, transparent 76%); mask-image: radial-gradient(ellipse 72% 62% at 50% 42%, #000 28%, transparent 76%); }
         /* flight-path trajectories: dashed takeoff arcs with a travelling marker */
         .pf-flightpath { position: absolute; inset: 0; width: 100%; height: 100%; }
-        .pf-path { fill: none; stroke: rgba(128,128,255,0.30); stroke-width: 1.5; stroke-dasharray: 5 9; animation: pfDash 5s linear infinite; }
-        .pf-path-2 { stroke: rgba(0,181,216,0.20); stroke-dasharray: 4 12; animation-duration: 8s; }
+        .pf-path { fill: none; stroke: rgba(128,128,255,0.30); stroke-width: 1.5; stroke-dasharray: 5 9; animation: pfDash 8s linear infinite; }
+        .pf-path-2 { stroke: rgba(0,181,216,0.20); stroke-dasharray: 4 12; animation-duration: 12s; }
         .pf-waypoint { fill: rgba(128,128,255,0.5); }
         .pf-plane { fill: #a9a9ff; filter: drop-shadow(0 0 5px rgba(128,128,255,0.9)); }
         .pf-plane-2 { fill: #6fe3f5; filter: drop-shadow(0 0 4px rgba(0,181,216,0.85)); }
@@ -124,13 +124,13 @@ body { font-family:'Geist', system-ui, sans-serif !important; background:var(--p
             <div class="pf-blob pf-blob-b"></div>
             <div class="pf-blob pf-blob-c"></div>
             <svg class="pf-flightpath" viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice">
-                <path id="fp1" class="pf-path" d="M -60 560 C 250 520, 520 470, 700 320 S 1050 120, 1280 40"/>
-                <path id="fp2" class="pf-path pf-path-2" d="M -60 630 C 320 600, 660 560, 900 420 S 1160 300, 1280 250"/>
-                <circle cx="250" cy="512" r="2.5" class="pf-waypoint"/>
-                <circle cx="700" cy="320" r="2.5" class="pf-waypoint"/>
-                <circle cx="1010" cy="150" r="2.5" class="pf-waypoint"/>
-                <circle r="4" class="pf-plane"><animateMotion dur="8s" repeatCount="indefinite" rotate="auto"><mpath href="#fp1"/></animateMotion></circle>
-                <circle r="3" class="pf-plane pf-plane-2"><animateMotion dur="12s" begin="1s" repeatCount="indefinite" rotate="auto"><mpath href="#fp2"/></animateMotion></circle>
+                <path id="fp1" class="pf-path" d="M -60 590 C 220 575, 430 500, 560 300 S 900 20, 1260 -60"/>
+                <path id="fp2" class="pf-path pf-path-2" d="M -60 650 C 300 625, 560 545, 760 340 S 1090 90, 1280 30"/>
+                <circle cx="240" cy="560" r="2.5" class="pf-waypoint"/>
+                <circle cx="560" cy="300" r="2.5" class="pf-waypoint"/>
+                <circle cx="930" cy="60" r="2.5" class="pf-waypoint"/>
+                <circle r="4" class="pf-plane"><animateMotion dur="12s" repeatCount="indefinite" rotate="auto"><mpath href="#fp1"/></animateMotion></circle>
+                <circle r="3" class="pf-plane pf-plane-2"><animateMotion dur="16s" begin="1s" repeatCount="indefinite" rotate="auto"><mpath href="#fp2"/></animateMotion></circle>
             </svg>
         </div>
 
