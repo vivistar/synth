@@ -97,7 +97,7 @@ body { font-family:'Geist', system-ui, sans-serif !important; background:var(--p
                     <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 shrink-0"></span>
                     <div>
                         <p class="text-xs font-bold text-emerald-900">Data Handling</p>
-                        <p class="text-[11px] text-emerald-700">Client-side only: no server</p>
+                        <p class="text-[11px] text-emerald-700">No accounts or database; AI via stateless proxy</p>
                     </div>
                 </div>
             </div>
@@ -116,9 +116,9 @@ body { font-family:'Geist', system-ui, sans-serif !important; background:var(--p
                         </div>
                         <h3 class="font-bold text-slate-900">Architecture &amp; Data Isolation</h3>
                     </div>
-                    <p class="text-xs text-slate-600 leading-relaxed">The Service is a single, self-contained HTML file. There is no application server, no database, no authentication backend, and no cloud storage layer operated by PRIME ISO. All computation (AI prompt assembly, governance scoring, persona generation) runs entirely inside your browser's JavaScript engine.</p>
+                    <p class="text-xs text-slate-600 leading-relaxed">The front end is a single, self-contained HTML file with no database, no authentication backend, and no cloud storage operated by PRIME ISO. The only server-side component is a lightweight, stateless serverless function (on PRIME ISO's Vercel deployment) that proxies AI requests to OpenRouter so the API key never reaches the browser; it persists nothing. All other computation (governance scoring, persona and prompt assembly, report generation) runs inside your browser's JavaScript engine.</p>
                     <ul class="space-y-2 text-xs text-slate-600">
-                        <li class="flex gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-blue-500 shrink-0 mt-0.5"></i> <span>Zero PRIME ISO server-side data reception</span></li>
+                        <li class="flex gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-blue-500 shrink-0 mt-0.5"></i> <span>PRIME ISO stores no data; the AI proxy is stateless and logs no prompt content</span></li>
                         <li class="flex gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-blue-500 shrink-0 mt-0.5"></i> <span>Session memory cleared automatically on tab close</span></li>
                         <li class="flex gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-blue-500 shrink-0 mt-0.5"></i> <span>No <code class="bg-slate-100 px-1 rounded">localStorage</code>, <code class="bg-slate-100 px-1 rounded">sessionStorage</code>, or cookie writes</span></li>
                         <li class="flex gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-blue-500 shrink-0 mt-0.5"></i> <span>Outbound requests limited to OpenRouter API (via server-side proxy or direct with custom key) and public CDNs</span></li>
