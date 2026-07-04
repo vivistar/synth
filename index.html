@@ -162,14 +162,27 @@
         </button>
         <!-- Center: Integration status pill (opens OpenRouter key popover) -->
         <div class="relative hidden sm:block">
-            <button onclick="toggleKeyPopover(event)" class="pf-pill">
-                <span class="w-1.5 h-1.5 rounded-full" style="background:var(--pf-success)"></span> Integration Active
+            <button onclick="toggleKeyPopover(event)" class="pf-pill" id="pf-int-pill">
+                <span id="pf-int-dot" class="w-1.5 h-1.5 rounded-full" style="background:var(--pf-success)"></span> <span id="pf-int-label">Integration Active</span>
             </button>
             <div id="pf-key-popover" class="hidden absolute left-1/2 -translate-x-1/2 top-full mt-2 w-72 pf-card p-4 text-left z-50">
                 <p class="text-sm font-medium flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full" style="background:var(--pf-success)"></span> Powered by OpenRouter</p>
-                <p class="text-xs mt-1" style="color:var(--pf-text2)">To use your own API key, enter your customer key below.</p>
-                <input type="password" id="custom-api-key" placeholder="sk-or-..." class="pf-input pf-mono w-full mt-3 px-3 py-2 text-xs">
+                <p id="pf-key-notice" class="hidden text-xs mt-2 rounded-lg p-2" style="background:rgba(245,158,11,0.12); color:#92600b; border:1px solid rgba(245,158,11,0.3)"></p>
+                <p class="text-xs mt-2" style="color:var(--pf-text2)">To use your own API key, paste your <a href="https://openrouter.ai/keys" target="_blank" class="pf-accent hover:underline">OpenRouter key</a> below.</p>
+                <input type="password" id="custom-api-key" oninput="pfUpdatePill()" placeholder="sk-or-..." class="pf-input pf-mono w-full mt-2 px-3 py-2 text-xs">
                 <button onclick="showKeySecurityInfo()" class="text-xs mt-2 pf-accent hover:underline">How is my key kept secure?</button>
+                <!-- Admin unlock (owner only): uses the deployment's wired key -->
+                <div class="mt-3 pt-3" style="border-top:1px solid var(--pf-border)">
+                    <p class="pf-mono text-[10px] uppercase tracking-wider" style="color:var(--pf-text2)">Admin</p>
+                    <div id="pf-admin-locked">
+                        <input type="password" id="pf-admin-unlock-input" placeholder="Admin unlock code" class="pf-input pf-mono w-full mt-1.5 px-3 py-2 text-xs">
+                        <button onclick="pfSaveAdminUnlock()" class="pf-btn pf-btn-primary w-full mt-2 text-xs" style="padding:.45rem .85rem">Unlock shared key</button>
+                    </div>
+                    <div id="pf-admin-unlocked" class="hidden mt-1.5 flex items-center justify-between">
+                        <span class="text-xs" style="color:var(--pf-success)">&#10003; Admin mode active</span>
+                        <button onclick="pfClearAdminUnlock()" class="text-xs pf-accent hover:underline">Clear</button>
+                    </div>
+                </div>
             </div>
         </div>
         <!-- Right: primary action + menu -->
@@ -255,6 +268,62 @@ function pfPreview(key){
     </div>`;
 }
 function toggleKeyPopover(e){ if(e) e.stopPropagation(); const p=document.getElementById('pf-key-popover'); if(p) p.classList.toggle('hidden'); }
+
+// ---- Integration / admin-unlock state ----
+let pfKeyConfigured = true, pfAdminGated = false, pfAdminValid = false; // optimistic defaults (e.g. local file)
+function pfAdminUnlock(){ try { return localStorage.getItem('pf_admin_unlock') || ''; } catch(e){ return ''; } }
+function pfHasUserKey(){ const el = document.getElementById('custom-api-key'); return !!(el && el.value.trim()); }
+// Headers for POST /api/ai (adds admin unlock when present)
+function pfProxyHeaders(){ const h = { 'Content-Type': 'application/json' }; const u = pfAdminUnlock(); if (u) h['x-admin-unlock'] = u; return h; }
+// True when the shared/wired key is usable without the user supplying their own
+function pfCanUseShared(){ return pfAdminValid || (pfKeyConfigured && !pfAdminGated); }
+
+function pfUpdatePill(){
+    const label = document.getElementById('pf-int-label'), dot = document.getElementById('pf-int-dot');
+    if (!label || !dot) return;
+    const hasUserKey = pfHasUserKey();
+    let text, color;
+    if (hasUserKey)          { text = 'Using your key';     color = 'var(--pf-success)'; }
+    else if (pfCanUseShared()){ text = 'Integration Active'; color = 'var(--pf-success)'; }
+    else                     { text = 'Key required';       color = 'var(--pf-amber)'; }
+    label.textContent = text; dot.style.background = color;
+    // Popover notice + admin section state
+    const notice = document.getElementById('pf-key-notice');
+    if (notice){
+        if (!hasUserKey && !pfCanUseShared()){
+            notice.textContent = pfKeyConfigured
+                ? "This deployment's shared key is admin-only. Paste your own OpenRouter key to use AI features, or enter the admin code below."
+                : "This deployment has no shared key. Paste your own OpenRouter key to use AI features.";
+            notice.classList.remove('hidden');
+        } else notice.classList.add('hidden');
+    }
+    const locked = document.getElementById('pf-admin-locked'), unlocked = document.getElementById('pf-admin-unlocked');
+    if (locked && unlocked){ locked.classList.toggle('hidden', pfAdminValid); unlocked.classList.toggle('hidden', !pfAdminValid); }
+}
+
+async function pfCheckIntegration(){
+    try {
+        const u = pfAdminUnlock();
+        const res = await fetch('/api/ai', { method: 'GET', headers: u ? { 'x-admin-unlock': u } : {} });
+        if (res.ok){ const d = await res.json(); pfKeyConfigured = !!d.keyConfigured; pfAdminGated = !!d.adminGated; pfAdminValid = !!d.adminValid; }
+    } catch(e){ /* offline / local file: keep optimistic defaults */ }
+    pfUpdatePill();
+}
+
+async function pfSaveAdminUnlock(){
+    const inp = document.getElementById('pf-admin-unlock-input');
+    const code = (inp && inp.value || '').trim();
+    if (!code){ showToast('Enter a code', 'Paste your admin unlock code first.', 'info'); return; }
+    try { localStorage.setItem('pf_admin_unlock', code); } catch(e){}
+    await pfCheckIntegration();
+    if (pfAdminValid){ showToast('Admin mode active', "The deployment's shared key is unlocked on this device.", 'success'); if (inp) inp.value = ''; }
+    else { try { localStorage.removeItem('pf_admin_unlock'); } catch(e){} pfUpdatePill(); showToast('Unlock failed', 'That code was not accepted.', 'error'); }
+}
+function pfClearAdminUnlock(){ try { localStorage.removeItem('pf_admin_unlock'); } catch(e){} pfAdminValid = false; pfUpdatePill(); showToast('Cleared', 'Admin mode turned off on this device.', 'info'); }
+// Surface the key popover with the right guidance when an AI call is blocked on a missing key
+function pfOpenKeyHelp(){ const p = document.getElementById('pf-key-popover'); if (p) p.classList.remove('hidden'); pfUpdatePill(); }
+
+document.addEventListener('DOMContentLoaded', pfCheckIntegration);
 document.addEventListener('click', function(e){
     const p=document.getElementById('pf-key-popover');
     if(p && !p.classList.contains('hidden') && !e.target.closest('#pf-header .relative')) p.classList.add('hidden');
@@ -1643,12 +1712,20 @@ async function fetchWithBackoff(url, options, maxRetries = 3) {
         try {
             const response = await fetch(url, options);
             if (response.ok) return response;
+            if (response.status === 401 || response.status === 500) {
+                // Key/admin gating — do not retry; guide the user to supply a key
+                const body = await response.json().catch(() => ({}));
+                if (body.error === 'no_key' || body.error === 'admin_unlock_required') {
+                    if (typeof pfOpenKeyHelp === 'function') pfOpenKeyHelp();
+                    throw new Error(body.error === 'no_key'
+                        ? 'No API key available on this deployment. Add your own OpenRouter key (top-right) to run AI features.'
+                        : 'This deployment requires your own OpenRouter key. Add it via the key menu (top-right), or enter the admin unlock code.');
+                }
+                if (response.status === 500) throw new Error(body.error || body.message || 'Server error (500).');
+                throw new Error(body.message || 'AI API failed: 401');
+            }
             if (response.status === 429) {
                 console.warn(`Rate limited. Retry in ${delay}ms`);
-            } else if (response.status === 500) {
-                // Proxy misconfiguration (e.g. missing env var) — don't retry, surface clearly
-                const body = await response.json().catch(() => ({}));
-                throw new Error(body.error || `Server error (500). Check OPENROUTER_API_KEY is set in Vercel.`);
             } else if (response.status >= 500) {
                 console.warn(`AI API status ${response.status}. Retry in ${delay}ms`);
             } else {
@@ -1705,10 +1782,10 @@ async function callGeminiAPI(userPrompt, systemInstructionText = "", structuredJ
                 body: JSON.stringify(body)
             });
         } else {
-            // Route through Vercel serverless proxy (reads OPENROUTER_API_KEY server-side)
+            // Route through Vercel serverless proxy (reads OPENROUTER_API_KEY server-side; admin unlock optional)
             response = await fetchWithBackoff('/api/ai', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: pfProxyHeaders(),
                 body: JSON.stringify(body)
             });
         }
@@ -3403,7 +3480,7 @@ ${dimensions.map(d => `- **${d}**: [rating/5]: [explanation]`).join('\n')}
             } else {
                 response = await fetchWithBackoff('/api/ai', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: pfProxyHeaders(),
                     body: JSON.stringify(visionBody)
                 });
             }

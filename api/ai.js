@@ -17,14 +17,32 @@
 const https = require('https');
 
 module.exports = async function handler(req, res) {
+    const apiKey = process.env.OPENROUTER_API_KEY;
+    const adminUnlock = process.env.ADMIN_UNLOCK;              // optional admin gate
+    const provided = req.headers['x-admin-unlock'];
+
+    // Health check (no secrets): lets the client show key status without making a call.
+    if (req.method === 'GET') {
+        return res.status(200).json({
+            keyConfigured: !!apiKey,
+            adminGated: !!adminUnlock,
+            adminValid: !!adminUnlock && provided === adminUnlock,
+        });
+    }
+
     if (req.method !== 'POST') {
         return res.status(405).json({ error: 'Method not allowed' });
     }
 
-    const apiKey = process.env.OPENROUTER_API_KEY;
     if (!apiKey) {
         console.error('[ai] OPENROUTER_API_KEY is not set');
-        return res.status(500).json({ error: 'OPENROUTER_API_KEY not configured' });
+        return res.status(500).json({ error: 'no_key', message: 'No shared API key is configured on this deployment.' });
+    }
+
+    // When an admin gate is configured, the wired key is usable ONLY with a valid unlock code.
+    // If ADMIN_UNLOCK is unset, the shared key stays open to all (prior behavior).
+    if (adminUnlock && provided !== adminUnlock) {
+        return res.status(401).json({ error: 'admin_unlock_required', message: 'This deployment requires your own OpenRouter key.' });
     }
 
     const { messages, model = 'openai/gpt-4o-mini', response_format } = req.body;
