@@ -493,6 +493,186 @@ document.addEventListener('DOMContentLoaded', pfUpdateHeader);
 
 </div>
 
+<!-- VIEW: ACTIVE CHECKPOINT -->
+<div id="view-checkpoint" class="hidden space-y-6">
+    <div class="bg-gradient-to-r from-slate-950 via-slate-900 to-slate-800 rounded-2xl p-6 sm:p-8 text-white shadow-xl relative overflow-hidden">
+        <div class="absolute -right-12 -bottom-12 opacity-10 pointer-events-none"><i data-lucide="plane-takeoff" class="w-56 h-56"></i></div>
+        <div class="max-w-3xl relative z-10">
+            <span class="bg-blue-500/20 text-blue-300 border border-blue-500/30 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider">Active Checkpoint</span>
+            <h2 class="text-3xl font-extrabold mt-3 tracking-tight">Run one decision through the gates when you build your solution with AI</h2>
+            <p class="text-slate-300 mt-2 text-base leading-relaxed">Depending on the decision you're evaluating, an active checkpoint may be exactly the right moment to bring in synthetic personas. Most runs end "go." The few that say "stop" are the ones that matter. Triage sets the strictness, the synthetic gut-check expands your thinking, and the ship gate tells you exactly what to validate with real humans before you ship.</p>
+        </div>
+    </div>
+
+    <!-- Resume banner (persistent runs) -->
+    <div id="cp-resume-banner" class="hidden bg-indigo-50 border border-indigo-200 rounded-xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div class="flex items-start gap-2.5 text-sm text-indigo-900">
+            <i data-lucide="history" class="w-5 h-5 shrink-0 mt-0.5"></i>
+            <p id="cp-resume-text" class="leading-relaxed"></p>
+        </div>
+        <div class="flex gap-2 shrink-0">
+            <button onclick="cpResume()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs px-4 py-2 rounded-lg transition-colors flex items-center gap-1.5"><i data-lucide="rotate-cw" class="w-4 h-4"></i> Resume run</button>
+            <button onclick="cpDiscard()" class="border border-indigo-200 hover:bg-indigo-100 text-indigo-700 font-semibold text-xs px-4 py-2 rounded-lg transition-colors">Start new</button>
+        </div>
+    </div>
+
+    <!-- Stepper (clickable; gates unlock once triage is complete) -->
+    <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm">
+        <div class="flex items-center justify-between gap-1 sm:gap-2 text-center" id="cp-stepper">
+            <div data-cp-step="triage" onclick="cpStepClick('triage')" class="cp-stepitem flex-1 flex flex-col items-center gap-1.5">
+                <span class="cp-dot w-8 h-8 rounded-full border-2 flex items-center justify-center text-xs font-bold transition-all">1</span>
+                <span class="cp-label text-[10px] sm:text-xs font-semibold">Triage</span>
+            </div>
+            <div class="flex-[0.4] h-0.5 bg-slate-200 rounded -mt-5"></div>
+            <div data-cp-step="frame" onclick="cpStepClick('frame')" class="cp-stepitem flex-1 flex flex-col items-center gap-1.5">
+                <span class="cp-dot w-8 h-8 rounded-full border-2 flex items-center justify-center text-xs font-bold transition-all">2</span>
+                <span class="cp-label text-[10px] sm:text-xs font-semibold">Frame</span>
+            </div>
+            <div class="flex-[0.4] h-0.5 bg-slate-200 rounded -mt-5"></div>
+            <div data-cp-step="inspect" onclick="cpStepClick('inspect')" class="cp-stepitem flex-1 flex flex-col items-center gap-1.5">
+                <span class="cp-dot w-8 h-8 rounded-full border-2 flex items-center justify-center text-xs font-bold transition-all">3</span>
+                <span class="cp-label text-[10px] sm:text-xs font-semibold">Inspect</span>
+            </div>
+            <div class="flex-[0.4] h-0.5 bg-slate-200 rounded -mt-5"></div>
+            <div data-cp-step="ship" onclick="cpStepClick('ship')" class="cp-stepitem flex-1 flex flex-col items-center gap-1.5">
+                <span class="cp-dot w-8 h-8 rounded-full border-2 flex items-center justify-center text-xs font-bold transition-all">4</span>
+                <span class="cp-label text-[10px] sm:text-xs font-semibold">Ship</span>
+            </div>
+            <div class="flex-[0.4] h-0.5 bg-slate-200 rounded -mt-5"></div>
+            <div data-cp-step="report" onclick="cpStepClick('report')" class="cp-stepitem flex-1 flex flex-col items-center gap-1.5">
+                <span class="cp-dot w-8 h-8 rounded-full border-2 flex items-center justify-center text-xs font-bold transition-all">5</span>
+                <span class="cp-label text-[10px] sm:text-xs font-semibold">Report</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- PANEL: TRIAGE -->
+    <div id="cp-panel-triage" class="cp-panel bg-white border border-slate-200 rounded-xl p-6 shadow-sm space-y-5">
+        <div class="border-b border-slate-100 pb-4">
+            <h3 class="font-bold text-lg text-slate-900 flex items-center gap-2"><i data-lucide="git-fork" class="text-blue-500 w-5 h-5"></i> Triage gate</h3>
+            <p class="text-xs text-slate-500 mt-1">This runs first and sets how hard the exit will be. Low-stakes, reversible work gets a loose exit; high-stakes, irreversible work gets a hard one.</p>
+        </div>
+        <div>
+            <label class="text-sm font-semibold text-slate-800 block mb-1.5">What decision are you evaluating?</label>
+            <textarea id="cp-decision" rows="2" placeholder="e.g. Gate the bulk-export feature behind the paid tier" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3.5 py-2.5 text-sm text-slate-800 focus:outline-none focus:border-blue-500 resize-none"></textarea>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div>
+                <label class="text-sm font-semibold text-slate-800 block mb-2">Reversibility</label>
+                <div class="grid grid-cols-2 gap-2" id="cp-reversibility">
+                    <button type="button" data-val="reversible" class="cp-toggle border border-slate-200 rounded-lg px-3 py-2.5 text-xs font-semibold text-slate-600 hover:border-blue-400 transition-all">Reversible<span class="block text-[10px] font-normal text-slate-400 mt-0.5">Easy to undo</span></button>
+                    <button type="button" data-val="irreversible" class="cp-toggle border border-slate-200 rounded-lg px-3 py-2.5 text-xs font-semibold text-slate-600 hover:border-blue-400 transition-all">Irreversible<span class="block text-[10px] font-normal text-slate-400 mt-0.5">Hard / costly to undo</span></button>
+                </div>
+            </div>
+            <div>
+                <label class="text-sm font-semibold text-slate-800 block mb-2">Stakes</label>
+                <div class="grid grid-cols-2 gap-2" id="cp-stakes">
+                    <button type="button" data-val="low" class="cp-toggle border border-slate-200 rounded-lg px-3 py-2.5 text-xs font-semibold text-slate-600 hover:border-blue-400 transition-all">Low<span class="block text-[10px] font-normal text-slate-400 mt-0.5">Limited blast radius</span></button>
+                    <button type="button" data-val="high" class="cp-toggle border border-slate-200 rounded-lg px-3 py-2.5 text-xs font-semibold text-slate-600 hover:border-blue-400 transition-all">High<span class="block text-[10px] font-normal text-slate-400 mt-0.5">Pricing, churn, security</span></button>
+                </div>
+            </div>
+        </div>
+        <div id="cp-strictness-readout" class="hidden rounded-lg border p-3.5 text-sm"></div>
+        <div class="flex justify-end pt-1 gap-2">
+            <button id="cp-triage-set-btn" onclick="cpSetStrictness()" class="bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm px-5 py-2.5 rounded-lg transition-colors flex items-center gap-2"><i data-lucide="gauge" class="w-4 h-4"></i> Set strictness</button>
+            <button id="cp-triage-continue-btn" onclick="cpGoTo('frame')" class="hidden bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-sm px-5 py-2.5 rounded-lg transition-colors flex items-center gap-2">Continue to Frame gate <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
+        </div>
+    </div>
+
+    <!-- PANEL: FRAME -->
+    <div id="cp-panel-frame" class="cp-panel hidden bg-white border border-slate-200 rounded-xl p-6 shadow-sm space-y-5">
+        <div class="border-b border-slate-100 pb-4">
+            <h3 class="font-bold text-lg text-slate-900 flex items-center gap-2"><i data-lucide="lightbulb" class="text-emerald-500 w-5 h-5"></i> Frame gate</h3>
+            <p class="text-xs text-slate-500 mt-1">A cheap synthetic gut-check: mostly a green light. It expands your thinking with objections and edge cases. This is <em>idea expansion, not validation.</em></p>
+        </div>
+        <div>
+            <label class="text-sm font-semibold text-slate-800 block mb-2">Do you have real research or data on this user segment?</label>
+            <div class="grid grid-cols-3 gap-2" id="cp-grounding">
+                <button type="button" data-val="yes" class="cp-toggle border border-slate-200 rounded-lg px-3 py-2.5 text-xs font-semibold text-slate-600 hover:border-blue-400 transition-all">Yes</button>
+                <button type="button" data-val="some" class="cp-toggle border border-slate-200 rounded-lg px-3 py-2.5 text-xs font-semibold text-slate-600 hover:border-blue-400 transition-all">Some</button>
+                <button type="button" data-val="none" class="cp-toggle border border-slate-200 rounded-lg px-3 py-2.5 text-xs font-semibold text-slate-600 hover:border-blue-400 transition-all">None</button>
+            </div>
+            <div id="cp-grounding-flag" class="hidden mt-3 rounded-lg border border-amber-200 bg-amber-50 text-amber-900 text-xs p-3 leading-relaxed"></div>
+        </div>
+        <div id="cp-frame-result" class="hidden"></div>
+        <div class="flex justify-between items-center pt-1">
+            <button onclick="cpGoTo('triage')" class="text-slate-500 hover:text-slate-800 font-semibold text-sm flex items-center gap-1.5"><i data-lucide="arrow-left" class="w-4 h-4"></i> Back</button>
+            <div class="flex gap-2">
+                <button id="cp-frame-run-btn" onclick="cpRunFrame()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-sm px-5 py-2.5 rounded-lg transition-colors flex items-center gap-2"><i data-lucide="sparkles" class="w-4 h-4"></i> Run synthetic stress-test</button>
+                <button id="cp-frame-continue-btn" onclick="cpGoTo('inspect')" class="hidden bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm px-5 py-2.5 rounded-lg transition-colors flex items-center gap-2">Continue to Inspect <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PANEL: INSPECT (conditional decision hub — P1) -->
+    <div id="cp-panel-inspect" class="cp-panel hidden bg-white border border-slate-200 rounded-xl p-6 shadow-sm space-y-5">
+        <div class="border-b border-slate-100 pb-4">
+            <h3 class="font-bold text-lg text-slate-900 flex items-center gap-2"><i data-lucide="scan-search" class="text-amber-500 w-5 h-5"></i> Inspect <span class="text-[10px] font-bold uppercase tracking-wider bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full">stakes decide</span></h3>
+            <p class="text-xs text-slate-500 mt-1">A directional read on what you've built so far, then you decide: refine, reframe, or proceed. The synthetic pass is <em>directional, not validation.</em></p>
+        </div>
+        <div class="rounded-lg border border-amber-200 bg-amber-50 text-amber-900 text-xs p-3 leading-relaxed flex gap-2">
+            <i data-lucide="eye-off" class="w-4 h-4 shrink-0 mt-0.5"></i>
+            <p><strong>Fidelity illusion:</strong> "looks finished" is not evidence anyone can use it. A polished screen and a working product are different claims: this pass can flag friction, but it cannot tell you the build actually works for real people.</p>
+        </div>
+        <div>
+            <label class="text-sm font-semibold text-slate-800 block mb-1.5">What did you build? <span class="font-normal text-slate-400">(paste a URL or describe the screen/flow)</span></label>
+            <textarea id="cp-inspect-artifact" rows="3" placeholder="e.g. https://app.example.com/export or A modal that gates bulk CSV export behind an 'Upgrade to Pro' button, shown after the user selects >100 rows." class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3.5 py-2.5 text-sm text-slate-800 focus:outline-none focus:border-blue-500 resize-none"></textarea>
+        </div>
+        <div id="cp-inspect-result" class="hidden"></div>
+        <!-- Three-way decision -->
+        <div id="cp-inspect-decision" class="hidden pt-1">
+            <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Your call</p>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                <button onclick="cpDecision('refine')" class="text-left border-2 border-slate-200 hover:border-blue-400 hover:bg-blue-50 rounded-lg p-3 transition-all group">
+                    <p class="font-bold text-slate-900 text-sm flex items-center gap-1.5"><i data-lucide="rotate-ccw" class="w-4 h-4 text-blue-500"></i> Refine</p>
+                    <p class="text-[11px] text-slate-500 mt-0.5">Execution needs work. Improve it and re-inspect. Stay fast.</p>
+                </button>
+                <button onclick="cpDecision('reframe')" class="text-left border-2 border-rose-200 hover:border-rose-400 hover:bg-rose-50 rounded-lg p-3 transition-all group">
+                    <p class="font-bold text-slate-900 text-sm flex items-center gap-1.5"><i data-lucide="corner-up-left" class="w-4 h-4 text-rose-500"></i> Reframe</p>
+                    <p class="text-[11px] text-slate-500 mt-0.5">The premise is wrong. Go back to Frame: the early-kill valve.</p>
+                </button>
+                <button onclick="cpDecision('proceed')" class="text-left border-2 border-emerald-200 hover:border-emerald-400 hover:bg-emerald-50 rounded-lg p-3 transition-all group">
+                    <p class="font-bold text-slate-900 text-sm flex items-center gap-1.5"><i data-lucide="arrow-right" class="w-4 h-4 text-emerald-500"></i> Proceed</p>
+                    <p class="text-[11px] text-slate-500 mt-0.5">Good enough. Advance to the Ship gate.</p>
+                </button>
+            </div>
+        </div>
+        <div class="flex justify-between items-center pt-1">
+            <button onclick="cpGoTo('frame')" class="text-slate-500 hover:text-slate-800 font-semibold text-sm flex items-center gap-1.5"><i data-lucide="arrow-left" class="w-4 h-4"></i> Back</button>
+            <div class="flex gap-2">
+                <button onclick="cpStepClick('ship')" class="text-slate-400 hover:text-slate-700 font-medium text-xs flex items-center gap-1">Skip to Ship <i data-lucide="chevrons-right" class="w-3.5 h-3.5"></i></button>
+                <button id="cp-inspect-run-btn" onclick="cpRunInspect()" class="bg-amber-500 hover:bg-amber-400 text-white font-semibold text-sm px-5 py-2.5 rounded-lg transition-colors flex items-center gap-2"><i data-lucide="scan-search" class="w-4 h-4"></i> Run directional pass</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PANEL: SHIP -->
+    <div id="cp-panel-ship" class="cp-panel hidden bg-white border border-slate-200 rounded-xl p-6 shadow-sm space-y-5">
+        <div class="border-b border-slate-100 pb-4">
+            <h3 class="font-bold text-lg text-slate-900 flex items-center gap-2"><i data-lucide="flag" class="text-rose-500 w-5 h-5"></i> Ship gate</h3>
+            <p class="text-xs text-slate-500 mt-1">Before this ships, validate these things with <strong>real humans</strong>: ranked by where synthetic users are least reliable, sized to a scarce budget.</p>
+        </div>
+        <div id="cp-ship-result"><div class="text-center py-10 text-slate-400 text-sm"><i data-lucide="loader" class="w-6 h-6 animate-spin mx-auto mb-2"></i> Building your human-validation list…</div></div>
+        <div class="flex justify-between items-center pt-1">
+            <button onclick="cpGoTo('inspect')" class="text-slate-500 hover:text-slate-800 font-semibold text-sm flex items-center gap-1.5"><i data-lucide="arrow-left" class="w-4 h-4"></i> Back</button>
+            <button id="cp-ship-report-btn" onclick="cpBuildReport()" class="hidden bg-slate-950 hover:bg-slate-800 text-white font-semibold text-sm px-5 py-2.5 rounded-lg transition-colors flex items-center gap-2"><i data-lucide="file-text" class="w-4 h-4"></i> Generate run report</button>
+        </div>
+    </div>
+
+    <!-- PANEL: REPORT -->
+    <div id="cp-panel-report" class="cp-panel hidden bg-white border border-slate-200 rounded-xl p-6 shadow-sm space-y-5">
+        <div class="border-b border-slate-100 pb-4 flex items-center justify-between gap-3 flex-wrap">
+            <h3 class="font-bold text-lg text-slate-900 flex items-center gap-2"><i data-lucide="clipboard-check" class="text-blue-500 w-5 h-5"></i> Run report</h3>
+            <div class="flex gap-2">
+                <button onclick="cpDownloadReport()" class="border border-slate-200 hover:bg-slate-50 text-slate-700 font-semibold text-xs px-3.5 py-2 rounded-lg transition-colors flex items-center gap-1.5"><i data-lucide="file-down" class="w-4 h-4"></i> Download</button>
+                <button onclick="cpReset()" class="border border-slate-200 hover:bg-slate-50 text-slate-700 font-semibold text-xs px-3.5 py-2 rounded-lg transition-colors flex items-center gap-1.5"><i data-lucide="rotate-ccw" class="w-4 h-4"></i> New run</button>
+            </div>
+        </div>
+        <div id="cp-report-body" class="space-y-4"></div>
+        <p class="text-xs text-slate-400 border-t border-slate-100 pt-3">Generated with Preflight</p>
+    </div>
+</div>
+
 <!-- VIEW 1: MAP VIEW -->
 <div id="view-map" class="hidden space-y-8">
 <div class="bg-gradient-to-r from-slate-950 via-slate-900 to-slate-800 rounded-2xl p-6 sm:p-8 text-white mb-8 shadow-xl relative overflow-hidden">
@@ -1136,185 +1316,6 @@ document.addEventListener('DOMContentLoaded', pfUpdateHeader);
 </div>
 </div>
 
-<!-- VIEW: ACTIVE CHECKPOINT -->
-<div id="view-checkpoint" class="hidden space-y-6">
-    <div class="bg-gradient-to-r from-slate-950 via-slate-900 to-slate-800 rounded-2xl p-6 sm:p-8 text-white shadow-xl relative overflow-hidden">
-        <div class="absolute -right-12 -bottom-12 opacity-10 pointer-events-none"><i data-lucide="plane-takeoff" class="w-56 h-56"></i></div>
-        <div class="max-w-3xl relative z-10">
-            <span class="bg-blue-500/20 text-blue-300 border border-blue-500/30 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider">Active Checkpoint</span>
-            <h2 class="text-3xl font-extrabold mt-3 tracking-tight">Run one decision through the gates when you build your solution with AI</h2>
-            <p class="text-slate-300 mt-2 text-base leading-relaxed">Depending on the decision you're evaluating, an active checkpoint may be exactly the right moment to bring in synthetic personas. Most runs end "go." The few that say "stop" are the ones that matter. Triage sets the strictness, the synthetic gut-check expands your thinking, and the ship gate tells you exactly what to validate with real humans before you ship.</p>
-        </div>
-    </div>
-
-    <!-- Resume banner (persistent runs) -->
-    <div id="cp-resume-banner" class="hidden bg-indigo-50 border border-indigo-200 rounded-xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-        <div class="flex items-start gap-2.5 text-sm text-indigo-900">
-            <i data-lucide="history" class="w-5 h-5 shrink-0 mt-0.5"></i>
-            <p id="cp-resume-text" class="leading-relaxed"></p>
-        </div>
-        <div class="flex gap-2 shrink-0">
-            <button onclick="cpResume()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs px-4 py-2 rounded-lg transition-colors flex items-center gap-1.5"><i data-lucide="rotate-cw" class="w-4 h-4"></i> Resume run</button>
-            <button onclick="cpDiscard()" class="border border-indigo-200 hover:bg-indigo-100 text-indigo-700 font-semibold text-xs px-4 py-2 rounded-lg transition-colors">Start new</button>
-        </div>
-    </div>
-
-    <!-- Stepper (clickable; gates unlock once triage is complete) -->
-    <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm">
-        <div class="flex items-center justify-between gap-1 sm:gap-2 text-center" id="cp-stepper">
-            <div data-cp-step="triage" onclick="cpStepClick('triage')" class="cp-stepitem flex-1 flex flex-col items-center gap-1.5">
-                <span class="cp-dot w-8 h-8 rounded-full border-2 flex items-center justify-center text-xs font-bold transition-all">1</span>
-                <span class="cp-label text-[10px] sm:text-xs font-semibold">Triage</span>
-            </div>
-            <div class="flex-[0.4] h-0.5 bg-slate-200 rounded -mt-5"></div>
-            <div data-cp-step="frame" onclick="cpStepClick('frame')" class="cp-stepitem flex-1 flex flex-col items-center gap-1.5">
-                <span class="cp-dot w-8 h-8 rounded-full border-2 flex items-center justify-center text-xs font-bold transition-all">2</span>
-                <span class="cp-label text-[10px] sm:text-xs font-semibold">Frame</span>
-            </div>
-            <div class="flex-[0.4] h-0.5 bg-slate-200 rounded -mt-5"></div>
-            <div data-cp-step="inspect" onclick="cpStepClick('inspect')" class="cp-stepitem flex-1 flex flex-col items-center gap-1.5">
-                <span class="cp-dot w-8 h-8 rounded-full border-2 flex items-center justify-center text-xs font-bold transition-all">3</span>
-                <span class="cp-label text-[10px] sm:text-xs font-semibold">Inspect</span>
-            </div>
-            <div class="flex-[0.4] h-0.5 bg-slate-200 rounded -mt-5"></div>
-            <div data-cp-step="ship" onclick="cpStepClick('ship')" class="cp-stepitem flex-1 flex flex-col items-center gap-1.5">
-                <span class="cp-dot w-8 h-8 rounded-full border-2 flex items-center justify-center text-xs font-bold transition-all">4</span>
-                <span class="cp-label text-[10px] sm:text-xs font-semibold">Ship</span>
-            </div>
-            <div class="flex-[0.4] h-0.5 bg-slate-200 rounded -mt-5"></div>
-            <div data-cp-step="report" onclick="cpStepClick('report')" class="cp-stepitem flex-1 flex flex-col items-center gap-1.5">
-                <span class="cp-dot w-8 h-8 rounded-full border-2 flex items-center justify-center text-xs font-bold transition-all">5</span>
-                <span class="cp-label text-[10px] sm:text-xs font-semibold">Report</span>
-            </div>
-        </div>
-    </div>
-
-    <!-- PANEL: TRIAGE -->
-    <div id="cp-panel-triage" class="cp-panel bg-white border border-slate-200 rounded-xl p-6 shadow-sm space-y-5">
-        <div class="border-b border-slate-100 pb-4">
-            <h3 class="font-bold text-lg text-slate-900 flex items-center gap-2"><i data-lucide="git-fork" class="text-blue-500 w-5 h-5"></i> Triage gate</h3>
-            <p class="text-xs text-slate-500 mt-1">This runs first and sets how hard the exit will be. Low-stakes, reversible work gets a loose exit; high-stakes, irreversible work gets a hard one.</p>
-        </div>
-        <div>
-            <label class="text-sm font-semibold text-slate-800 block mb-1.5">What decision are you evaluating?</label>
-            <textarea id="cp-decision" rows="2" placeholder="e.g. Gate the bulk-export feature behind the paid tier" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3.5 py-2.5 text-sm text-slate-800 focus:outline-none focus:border-blue-500 resize-none"></textarea>
-        </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
-            <div>
-                <label class="text-sm font-semibold text-slate-800 block mb-2">Reversibility</label>
-                <div class="grid grid-cols-2 gap-2" id="cp-reversibility">
-                    <button type="button" data-val="reversible" class="cp-toggle border border-slate-200 rounded-lg px-3 py-2.5 text-xs font-semibold text-slate-600 hover:border-blue-400 transition-all">Reversible<span class="block text-[10px] font-normal text-slate-400 mt-0.5">Easy to undo</span></button>
-                    <button type="button" data-val="irreversible" class="cp-toggle border border-slate-200 rounded-lg px-3 py-2.5 text-xs font-semibold text-slate-600 hover:border-blue-400 transition-all">Irreversible<span class="block text-[10px] font-normal text-slate-400 mt-0.5">Hard / costly to undo</span></button>
-                </div>
-            </div>
-            <div>
-                <label class="text-sm font-semibold text-slate-800 block mb-2">Stakes</label>
-                <div class="grid grid-cols-2 gap-2" id="cp-stakes">
-                    <button type="button" data-val="low" class="cp-toggle border border-slate-200 rounded-lg px-3 py-2.5 text-xs font-semibold text-slate-600 hover:border-blue-400 transition-all">Low<span class="block text-[10px] font-normal text-slate-400 mt-0.5">Limited blast radius</span></button>
-                    <button type="button" data-val="high" class="cp-toggle border border-slate-200 rounded-lg px-3 py-2.5 text-xs font-semibold text-slate-600 hover:border-blue-400 transition-all">High<span class="block text-[10px] font-normal text-slate-400 mt-0.5">Pricing, churn, security</span></button>
-                </div>
-            </div>
-        </div>
-        <div id="cp-strictness-readout" class="hidden rounded-lg border p-3.5 text-sm"></div>
-        <div class="flex justify-end pt-1 gap-2">
-            <button id="cp-triage-set-btn" onclick="cpSetStrictness()" class="bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm px-5 py-2.5 rounded-lg transition-colors flex items-center gap-2"><i data-lucide="gauge" class="w-4 h-4"></i> Set strictness</button>
-            <button id="cp-triage-continue-btn" onclick="cpGoTo('frame')" class="hidden bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-sm px-5 py-2.5 rounded-lg transition-colors flex items-center gap-2">Continue to Frame gate <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
-        </div>
-    </div>
-
-    <!-- PANEL: FRAME -->
-    <div id="cp-panel-frame" class="cp-panel hidden bg-white border border-slate-200 rounded-xl p-6 shadow-sm space-y-5">
-        <div class="border-b border-slate-100 pb-4">
-            <h3 class="font-bold text-lg text-slate-900 flex items-center gap-2"><i data-lucide="lightbulb" class="text-emerald-500 w-5 h-5"></i> Frame gate</h3>
-            <p class="text-xs text-slate-500 mt-1">A cheap synthetic gut-check: mostly a green light. It expands your thinking with objections and edge cases. This is <em>idea expansion, not validation.</em></p>
-        </div>
-        <div>
-            <label class="text-sm font-semibold text-slate-800 block mb-2">Do you have real research or data on this user segment?</label>
-            <div class="grid grid-cols-3 gap-2" id="cp-grounding">
-                <button type="button" data-val="yes" class="cp-toggle border border-slate-200 rounded-lg px-3 py-2.5 text-xs font-semibold text-slate-600 hover:border-blue-400 transition-all">Yes</button>
-                <button type="button" data-val="some" class="cp-toggle border border-slate-200 rounded-lg px-3 py-2.5 text-xs font-semibold text-slate-600 hover:border-blue-400 transition-all">Some</button>
-                <button type="button" data-val="none" class="cp-toggle border border-slate-200 rounded-lg px-3 py-2.5 text-xs font-semibold text-slate-600 hover:border-blue-400 transition-all">None</button>
-            </div>
-            <div id="cp-grounding-flag" class="hidden mt-3 rounded-lg border border-amber-200 bg-amber-50 text-amber-900 text-xs p-3 leading-relaxed"></div>
-        </div>
-        <div id="cp-frame-result" class="hidden"></div>
-        <div class="flex justify-between items-center pt-1">
-            <button onclick="cpGoTo('triage')" class="text-slate-500 hover:text-slate-800 font-semibold text-sm flex items-center gap-1.5"><i data-lucide="arrow-left" class="w-4 h-4"></i> Back</button>
-            <div class="flex gap-2">
-                <button id="cp-frame-run-btn" onclick="cpRunFrame()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-sm px-5 py-2.5 rounded-lg transition-colors flex items-center gap-2"><i data-lucide="sparkles" class="w-4 h-4"></i> Run synthetic stress-test</button>
-                <button id="cp-frame-continue-btn" onclick="cpGoTo('inspect')" class="hidden bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm px-5 py-2.5 rounded-lg transition-colors flex items-center gap-2">Continue to Inspect <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
-            </div>
-        </div>
-    </div>
-
-    <!-- PANEL: INSPECT (conditional decision hub — P1) -->
-    <div id="cp-panel-inspect" class="cp-panel hidden bg-white border border-slate-200 rounded-xl p-6 shadow-sm space-y-5">
-        <div class="border-b border-slate-100 pb-4">
-            <h3 class="font-bold text-lg text-slate-900 flex items-center gap-2"><i data-lucide="scan-search" class="text-amber-500 w-5 h-5"></i> Inspect <span class="text-[10px] font-bold uppercase tracking-wider bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full">stakes decide</span></h3>
-            <p class="text-xs text-slate-500 mt-1">A directional read on what you've built so far, then you decide: refine, reframe, or proceed. The synthetic pass is <em>directional, not validation.</em></p>
-        </div>
-        <div class="rounded-lg border border-amber-200 bg-amber-50 text-amber-900 text-xs p-3 leading-relaxed flex gap-2">
-            <i data-lucide="eye-off" class="w-4 h-4 shrink-0 mt-0.5"></i>
-            <p><strong>Fidelity illusion:</strong> "looks finished" is not evidence anyone can use it. A polished screen and a working product are different claims: this pass can flag friction, but it cannot tell you the build actually works for real people.</p>
-        </div>
-        <div>
-            <label class="text-sm font-semibold text-slate-800 block mb-1.5">What did you build? <span class="font-normal text-slate-400">(paste a URL or describe the screen/flow)</span></label>
-            <textarea id="cp-inspect-artifact" rows="3" placeholder="e.g. https://app.example.com/export or A modal that gates bulk CSV export behind an 'Upgrade to Pro' button, shown after the user selects >100 rows." class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3.5 py-2.5 text-sm text-slate-800 focus:outline-none focus:border-blue-500 resize-none"></textarea>
-        </div>
-        <div id="cp-inspect-result" class="hidden"></div>
-        <!-- Three-way decision -->
-        <div id="cp-inspect-decision" class="hidden pt-1">
-            <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Your call</p>
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                <button onclick="cpDecision('refine')" class="text-left border-2 border-slate-200 hover:border-blue-400 hover:bg-blue-50 rounded-lg p-3 transition-all group">
-                    <p class="font-bold text-slate-900 text-sm flex items-center gap-1.5"><i data-lucide="rotate-ccw" class="w-4 h-4 text-blue-500"></i> Refine</p>
-                    <p class="text-[11px] text-slate-500 mt-0.5">Execution needs work. Improve it and re-inspect. Stay fast.</p>
-                </button>
-                <button onclick="cpDecision('reframe')" class="text-left border-2 border-rose-200 hover:border-rose-400 hover:bg-rose-50 rounded-lg p-3 transition-all group">
-                    <p class="font-bold text-slate-900 text-sm flex items-center gap-1.5"><i data-lucide="corner-up-left" class="w-4 h-4 text-rose-500"></i> Reframe</p>
-                    <p class="text-[11px] text-slate-500 mt-0.5">The premise is wrong. Go back to Frame: the early-kill valve.</p>
-                </button>
-                <button onclick="cpDecision('proceed')" class="text-left border-2 border-emerald-200 hover:border-emerald-400 hover:bg-emerald-50 rounded-lg p-3 transition-all group">
-                    <p class="font-bold text-slate-900 text-sm flex items-center gap-1.5"><i data-lucide="arrow-right" class="w-4 h-4 text-emerald-500"></i> Proceed</p>
-                    <p class="text-[11px] text-slate-500 mt-0.5">Good enough. Advance to the Ship gate.</p>
-                </button>
-            </div>
-        </div>
-        <div class="flex justify-between items-center pt-1">
-            <button onclick="cpGoTo('frame')" class="text-slate-500 hover:text-slate-800 font-semibold text-sm flex items-center gap-1.5"><i data-lucide="arrow-left" class="w-4 h-4"></i> Back</button>
-            <div class="flex gap-2">
-                <button onclick="cpStepClick('ship')" class="text-slate-400 hover:text-slate-700 font-medium text-xs flex items-center gap-1">Skip to Ship <i data-lucide="chevrons-right" class="w-3.5 h-3.5"></i></button>
-                <button id="cp-inspect-run-btn" onclick="cpRunInspect()" class="bg-amber-500 hover:bg-amber-400 text-white font-semibold text-sm px-5 py-2.5 rounded-lg transition-colors flex items-center gap-2"><i data-lucide="scan-search" class="w-4 h-4"></i> Run directional pass</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- PANEL: SHIP -->
-    <div id="cp-panel-ship" class="cp-panel hidden bg-white border border-slate-200 rounded-xl p-6 shadow-sm space-y-5">
-        <div class="border-b border-slate-100 pb-4">
-            <h3 class="font-bold text-lg text-slate-900 flex items-center gap-2"><i data-lucide="flag" class="text-rose-500 w-5 h-5"></i> Ship gate</h3>
-            <p class="text-xs text-slate-500 mt-1">Before this ships, validate these things with <strong>real humans</strong>: ranked by where synthetic users are least reliable, sized to a scarce budget.</p>
-        </div>
-        <div id="cp-ship-result"><div class="text-center py-10 text-slate-400 text-sm"><i data-lucide="loader" class="w-6 h-6 animate-spin mx-auto mb-2"></i> Building your human-validation list…</div></div>
-        <div class="flex justify-between items-center pt-1">
-            <button onclick="cpGoTo('inspect')" class="text-slate-500 hover:text-slate-800 font-semibold text-sm flex items-center gap-1.5"><i data-lucide="arrow-left" class="w-4 h-4"></i> Back</button>
-            <button id="cp-ship-report-btn" onclick="cpBuildReport()" class="hidden bg-slate-950 hover:bg-slate-800 text-white font-semibold text-sm px-5 py-2.5 rounded-lg transition-colors flex items-center gap-2"><i data-lucide="file-text" class="w-4 h-4"></i> Generate run report</button>
-        </div>
-    </div>
-
-    <!-- PANEL: REPORT -->
-    <div id="cp-panel-report" class="cp-panel hidden bg-white border border-slate-200 rounded-xl p-6 shadow-sm space-y-5">
-        <div class="border-b border-slate-100 pb-4 flex items-center justify-between gap-3 flex-wrap">
-            <h3 class="font-bold text-lg text-slate-900 flex items-center gap-2"><i data-lucide="clipboard-check" class="text-blue-500 w-5 h-5"></i> Run report</h3>
-            <div class="flex gap-2">
-                <button onclick="cpDownloadReport()" class="border border-slate-200 hover:bg-slate-50 text-slate-700 font-semibold text-xs px-3.5 py-2 rounded-lg transition-colors flex items-center gap-1.5"><i data-lucide="file-down" class="w-4 h-4"></i> Download</button>
-                <button onclick="cpReset()" class="border border-slate-200 hover:bg-slate-50 text-slate-700 font-semibold text-xs px-3.5 py-2 rounded-lg transition-colors flex items-center gap-1.5"><i data-lucide="rotate-ccw" class="w-4 h-4"></i> New run</button>
-            </div>
-        </div>
-        <div id="cp-report-body" class="space-y-4"></div>
-        <p class="text-xs text-slate-400 border-t border-slate-100 pt-3">Generated with Preflight</p>
-    </div>
-</div>
 </main>
 <!-- GLOBAL MODAL -->
 <div id="global-modal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-slate-950/60 backdrop-blur-sm flex items-center justify-center p-4">
@@ -1345,7 +1346,7 @@ document.addEventListener('DOMContentLoaded', pfUpdateHeader);
                     <span class="w-5 h-5 rounded-md" style="background:var(--pf-accent)"></span>
                     <span class="pf-mono text-sm font-semibold tracking-[0.18em] text-white">PREFLIGHT</span>
                 </div>
-                <p class="text-sm text-white/50 mt-4 max-w-xs leading-relaxed">SaaS Preflight Check for Synthetic Users: know when to trust AI, and when to send in the humans.</p>
+                <p class="text-sm text-white/50 mt-4 max-w-xs leading-relaxed">The Preflight Check for Synthetic Users: know when to trust AI, and when to send in the humans.</p>
             </div>
             <div class="lg:col-span-3">
                 <p class="pf-mono text-[11px] tracking-widest text-white/40">PAGES</p>
