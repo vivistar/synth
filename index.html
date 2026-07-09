@@ -370,6 +370,7 @@ document.addEventListener('DOMContentLoaded', pfUpdateHeader);
     <div id="pf-tour-card" class="pf-tour-card pf-card p-5">
         <p id="pf-tour-title" class="font-semibold text-base" style="color:var(--pf-text)"></p>
         <p id="pf-tour-body" class="text-sm mt-1.5 leading-relaxed" style="color:var(--pf-text2)"></p>
+        <a id="pf-tour-link" href="#" target="_blank" class="hidden text-sm mt-2 pf-accent font-semibold hover:underline"></a>
         <div class="flex items-center justify-between mt-4">
             <div id="pf-tour-dots" class="flex items-center gap-1.5"></div>
             <div class="flex items-center gap-3">
@@ -534,6 +535,8 @@ document.addEventListener('DOMContentLoaded', pfUpdateHeader);
         </button>
     </div>
     </div>
+
+    <p class="text-center text-sm text-slate-500">Building your own synthetic users? <a href="https://github.com/vivistar/synth" target="_blank" class="pf-accent font-semibold hover:underline">Fork Preflight on GitHub &rarr;</a></p>
 
 </div>
 
@@ -3769,7 +3772,8 @@ const PF_TOUR_STEPS = [
     { before: () => { if (typeof closeMenu === 'function') closeMenu(); if (typeof cpGoTo === 'function') cpGoTo('triage'); switchView('checkpoint'); },
       target: null,
       title: "That's the loop",
-      body: 'Run your own decision through the gates whenever you build. Replay this tour anytime from the Menu.' },
+      body: 'Run your own decision through the gates whenever you build. Replay this tour anytime from the Menu. Building your own synthetic users? Preflight is open source.',
+      link: { href: 'https://github.com/vivistar/synth', text: 'Fork Preflight on GitHub →' } },
 ];
 let pfTourIdx = 0;
 
@@ -3800,6 +3804,8 @@ function pfRenderTourStep(){
     if (dots){ dots.innerHTML = ''; PF_TOUR_STEPS.forEach((_, i) => { const d = document.createElement('span'); d.className = 'pf-tour-dot' + (i === pfTourIdx ? ' on' : ''); dots.appendChild(d); }); }
     document.getElementById('pf-tour-title').textContent = step.title;
     document.getElementById('pf-tour-body').textContent = step.body;
+    const link = document.getElementById('pf-tour-link');
+    if (link){ if (step.link){ link.href = step.link.href; link.textContent = step.link.text; link.classList.remove('hidden'); } else { link.classList.add('hidden'); } }
     const back = document.getElementById('pf-tour-back'); if (back) back.style.visibility = pfTourIdx === 0 ? 'hidden' : 'visible';
     const next = document.getElementById('pf-tour-next'); if (next) next.textContent = pfTourIdx === PF_TOUR_STEPS.length - 1 ? 'Finish' : 'Next';
     if (window.lucide) lucide.createIcons();
