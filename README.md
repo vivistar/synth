@@ -1,8 +1,8 @@
-# The SaaS Preflight Check for Synthetic Users
+# The Preflight Check for Synthetic Users
 
 **Know when synthetic users help — and when they'll fool you.**
 
-Built for SaaS product teams — PMs, designers, and researchers.
+Built for product teams — PMs, designers, and researchers.
 
 An interactive, AI-assisted 8-gate framework that helps SaaS product managers evaluate whether synthetic user research is appropriate for a given product decision — and how to run it safely.
 
@@ -15,7 +15,7 @@ An interactive, AI-assisted 8-gate framework that helps SaaS product managers ev
 
 ## What It Does
 
-Synthetic AI users can accelerate SaaS research — but misused, they create feedback loops that distort product metrics, inflate conversion assumptions, and mislead stakeholders. This tool exists to prevent that.
+Synthetic AI users can accelerate product research — but misused, they create feedback loops that distort product metrics, inflate conversion assumptions, and mislead stakeholders. This tool exists to prevent that.
 
 It guides product managers through an **8-gate governance framework** that determines:
 
