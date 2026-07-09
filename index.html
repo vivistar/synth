@@ -150,6 +150,17 @@
             30% { transform: translateY(-5px); opacity: 1; }
         }
         button:disabled { cursor: not-allowed; }
+
+        /* ---- Interactive tour (spotlight coach-marks) ---- */
+        .pf-tour-veil { position:absolute; inset:0; background:transparent; }
+        #pf-tour.pf-tour-nospot .pf-tour-veil { background:rgba(15,33,36,0.78); }
+        .pf-tour-spot { position:absolute; border-radius:14px; box-shadow:0 0 0 9999px rgba(15,33,36,0.78); transition:top .25s ease, left .25s ease, width .25s ease, height .25s ease; pointer-events:none; }
+        #pf-tour.pf-tour-nospot .pf-tour-spot { display:none; }
+        .pf-tour-card { position:absolute; width:340px; max-width:calc(100vw - 32px); z-index:2; }
+        #pf-tour.pf-tour-nospot .pf-tour-card { position:fixed; left:50%; top:50%; transform:translate(-50%,-50%); }
+        .pf-tour-dot { width:6px; height:6px; border-radius:9999px; background:var(--pf-border); }
+        .pf-tour-dot.on { background:var(--pf-accent); }
+        @media (prefers-reduced-motion: reduce) { .pf-tour-spot { transition:none; } }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800 min-h-screen">
@@ -203,7 +214,7 @@
         <button onclick="closeMenu()" class="pf-mono text-xs tracking-widest text-white flex items-center gap-2">CLOSE <span class="w-7 h-7 rounded-full border border-white/30 flex items-center justify-center"><i data-lucide="x" class="w-4 h-4"></i></span></button>
     </div>
     <div class="max-w-6xl mx-auto px-6 md:px-10 pt-32 pb-24 grid grid-cols-1 lg:grid-cols-3 gap-16">
-        <div class="lg:col-span-2">
+        <div class="lg:col-span-2" id="pf-tour-menu">
             <p class="pf-mono text-xs tracking-widest" style="color:var(--pf-accent-dark)">NAVIGATION</p>
             <div class="mt-8 divide-y divide-white/10 border-y border-white/10" onmouseleave="pfPreview(null)">
                 <button onclick="pfNav('checkpoint')" onmouseenter="pfPreview('checkpoint')" class="pf-menu-row w-full group flex items-center gap-6 py-6 text-left">
@@ -244,6 +255,7 @@
                 <button onclick="closeMenu(); showBuildSyntheticUsersGuide()" class="text-left text-white/80 hover:text-white transition-colors">How to Build Synthetic Users</button>
                 <button onclick="closeMenu(); showUsabilityGuide()" class="text-left text-white/80 hover:text-white transition-colors">Usability Evaluation Guide</button>
             </div>
+            <button onclick="closeMenu(); pfStartTour();" class="pf-btn pf-btn-ondark text-xs mt-10" style="padding:.5rem 1rem"><i data-lucide="compass" class="w-4 h-4"></i> Take the 90-second tour</button>
         </div>
     </div>
 </div>
@@ -343,6 +355,31 @@ window.addEventListener('scroll', function(){
 document.addEventListener('DOMContentLoaded', pfUpdateHeader);
 </script>
 <div id="toast-container" class="fixed bottom-5 right-5 z-50 space-y-2 pointer-events-none"></div>
+
+<!-- First-visit tour chip -->
+<div id="pf-tour-chip" class="hidden fixed bottom-5 left-5 z-[70] pf-card px-4 py-3 flex items-center gap-3">
+    <span class="text-sm" style="color:var(--pf-text)">New here? Take the 90-second tour.</span>
+    <button onclick="pfStartTour()" class="pf-btn pf-btn-primary text-xs" style="padding:.4rem .9rem">Start</button>
+    <button onclick="pfDismissChip()" aria-label="Dismiss" class="text-base leading-none" style="color:var(--pf-text2)">&times;</button>
+</div>
+
+<!-- Interactive tour overlay -->
+<div id="pf-tour" class="hidden fixed inset-0 z-[80]">
+    <div class="pf-tour-veil" onclick="event.stopPropagation()"></div>
+    <div id="pf-tour-spot" class="pf-tour-spot"></div>
+    <div id="pf-tour-card" class="pf-tour-card pf-card p-5">
+        <p id="pf-tour-title" class="font-semibold text-base" style="color:var(--pf-text)"></p>
+        <p id="pf-tour-body" class="text-sm mt-1.5 leading-relaxed" style="color:var(--pf-text2)"></p>
+        <div class="flex items-center justify-between mt-4">
+            <div id="pf-tour-dots" class="flex items-center gap-1.5"></div>
+            <div class="flex items-center gap-3">
+                <button onclick="pfEndTour(false)" class="text-xs" style="color:var(--pf-text2)">Skip</button>
+                <button id="pf-tour-back" onclick="pfTourPrev()" class="pf-btn pf-btn-secondary text-xs" style="padding:.4rem .85rem">Back</button>
+                <button id="pf-tour-next" onclick="pfTourNext()" class="pf-btn pf-btn-primary text-xs" style="padding:.4rem .95rem">Next</button>
+            </div>
+        </div>
+    </div>
+</div>
 <main class="max-w-6xl mx-auto px-6 md:px-10 pt-24 pb-8">
 
 <!-- VIEW: HOME (continuous-AI loop hero + situation router) -->
@@ -385,7 +422,7 @@ document.addEventListener('DOMContentLoaded', pfUpdateHeader);
             <!-- CTAs: one clear primary -->
             <div class="pf-fade pf-d4 mt-8">
                 <div class="flex flex-wrap items-center gap-x-6 gap-y-3">
-                    <button onclick="switchView('checkpoint')" class="pf-btn pf-btn-primary">Run a Triage Checkpoint</button>
+                    <button id="pf-tour-cta" onclick="switchView('checkpoint')" class="pf-btn pf-btn-primary">Run a Triage Checkpoint</button>
                     <a href="#cp-loop-diagram" class="text-sm text-white/55 hover:text-white/85 underline underline-offset-4 transition-colors">See how the framework works</a>
                 </div>
                 <p class="mt-3 text-xs text-white/40">Free · No Signup Required · Takes 2 Minutes</p>
@@ -3700,6 +3737,105 @@ window.addEventListener('DOMContentLoaded', () => {
     renderStepTracker();
     renderWizardStep();
 });
+</script>
+<script>
+// ===================== INTERACTIVE TOUR (spotlight coach-marks) =====================
+const PF_TOUR_STEPS = [
+    { before: () => switchView('home'),
+      target: '#pf-tour-cta',
+      title: 'Start here',
+      body: "Bring a real decision you're weighing. Preflight walks it through the gates in about two minutes." },
+    { before: () => { switchView('checkpoint'); if (typeof cpGoTo === 'function') cpGoTo('triage'); },
+      target: '#cp-panel-triage',
+      title: '1 · Triage',
+      body: 'Name the decision and set the stakes. Triage decides how strict the exit is: low-stakes gets a loose exit, high-stakes a hard one.' },
+    { before: () => { if (typeof cpGoTo === 'function') cpGoTo('frame'); },
+      target: '#cp-panel-frame',
+      title: '2 · Frame',
+      body: 'A cheap synthetic gut-check surfaces objections and edge cases. Idea expansion, directional, not validation.' },
+    { before: () => { if (typeof cpGoTo === 'function') cpGoTo('ship'); pfTourShipPlaceholder(); },
+      target: '#cp-panel-ship',
+      title: '3 · Ship gate',
+      body: 'The payoff: a ranked list of what to validate with real humans before you ship, sized to a scarce budget.' },
+    { before: () => { if (typeof openMenu === 'function') openMenu(); },
+      target: '#pf-tour-menu',
+      title: 'The deeper tools',
+      body: 'Beyond the checkpoint: the 8-Gate Framework, Cohort Due Diligence, the Persona Prompt Architect, the Usability Evaluator, and the Lifecycle matrix.' },
+    { before: () => { if (typeof closeMenu === 'function') closeMenu(); if (typeof cpGoTo === 'function') cpGoTo('triage'); switchView('checkpoint'); },
+      target: null,
+      title: "That's the loop",
+      body: 'Run your own decision through the gates whenever you build. Replay this tour anytime from the Menu.' },
+];
+let pfTourIdx = 0;
+
+function pfTourShipPlaceholder(){
+    const r = document.getElementById('cp-ship-result');
+    if (r && /Building your human-validation list/.test(r.textContent)) {
+        r.innerHTML = '<p class="text-sm text-slate-500 italic p-2">Your ranked human-validation list appears here after a run.</p>';
+    }
+}
+function pfDismissChip(){ try { localStorage.setItem('pf_tour_chip','1'); } catch(e){} const c = document.getElementById('pf-tour-chip'); if (c) c.classList.add('hidden'); }
+function pfMaybeShowChip(){
+    let done = false, dis = false;
+    try { done = !!localStorage.getItem('pf_tour_done'); dis = !!localStorage.getItem('pf_tour_chip'); } catch(e){}
+    if (!done && !dis){ const c = document.getElementById('pf-tour-chip'); if (c) c.classList.remove('hidden'); }
+}
+function pfStartTour(){
+    pfDismissChip();
+    pfTourIdx = 0;
+    const t = document.getElementById('pf-tour'); if (!t) return;
+    t.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+    pfRenderTourStep();
+}
+function pfRenderTourStep(){
+    const step = PF_TOUR_STEPS[pfTourIdx];
+    try { step.before && step.before(); } catch(e){ console.warn('tour before()', e); }
+    const dots = document.getElementById('pf-tour-dots');
+    if (dots){ dots.innerHTML = ''; PF_TOUR_STEPS.forEach((_, i) => { const d = document.createElement('span'); d.className = 'pf-tour-dot' + (i === pfTourIdx ? ' on' : ''); dots.appendChild(d); }); }
+    document.getElementById('pf-tour-title').textContent = step.title;
+    document.getElementById('pf-tour-body').textContent = step.body;
+    const back = document.getElementById('pf-tour-back'); if (back) back.style.visibility = pfTourIdx === 0 ? 'hidden' : 'visible';
+    const next = document.getElementById('pf-tour-next'); if (next) next.textContent = pfTourIdx === PF_TOUR_STEPS.length - 1 ? 'Finish' : 'Next';
+    if (window.lucide) lucide.createIcons();
+    requestAnimationFrame(() => setTimeout(() => pfPositionTour(step), 70));
+}
+function pfPositionTour(step){
+    const wrap = document.getElementById('pf-tour'), spot = document.getElementById('pf-tour-spot'), card = document.getElementById('pf-tour-card');
+    if (!wrap || wrap.classList.contains('hidden')) return;
+    const el = step.target ? document.querySelector(step.target) : null;
+    if (!el){ wrap.classList.add('pf-tour-nospot'); card.style.left = ''; card.style.top = ''; card.style.width = ''; return; }
+    wrap.classList.remove('pf-tour-nospot');
+    try { el.scrollIntoView({ block: 'center', inline: 'nearest' }); } catch(e){}
+    const r = el.getBoundingClientRect(), pad = 8;
+    spot.style.left = (r.left - pad) + 'px'; spot.style.top = (r.top - pad) + 'px';
+    spot.style.width = (r.width + pad * 2) + 'px'; spot.style.height = (r.height + pad * 2) + 'px';
+    const cardW = Math.min(340, window.innerWidth - 32);
+    const approxH = card.offsetHeight || 190;
+    let top = r.bottom + 14;
+    if (top + approxH > window.innerHeight - 12) top = Math.max(12, r.top - 14 - approxH);
+    let left = r.left + r.width / 2 - cardW / 2;
+    left = Math.max(16, Math.min(left, window.innerWidth - cardW - 16));
+    card.style.width = cardW + 'px'; card.style.left = left + 'px'; card.style.top = top + 'px';
+}
+function pfTourNext(){ if (pfTourIdx >= PF_TOUR_STEPS.length - 1){ pfEndTour(true); return; } pfTourIdx++; pfRenderTourStep(); }
+function pfTourPrev(){ if (pfTourIdx > 0){ pfTourIdx--; pfRenderTourStep(); } }
+function pfEndTour(complete){
+    const t = document.getElementById('pf-tour'); if (t) t.classList.add('hidden');
+    if (typeof closeMenu === 'function') closeMenu();
+    document.body.style.overflow = '';
+    if (complete){ try { localStorage.setItem('pf_tour_done','1'); } catch(e){} }
+}
+document.addEventListener('keydown', function(e){
+    const t = document.getElementById('pf-tour'); if (!t || t.classList.contains('hidden')) return;
+    if (e.key === 'Escape') pfEndTour(false);
+    else if (e.key === 'ArrowRight') pfTourNext();
+    else if (e.key === 'ArrowLeft') pfTourPrev();
+});
+window.addEventListener('resize', function(){
+    const t = document.getElementById('pf-tour'); if (t && !t.classList.contains('hidden')) pfPositionTour(PF_TOUR_STEPS[pfTourIdx]);
+});
+document.addEventListener('DOMContentLoaded', pfMaybeShowChip);
 </script>
 </body>
 </html>
