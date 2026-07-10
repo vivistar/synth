@@ -1,8 +1,6 @@
 <p align="center">
-  <img src="docs/preview.svg" alt="The Preflight Check for Synthetic Users" width="100%">
+  <img src="docs/screenshots/01-hero.png" alt="The Preflight Check for Synthetic Users" width="100%">
 </p>
-
-<!-- Placeholder banner (docs/preview.svg). Replace with a real hero + Active Checkpoint screenshot or GIF when available. -->
 
 # The Preflight Check for Synthetic Users
 
@@ -16,6 +14,8 @@ Built for product teams (PMs, designers, and researchers) making decisions about
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![Powered by OpenRouter](https://img.shields.io/badge/Powered%20by-OpenRouter-0f172a)](https://openrouter.ai/)
+
+📖 **[User Guide](docs/USER_GUIDE.md)** with screenshots and a walkthrough of every feature.
 
 ---
 
