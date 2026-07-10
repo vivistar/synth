@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 440" width="1200" height="440" role="img" aria-label="Preflight — The Preflight Check for Synthetic Users">
+  <rect width="1200" height="440" fill="#0F2124"/>
+
+  <!-- flight-path trajectories (nod to the app's animated hero) -->
+  <g fill="none" stroke-linecap="round">
+    <path d="M 720 470 C 840 360, 940 300, 1010 200 S 1150 40, 1240 -40" stroke="#8c8cff" stroke-width="2" stroke-dasharray="5 9" opacity="0.55"/>
+    <path d="M 760 480 C 900 420, 1010 360, 1090 250 S 1210 120, 1280 70" stroke="#00b5d8" stroke-width="1.4" stroke-dasharray="4 12" opacity="0.4"/>
+    <path d="M 700 450 C 860 430, 980 380, 1080 300 S 1230 210, 1300 180" stroke="#38b2ac" stroke-width="1" stroke-dasharray="6 10" opacity="0.32"/>
+    <circle cx="1010" cy="200" r="4" fill="#b7b7ff"/>
+    <circle cx="1090" cy="250" r="3" fill="#6fe3f5"/>
+    <circle cx="920" cy="330" r="2.5" fill="#8c8cff" opacity="0.6"/>
+  </g>
+
+  <!-- wordmark -->
+  <g>
+    <rect x="80" y="66" width="22" height="22" rx="6" fill="#3a3aff"/>
+    <text x="116" y="83" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="17" font-weight="600" letter-spacing="3" fill="#ffffff">PREFLIGHT</text>
+  </g>
+
+  <!-- eyebrow -->
+  <text x="80" y="158" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" letter-spacing="2" fill="#8080ff">THE PREFLIGHT CHECK FOR SYNTHETIC USERS</text>
+
+  <!-- headline -->
+  <text x="78" y="222" font-family="system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="46" font-weight="300" letter-spacing="-1" fill="#ffffff">Know when synthetic users help,</text>
+  <text x="78" y="278" font-family="system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="46" font-weight="300" letter-spacing="-1" fill="rgba(255,255,255,0.45)">and when they'll fool you.</text>
+
+  <!-- sub -->
+  <text x="80" y="322" font-family="system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="17" fill="rgba(255,255,255,0.6)">An interactive triage tool that helps you weigh a product decision in about two minutes.</text>
+
+  <!-- primary pill -->
+  <g>
+    <rect x="80" y="352" width="248" height="46" rx="23" fill="#3a3aff"/>
+    <text x="204" y="380" text-anchor="middle" font-family="system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="16" font-weight="500" fill="#ffffff">Run a Triage Checkpoint →</text>
+  </g>
+  <text x="348" y="380" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="rgba(255,255,255,0.4)">Free · No Signup · 2 Minutes</text>
+</svg>

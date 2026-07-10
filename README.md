@@ -1,3 +1,9 @@
+<p align="center">
+  <img src="docs/preview.svg" alt="The Preflight Check for Synthetic Users" width="100%">
+</p>
+
+<!-- Placeholder banner (docs/preview.svg). Replace with a real hero + Active Checkpoint screenshot or GIF when available. -->
+
 # The Preflight Check for Synthetic Users
 
 **Know when synthetic users help, and when they'll fool you.**
