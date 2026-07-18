@@ -1,8 +1,8 @@
-# Preflight — User Guide
+# Anchorflight — User Guide
 
 **Know when synthetic users help, and when they'll fool you.**
 
-Preflight is an interactive triage tool that helps you weigh a product decision. In about two minutes it tells you exactly where synthetic cohorts are highly reliable, and exactly when you must halt the loop and bring in real humans.
+Anchorflight is an interactive triage tool that helps you weigh a product decision. In about two minutes it tells you exactly where synthetic cohorts are highly reliable, and exactly when you must halt the loop and bring in real humans.
 
 There is nothing to install and no account to create. Open the app and go.
 
@@ -12,7 +12,7 @@ There is nothing to install and no account to create. Open the app and go.
 
 The home page opens with the hero and the primary action.
 
-![Preflight home hero](screenshots/01-hero.png)
+![Anchorflight home hero](screenshots/01-hero.png)
 
 - **Run a Triage Checkpoint** is the one action to start with. It walks a single decision through the continuous-AI loop.
 - **See how the framework works** scrolls to the loop diagram for the conceptual overview.
@@ -23,7 +23,7 @@ There are **two ways to run a decision**, and both reach the same goal:
 | If your team builds… | Start with | What it is |
 |---|---|---|
 | **Continuously with AI** (idea to working screen in hours) | **Active Checkpoint** | A fast triage loop: Triage → Frame → Inspect → Ship |
-| **In defined stages** (discovery, design, build, QA) | **The 8 Gate Preflight Framework** + **Cohort Due Diligence** wizard | Eight sequential gates with a proceed / adjust / stop verdict |
+| **In defined stages** (discovery, design, build, QA) | **The 8 Gate Anchorflight Framework** + **Cohort Due Diligence** wizard | Eight sequential gates with a proceed / adjust / stop verdict |
 
 ---
 
@@ -55,9 +55,9 @@ Click **Run a Triage Checkpoint**. You run one decision through five stages, sho
 
 ## 4. Alternative path — the 8-Gate Framework
 
-If you work in defined stages, open **The 8 Gate Preflight Framework**. It's a visual pipeline; click any gate to inspect its operational guide, trigger scenarios, and lifecycle rationale.
+If you work in defined stages, open **The 8 Gate Anchorflight Framework**. It's a visual pipeline; click any gate to inspect its operational guide, trigger scenarios, and lifecycle rationale.
 
-![The 8 Gate Preflight Framework](screenshots/05-map.png)
+![The 8 Gate Anchorflight Framework](screenshots/05-map.png)
 
 To walk a decision through the gates interactively, use the **Cohort Due Diligence** wizard. Each gate is a yes/no decision that routes you forward or to a safer path, ending in a proceed / adjust / stop verdict with a downloadable report.
 
@@ -69,7 +69,7 @@ To walk a decision through the gates interactively, use the **Cohort Due Diligen
 
 ### Synthetic Persona Prompt Architect
 
-Build a grounded, bias-resistant synthetic persona from real usage data (role, tier, company size, industry, and baseline logs). Preflight generates the system prompt, then you can interview the persona live and audit the conversation for calibration drift.
+Build a grounded, bias-resistant synthetic persona from real usage data (role, tier, company size, industry, and baseline logs). Anchorflight generates the system prompt, then you can interview the persona live and audit the conversation for calibration drift.
 
 ![Synthetic Persona Prompt Architect](screenshots/07-sandbox.png)
 
@@ -97,7 +97,7 @@ Everything is reachable from the **Menu** (top right). Hover a section to previe
 
 ## 7. AI keys
 
-Preflight talks to language models through OpenRouter.
+Anchorflight talks to language models through OpenRouter.
 
 - **On a hosted deployment**, the operator can set a shared key (`OPENROUTER_API_KEY`) so no key is required from you.
 - **Bring your own key**: open the "Integration Active" pill (top center) and paste your own OpenRouter key. It is held only in your browser and sent directly to OpenRouter.
@@ -109,7 +109,7 @@ See the [Trust Center](../trust.html) for full key-security details.
 
 ## 8. Building your own synthetic users?
 
-Preflight is open source under Apache-2.0. Fork it, adapt the gates and prompts to your own stack, and self-host: [github.com/vivistar/synth](https://github.com/vivistar/synth).
+Anchorflight is open source under Apache-2.0. Fork it, adapt the gates and prompts to your own stack, and self-host: [github.com/vivistar/synth](https://github.com/vivistar/synth).
 
 ---
 

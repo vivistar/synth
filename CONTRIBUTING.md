@@ -1,10 +1,10 @@
-# Contributing to Preflight
+# Contributing to Anchorflight
 
-Thanks for your interest in Preflight, **The Preflight Check for Synthetic Users**. It is open source under the [Apache-2.0](LICENSE) license, and you are encouraged to **fork it and make it your own**.
+Thanks for your interest in Anchorflight, **The Anchorflight Check for Synthetic Users**. It is open source under the [Apache-2.0](LICENSE) license, and you are encouraged to **fork it and make it your own**.
 
 ## How this project accepts contributions
 
-Preflight is maintained solo, and **direct code contributions are not open right now.** Pull requests from outside collaborators are generally not merged. This keeps the project focused and lets the maintainer steward its direction.
+Anchorflight is maintained solo, and **direct code contributions are not open right now.** Pull requests from outside collaborators are generally not merged. This keeps the project focused and lets the maintainer steward its direction.
 
 That does not mean you can't build on it. Here is what you *can* do:
 
@@ -14,7 +14,7 @@ That does not mean you can't build on it. Here is what you *can* do:
 
 ## Project layout
 
-Preflight is a static, dependency-light app. There is **no build step**.
+Anchorflight is a static, dependency-light app. There is **no build step**.
 
 | Path | What it is |
 |---|---|

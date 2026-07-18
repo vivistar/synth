@@ -1,12 +1,12 @@
 <p align="center">
-  <img src="docs/screenshots/01-hero.png" alt="The Preflight Check for Synthetic Users" width="100%">
+  <img src="docs/screenshots/01-hero.png" alt="The Anchorflight Check for Synthetic Users" width="100%">
 </p>
 
-# The Preflight Check for Synthetic Users
+# The Anchorflight Check for Synthetic Users
 
 **Know when synthetic users help, and when they'll fool you.**
 
-AI-driven product loops move too fast for traditional validation, creating a dangerous illusion of user certainty. **Preflight is an interactive triage tool that helps you weigh a product decision.** In about two minutes it tells you exactly where synthetic cohorts are highly reliable, and exactly when you must halt the loop and bring in real humans.
+AI-driven product loops move too fast for traditional validation, creating a dangerous illusion of user certainty. **Anchorflight is an interactive triage tool that helps you weigh a product decision.** In about two minutes it tells you exactly where synthetic cohorts are highly reliable, and exactly when you must halt the loop and bring in real humans.
 
 Built for product teams (PMs, designers, and researchers) making decisions about pricing, onboarding, and feature gates.
 
@@ -19,7 +19,13 @@ Built for product teams (PMs, designers, and researchers) making decisions about
 
 ---
 
-## Two ways to run a decision through Preflight
+## About the name
+
+Aviation has always built its vocabulary on maritime tradition: we fly aircraft using knots and nautical miles. **Anchorflight** intentionally bridges that gap. The **flight** is your development velocity, the pace at which AI lets you build. The **anchor** is the empirical human data that keeps every synthetic pass grounded. The framework exists to hold both at once: move fast, but stay tethered to real people where it counts.
+
+---
+
+## Two ways to run a decision through Anchorflight
 
 Both paths share the same goal: knowing when to trust synthetic users. Pick the one that matches how your team builds.
 
@@ -36,20 +42,20 @@ Most runs end "go." The few that say "stop" are the ones that matter.
 
 ### Building in defined stages → the 8-gate framework (alternative)
 
-If you work in phases (discovery, design, build, QA) with handoffs and reviews, use **The 8 Gate Preflight Framework** and the **Cohort Due Diligence** wizard. Walk a decision through eight sequential gates, from decision clarity and risk to grounding, calibration, and compliance, and get a clear proceed / adjust / stop verdict with a downloadable report.
+If you work in phases (discovery, design, build, QA) with handoffs and reviews, use **The 8 Gate Anchorflight Framework** and the **Cohort Due Diligence** wizard. Walk a decision through eight sequential gates, from decision clarity and risk to grounding, calibration, and compliance, and get a clear proceed / adjust / stop verdict with a downloadable report.
 
 ---
 
 ## What It Does
 
-Synthetic AI users can accelerate research, but misused they create feedback loops that distort product metrics, inflate conversion assumptions, and mislead entire roadmap cycles. Preflight exists to prevent that by telling you, per decision, where synthetic users are reliable enough to trust and where only real humans will do.
+Synthetic AI users can accelerate research, but misused they create feedback loops that distort product metrics, inflate conversion assumptions, and mislead entire roadmap cycles. Anchorflight exists to prevent that by telling you, per decision, where synthetic users are reliable enough to trust and where only real humans will do.
 
 ### Modules
 
 | Module | What it does |
 |---|---|
 | **Active Checkpoint** | The continuous-AI loop triage. Run one decision through the Triage → Frame → Inspect → Ship gates for an honest go/stop verdict. **Start here.** |
-| **The 8 Gate Preflight Framework** | Visual 8-step pipeline with a gate inspector; click any gate to see its operational guide and lifecycle rationale |
+| **The 8 Gate Anchorflight Framework** | Visual 8-step pipeline with a gate inspector; click any gate to see its operational guide and lifecycle rationale |
 | **Cohort Due Diligence** | Step-by-step wizard that walks a decision through the eight gates and produces a proceed / adjust / stop verdict with a downloadable report |
 | **Synthetic Persona Prompt Architect** | Generates a grounded, bias-resistant synthetic persona system prompt from real usage data, then lets you interview that persona live and audit for drift |
 | **Usability Tester** | Directional, AI-assisted interface evaluation from a synthetic persona's perspective, with screenshot/image analysis |
@@ -61,7 +67,7 @@ Take the built-in **90-second interactive tour** (first-visit chip, or the Menu)
 
 ## Architecture
 
-Preflight is a static front end (a single, self-contained `index.html` plus a few supporting pages) with **no database, no accounts, and no cloud storage**. The only server-side component is a **lightweight, stateless serverless function** (`api/ai.js`) that proxies AI requests to OpenRouter so the API key stays off the client; it stores no prompt content. All other computation (triage scoring, gate logic, persona and prompt assembly, report generation) runs in your browser.
+Anchorflight is a static front end (a single, self-contained `index.html` plus a few supporting pages) with **no database, no accounts, and no cloud storage**. The only server-side component is a **lightweight, stateless serverless function** (`api/ai.js`) that proxies AI requests to OpenRouter so the API key stays off the client; it stores no prompt content. All other computation (triage scoring, gate logic, persona and prompt assembly, report generation) runs in your browser.
 
 ---
 
@@ -99,7 +105,7 @@ See the [Trust Center](trust.html) for full key security guidance.
 
 ## Fork it
 
-Preflight is open source under Apache-2.0. If you're building your own synthetic users, **fork it, adapt the gates and prompts to your own stack, and self-host.** Attribution requirements are satisfied by retaining the copyright notice, the `NOTICE` file, and a link back to this repository.
+Anchorflight is open source under Apache-2.0. If you're building your own synthetic users, **fork it, adapt the gates and prompts to your own stack, and self-host.** Attribution requirements are satisfied by retaining the copyright notice, the `NOTICE` file, and a link back to this repository.
 
 ---
 
