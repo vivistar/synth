@@ -61,22 +61,22 @@
     <div class="flow-note">Sequential &mdash; gate 1 &rarr; gate 8, each must pass before the next</div>
 
     <div class="grid">
-      <div class="gate bl"><div class="top"><span class="n">1</span><span class="tt">Clarify the decision</span></div><div class="ds">State the exact SaaS decision (pricing, onboarding, tier limit) in one sentence.</div><div class="ph">Discovery</div></div>
-      <div class="gate ro"><div class="top"><span class="n">2</span><span class="tt">Check risk level</span></div><div class="ds">Is it irreversible, or does it touch billing, contracts, or security?</div><div class="ph">Definition</div></div>
+      <div class="gate am"><div class="top"><span class="n">1</span><span class="tt">Clarify the decision</span></div><div class="ds">State the exact SaaS decision (pricing, onboarding, tier limit) in one sentence.</div><div class="ph">Discovery</div></div>
+      <div class="gate am"><div class="top"><span class="n">2</span><span class="tt">Check risk level</span></div><div class="ds">Is it irreversible, or does it touch billing, contracts, or security?</div><div class="ph">Definition</div></div>
       <div class="gate ro"><div class="top"><span class="n">3</span><span class="tt">Fit the question</span></div><div class="ds">A structured system / pricing-logic check &mdash; not open-ended discovery?</div><div class="ph">Definition</div></div>
       <div class="gate ro"><div class="top"><span class="n">4</span><span class="tt">Confirm real usage data</span></div><div class="ds">Do you have telemetry, logs, or interviews to ground the personas?</div><div class="ph">Discovery</div></div>
       <div class="gate bl"><div class="top"><span class="n">5</span><span class="tt">Define the persona</span></div><div class="ds">Specify role, permissions, seat / budget limits, and expertise level.</div><div class="ph">Design</div></div>
-      <div class="gate am"><div class="top"><span class="n">6</span><span class="tt">Calibrate on history</span></div><div class="ds">Reproduce a known past outcome; check drift before trusting new runs.</div><div class="ph">Test &amp; Validate</div></div>
-      <div class="gate am"><div class="top"><span class="n">7</span><span class="tt">Plan the human loop</span></div><div class="ds">Decide what humans validate; the go / no-go stays with real people.</div><div class="ph">Test &amp; Validate</div></div>
+      <div class="gate bl"><div class="top"><span class="n">6</span><span class="tt">Calibrate on history</span></div><div class="ds">Reproduce a known past outcome; check drift before trusting new runs.</div><div class="ph">Test &amp; Validate</div></div>
+      <div class="gate ro"><div class="top"><span class="n">7</span><span class="tt">Plan the human loop</span></div><div class="ds">Decide what humans validate; the go / no-go stays with real people.</div><div class="ph">Test &amp; Validate</div></div>
       <div class="gate vi"><div class="top"><span class="n">8</span><span class="tt">Set compliance guardrails</span></div><div class="ds">Tag AI-generated output, log prompts, and audit for bias.</div><div class="ph">Launch &amp; Optimize</div></div>
     </div>
 
     <div class="legend">
-      <span><span class="sw" style="background:var(--bl-tx)"></span> framing &amp; setup</span>
-      <span><span class="sw" style="background:var(--ro-tx)"></span> hard risk &mdash; can route you to real humans</span>
-      <span><span class="sw" style="background:var(--am-tx)"></span> calibration &amp; human loop</span>
-      <span><span class="sw" style="background:var(--vi-tx)"></span> governance</span>
-      <span class="mono" style="color:var(--text)">Fail any gate &rarr; you're routed to real people, not blocked forever.</span>
+      <span><span class="sw" style="background:var(--am-tx)"></span> reframe / scope down (1&ndash;2)</span>
+      <span><span class="sw" style="background:var(--ro-tx)"></span> stop &rarr; go to real people (3, 4, 7)</span>
+      <span><span class="sw" style="background:var(--bl-tx)"></span> recalibrate &amp; re-test (5&ndash;6)</span>
+      <span><span class="sw" style="background:var(--vi-tx)"></span> governance (8)</span>
+      <span class="mono" style="color:var(--text)">A "no" at any gate routes you &mdash; the color says where.</span>
     </div>
   </div>
 

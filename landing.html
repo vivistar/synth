@@ -303,7 +303,7 @@ body { font-family:'Geist', system-ui, sans-serif !important; background:var(--p
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3" id="gates-grid">
                 <!-- Rendered by JS below -->
             </div>
-            <p class="text-center text-xs text-slate-400 mt-6">Gates marked <span class="text-rose-500 font-semibold">red</span> are decision branches: fail one and you're routed to a safer path. <span class="text-amber-500 font-semibold">Amber</span> gates are calibration checks.</p>
+            <p class="text-center text-xs text-slate-400 mt-6">Every gate routes you somewhere on a "no" &mdash; the color says where. <span class="text-amber-500 font-semibold">Amber</span>: reframe or scope the decision down (1&ndash;2). <span class="text-rose-500 font-semibold">Rose</span>: stop and go to real people (3, 4, 7). <span class="text-blue-500 font-semibold">Blue</span>: recalibrate the persona or baseline and re-test (5&ndash;6). <span class="text-violet-500 font-semibold">Violet</span>: governance &mdash; tag outputs (8).</p>
         </div>
     </section>
 
@@ -547,13 +547,13 @@ body { font-family:'Geist', system-ui, sans-serif !important; background:var(--p
 
         // Render the 8 gates grid from template literal (Tailwind needs literal class names to purge correctly)
         const gatesData = [
-            ["1", "Clarify the decision", "blue"],
-            ["2", "Check revenue & churn risk", "rose"],
+            ["1", "Clarify the decision", "amber"],
+            ["2", "Check revenue & churn risk", "amber"],
             ["3", "Fit the question to product mechanics", "rose"],
             ["4", "Confirm real usage data", "rose"],
             ["5", "Define the synthetic persona", "blue"],
-            ["6", "Calibrate on historical results", "amber"],
-            ["7", "Plan the human + synthetic loop", "amber"],
+            ["6", "Calibrate on historical results", "blue"],
+            ["7", "Plan the human + synthetic loop", "rose"],
             ["8", "Set compliance guardrails", "violet"]
         ];
         const colorMap = {
