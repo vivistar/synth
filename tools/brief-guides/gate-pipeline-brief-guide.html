@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=Geist+Mono:wght@400;500;600&display=swap');
+  :root{
+    --dark:#0F2124; --bg:#f5f4f0; --card:#fafaf9; --alt:#eeecea;
+    --accent:#3a3aff; --accent-dark:#8080ff; --text:#0d0d0d; --text2:#6b6860;
+    --border:rgba(13,13,13,0.10);
+    --em-tx:#047857; --ro-bg:#fff1f2; --ro-bd:#fda4af; --ro-tx:#9f1239;
+    --am-tx:#92400e;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  @page{ size:1123px 720px; margin:0; }
+  html,body{ background:#d9d7d2; }
+  .page{ width:1123px; height:720px; background:var(--bg); color:var(--text);
+    font-family:'Geist', system-ui, -apple-system, 'Segoe UI', sans-serif; display:flex; flex-direction:column; overflow:hidden; }
+  .mono{ font-family:'Geist Mono', ui-monospace, 'SF Mono', monospace; }
+  cite, .ref{ font-family:'Geist Mono', monospace; font-size:9.5px; color:var(--accent); font-style:normal; }
+  .hd{ background:var(--dark); color:#fff; padding:18px 40px; display:flex; align-items:center; justify-content:space-between; }
+  .brand{ display:flex; align-items:center; gap:11px; }
+  .brand .sq{ width:19px; height:19px; border-radius:6px; background:var(--accent); }
+  .brand .wm{ font-family:'Geist Mono', monospace; font-weight:600; letter-spacing:.18em; font-size:18px; }
+  .hd .tag{ font-family:'Geist Mono', monospace; font-size:11px; letter-spacing:.09em; text-transform:uppercase; color:var(--accent-dark); }
+  .body{ flex:1; padding:20px 40px 0; }
+  .title{ font-weight:300; letter-spacing:-0.02em; font-size:24px; line-height:1.12; }
+  .title b{ font-weight:600; }
+  .lead{ font-size:12px; color:var(--text2); line-height:1.5; margin-top:7px; max-width:940px; }
+  .cols{ display:grid; grid-template-columns:1.4fr 1fr; gap:22px; margin-top:15px; }
+  .sec-h{ font-family:'Geist Mono', monospace; font-size:10px; text-transform:uppercase; letter-spacing:.12em; color:var(--text2); margin-bottom:8px; }
+  /* gate rows */
+  .gate{ display:flex; gap:10px; padding:8px 0; border-bottom:1px solid var(--border); }
+  .gate:last-child{ border-bottom:none; }
+  .gnum{ flex:0 0 22px; height:22px; border-radius:6px; background:var(--dark); color:#fff; font-family:'Geist Mono', monospace; font-weight:700; font-size:12px; display:flex; align-items:center; justify-content:center; }
+  .gate .txt{ flex:1; }
+  .gate .q{ font-size:12px; font-weight:600; color:var(--text); line-height:1.3; }
+  .gate .stop{ font-size:11px; color:var(--text2); line-height:1.4; margin-top:2px; }
+  .gate .stop b{ color:var(--ro-tx); font-weight:600; }
+  .card{ background:var(--card); border:1px solid var(--border); border-radius:13px; padding:13px 15px; margin-bottom:13px; }
+  .card h3{ font-size:12.5px; font-weight:700; margin-bottom:8px; }
+  .out{ display:flex; gap:8px; margin-bottom:7px; font-size:11px; line-height:1.4; color:var(--text2); }
+  .out:last-child{ margin-bottom:0; }
+  .out .dot{ flex:0 0 7px; width:7px; height:7px; border-radius:2px; margin-top:4px; }
+  .out b{ color:var(--text); font-weight:600; }
+  .hard{ background:var(--dark); color:#fff; border-radius:13px; padding:13px 15px; margin-bottom:13px; }
+  .hard h3{ color:#fff; font-size:12.5px; font-weight:700; margin-bottom:6px; }
+  .hard p{ font-size:11px; line-height:1.5; color:rgba(255,255,255,.75); }
+  .hard .k{ color:var(--accent-dark); font-weight:600; }
+  .why{ font-size:11px; color:var(--text2); line-height:1.45; }
+  .why b{ color:var(--text); font-weight:600; }
+  .ft{ margin-top:auto; padding:12px 40px; display:flex; align-items:center; justify-content:space-between; border-top:1px solid var(--border); font-family:'Geist Mono', monospace; font-size:10px; color:var(--text2); }
+  .ft a{ color:var(--accent); text-decoration:none; }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="hd">
+    <div class="brand"><span class="sq"></span><span class="wm">ANCHORFLIGHT</span></div>
+    <div class="tag">Run the 8-gate pipeline by hand</div>
+  </div>
+
+  <div class="body">
+    <h1 class="title"><b>Walk the pipeline, one gate at a time.</b></h1>
+    <p class="lead">You don't need the tool. For staged teams, the 8-gate framework is a sequential checklist: at each gate ask the question, and a <b>"no" routes you out to real people</b> instead of letting an ungrounded synthetic run drive the decision. Answer all eight "yes" and you've earned a synthetic pass &mdash; still confirmed by humans at the ship point.</p>
+
+    <div class="cols">
+      <!-- LEFT: the eight gates -->
+      <div>
+        <div class="sec-h">Ask at each gate &mdash; a "no" is where you stop</div>
+
+        <div class="gate"><span class="gnum">1</span><div class="txt"><div class="q">Do you have a clear, documented decision target?</div><div class="stop">Vague or exploratory &rarr; <b>define the decision first</b>; scope it down to one answerable question.</div></div></div>
+        <div class="gate"><span class="gnum">2</span><div class="txt"><div class="q">Is it low-to-medium risk and reversible?</div><div class="stop">Irreversible, or touches billing / contracts / security &rarr; <b>reframe</b> into smaller, reversible releases.</div></div></div>
+        <div class="gate"><span class="gnum">3</span><div class="txt"><div class="q">Is it a structured interaction or pricing-logic check?</div><div class="stop">Speculative or generative discovery &rarr; <b>run human discovery first</b>; synthetics can't find net-new needs. <cite>NN/g 2024</cite></div></div></div>
+        <div class="gate"><span class="gnum">4</span><div class="txt"><div class="q">Do you have live customer data to ground it?</div><div class="stop">No telemetry / logs / interviews &rarr; <b>real customers only</b>; ungrounded synthetics hallucinate. <cite>Making Science 2025</cite></div></div></div>
+        <div class="gate"><span class="gnum">5</span><div class="txt"><div class="q">Is the persona specific (role, rights, budget, expertise)?</div><div class="stop">Generic template &rarr; <b>recalibrate</b> with a concrete, bounded persona before running.</div></div></div>
+        <div class="gate"><span class="gnum">6</span><div class="txt"><div class="q">Does the agent replicate a known past result?</div><div class="stop">No baseline, or drift &gt; 15% &rarr; <b>recalibrate</b>; tighten prompts and re-test. <cite>MeasuringU 2026</cite></div></div></div>
+        <div class="gate"><span class="gnum">7</span><div class="txt"><div class="q">Is a human + synthetic check-loop in place?</div><div class="stop">Synthetic-only &rarr; <b>real customers only</b>; a closed loop never disagrees with you. <cite>Codexical 2026</cite></div></div></div>
+        <div class="gate"><span class="gnum">8</span><div class="txt"><div class="q">Are compliance tags and drift reviews defined?</div><div class="stop">No tagging &rarr; <b>brainstorm only</b>; untagged output isn't decision-grade. <cite>Koji 2026</cite></div></div></div>
+      </div>
+
+      <!-- RIGHT: where it routes + why -->
+      <div>
+        <div class="hard">
+          <h3>Two gates are hard stops for humans</h3>
+          <p><span class="k">Gate 4 — no real data</span> and <span class="k">Gate 7 — no human loop</span> both route to <b>real customers only</b>. Grounding and human validation are the anchor; without either, a synthetic pass is just confident fiction.</p>
+        </div>
+
+        <div class="card">
+          <h3>Where a "no" routes you</h3>
+          <div class="out"><span class="dot" style="background:var(--ro-bd)"></span><div><b>Define the decision / reframe</b> (gates 1–2) — the question is too loose or too risky. Shrink it.</div></div>
+          <div class="out"><span class="dot" style="background:#a5b4fc"></span><div><b>Human discovery first</b> (gate 3) — exploratory work needs live interviews, not simulation.</div></div>
+          <div class="out"><span class="dot" style="background:#fbbf24"></span><div><b>Real customers only</b> (gates 4 &amp; 7) — no grounding data, or no human loop.</div></div>
+          <div class="out"><span class="dot" style="background:#cbd5e1"></span><div><b>Recalibrate</b> (gates 5–6) — generic persona or failed baseline; fix and re-test.</div></div>
+          <div class="out"><span class="dot" style="background:#ddd6fe"></span><div><b>Brainstorm only</b> (gate 8) — untagged output; use for divergent ideas, not validation.</div></div>
+        </div>
+
+        <div class="card">
+          <h3>Why the gates exist</h3>
+          <p class="why">Synthetic users are fast but systematically <b>over-agreeable, emotionally flat, and confidently wrong</b> on decision-grade work. The gates force grounding (gate 4), calibration (gate 6), and a human loop (gate 7) so a synthetic pass is earned, not assumed. The research consensus: <b>augment, never replace.</b> <cite>Pehar 2025 · Holli Downs 2025</cite></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ft">
+    <span>Full research basis &amp; every source &rarr; <a href="https://synth-5qo9.vercel.app/references.html">synth-5qo9.vercel.app/references.html</a></span>
+    <span><a href="https://synth-5qo9.vercel.app">Anchorflight</a> · Apache-2.0 · © 2026 Terry M. Patterson</span>
+  </div>
+</div>
+</body>
+</html>

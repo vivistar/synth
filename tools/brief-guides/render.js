@@ -11,6 +11,8 @@ const path = require('path');
 const SHEETS = [
   ['loop-brief-guide.html',   'anchorflight-method-guides-loop.png',        1123, 650],
   ['method-brief-guide.html', 'anchorflight-method-guides-reasoning.png', 1123, 840],
+  ['gate-overview-brief-guide.html', 'anchorflight-8gate-overview.png', 1123, 600],
+  ['gate-pipeline-brief-guide.html', 'anchorflight-8gate-pipeline.png', 1123, 720],
 ];
 
 (async () => {

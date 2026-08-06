@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=Geist+Mono:wght@400;500;600&display=swap');
+  :root{
+    --dark:#0F2124; --bg:#f5f4f0; --card:#fafaf9; --alt:#eeecea;
+    --accent:#3a3aff; --accent-dark:#8080ff; --text:#0d0d0d; --text2:#6b6860;
+    --border:rgba(13,13,13,0.10);
+    --bl-bg:#eff6ff; --bl-bd:#bfdbfe; --bl-tx:#1d4ed8;
+    --ro-bg:#fff1f2; --ro-bd:#fda4af; --ro-tx:#9f1239;
+    --am-bg:#fffbeb; --am-bd:#f59e0b; --am-tx:#92400e;
+    --vi-bg:#f5f3ff; --vi-bd:#ddd6fe; --vi-tx:#6d28d9;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  @page{ size:1123px 600px; margin:0; }
+  html,body{ background:#d9d7d2; }
+  .page{ width:1123px; height:600px; background:var(--bg); color:var(--text);
+    font-family:'Geist', system-ui, -apple-system, 'Segoe UI', sans-serif; display:flex; flex-direction:column; overflow:hidden; }
+  .mono{ font-family:'Geist Mono', ui-monospace, 'SF Mono', monospace; }
+  .hd{ background:var(--dark); color:#fff; padding:18px 40px; display:flex; align-items:center; justify-content:space-between; }
+  .brand{ display:flex; align-items:center; gap:11px; }
+  .brand .sq{ width:19px; height:19px; border-radius:6px; background:var(--accent); }
+  .brand .wm{ font-family:'Geist Mono', monospace; font-weight:600; letter-spacing:.18em; font-size:18px; }
+  .hd .tag{ font-family:'Geist Mono', monospace; font-size:11px; letter-spacing:.09em; text-transform:uppercase; color:var(--accent-dark); }
+  .body{ flex:1; padding:20px 40px 0; display:flex; flex-direction:column; }
+  .title{ font-weight:300; letter-spacing:-0.02em; font-size:25px; line-height:1.12; }
+  .title b{ font-weight:600; }
+  .lead{ font-size:12px; color:var(--text2); line-height:1.5; margin-top:7px; max-width:940px; }
+  .flow-note{ font-family:'Geist Mono', monospace; font-size:10px; text-transform:uppercase; letter-spacing:.1em; color:var(--text2); margin:16px 0 10px; }
+  .grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:11px; }
+  .gate{ border-radius:12px; border:1.5px solid; padding:11px 12px; display:flex; flex-direction:column; min-height:120px; }
+  .gate .top{ display:flex; align-items:center; gap:8px; }
+  .gate .n{ width:22px; height:22px; border-radius:6px; font-family:'Geist Mono', monospace; font-weight:700; font-size:12px; display:flex; align-items:center; justify-content:center; color:#fff; }
+  .gate .tt{ font-weight:600; font-size:12.5px; line-height:1.2; }
+  .gate .ds{ font-size:11px; color:var(--text2); line-height:1.42; margin-top:7px; flex:1; }
+  .gate .ph{ font-family:'Geist Mono', monospace; font-size:9px; text-transform:uppercase; letter-spacing:.04em; margin-top:8px; padding-top:7px; border-top:1px solid var(--border); }
+  .bl{ background:var(--bl-bg); border-color:var(--bl-bd);} .bl .n{ background:var(--bl-tx);} .bl .tt{color:var(--bl-tx);} .bl .ph{color:var(--bl-tx);}
+  .ro{ background:var(--ro-bg); border-color:var(--ro-bd);} .ro .n{ background:var(--ro-tx);} .ro .tt{color:var(--ro-tx);} .ro .ph{color:var(--ro-tx);}
+  .am{ background:var(--am-bg); border-color:var(--am-bd);} .am .n{ background:var(--am-tx);} .am .tt{color:var(--am-tx);} .am .ph{color:var(--am-tx);}
+  .vi{ background:var(--vi-bg); border-color:var(--vi-bd);} .vi .n{ background:var(--vi-tx);} .vi .tt{color:var(--vi-tx);} .vi .ph{color:var(--vi-tx);}
+  .legend{ display:flex; gap:20px; flex-wrap:wrap; margin-top:14px; padding-top:12px; border-top:1px solid var(--border); font-size:11px; color:var(--text2); }
+  .legend span{ display:inline-flex; align-items:center; gap:7px; }
+  .sw{ width:12px; height:12px; border-radius:3px; display:inline-block; }
+  .ft{ margin-top:auto; padding:12px 40px; display:flex; align-items:center; justify-content:space-between; border-top:1px solid var(--border); font-family:'Geist Mono', monospace; font-size:10px; color:var(--text2); }
+  .ft a{ color:var(--accent); text-decoration:none; }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="hd">
+    <div class="brand"><span class="sq"></span><span class="wm">ANCHORFLIGHT</span></div>
+    <div class="tag">The 8-Gate Framework · overview</div>
+  </div>
+
+  <div class="body">
+    <h1 class="title"><b>The 8-Gate Framework</b> &mdash; for teams building in defined stages.</h1>
+    <p class="lead">If your team works in phases (discovery, design, build, QA) with handoffs and reviews, run every decision through these eight gates <b>in order</b> before you trust a synthetic-user result. Each gate is a checkpoint: pass it and advance, or fail it and get routed to real humans. The color tells you what kind of check it is and how hard it bites.</p>
+
+    <div class="flow-note">Sequential &mdash; gate 1 &rarr; gate 8, each must pass before the next</div>
+
+    <div class="grid">
+      <div class="gate bl"><div class="top"><span class="n">1</span><span class="tt">Clarify the decision</span></div><div class="ds">State the exact SaaS decision (pricing, onboarding, tier limit) in one sentence.</div><div class="ph">Discovery</div></div>
+      <div class="gate ro"><div class="top"><span class="n">2</span><span class="tt">Check risk level</span></div><div class="ds">Is it irreversible, or does it touch billing, contracts, or security?</div><div class="ph">Definition</div></div>
+      <div class="gate ro"><div class="top"><span class="n">3</span><span class="tt">Fit the question</span></div><div class="ds">A structured system / pricing-logic check &mdash; not open-ended discovery?</div><div class="ph">Definition</div></div>
+      <div class="gate ro"><div class="top"><span class="n">4</span><span class="tt">Confirm real usage data</span></div><div class="ds">Do you have telemetry, logs, or interviews to ground the personas?</div><div class="ph">Discovery</div></div>
+      <div class="gate bl"><div class="top"><span class="n">5</span><span class="tt">Define the persona</span></div><div class="ds">Specify role, permissions, seat / budget limits, and expertise level.</div><div class="ph">Design</div></div>
+      <div class="gate am"><div class="top"><span class="n">6</span><span class="tt">Calibrate on history</span></div><div class="ds">Reproduce a known past outcome; check drift before trusting new runs.</div><div class="ph">Test &amp; Validate</div></div>
+      <div class="gate am"><div class="top"><span class="n">7</span><span class="tt">Plan the human loop</span></div><div class="ds">Decide what humans validate; the go / no-go stays with real people.</div><div class="ph">Test &amp; Validate</div></div>
+      <div class="gate vi"><div class="top"><span class="n">8</span><span class="tt">Set compliance guardrails</span></div><div class="ds">Tag AI-generated output, log prompts, and audit for bias.</div><div class="ph">Launch &amp; Optimize</div></div>
+    </div>
+
+    <div class="legend">
+      <span><span class="sw" style="background:var(--bl-tx)"></span> framing &amp; setup</span>
+      <span><span class="sw" style="background:var(--ro-tx)"></span> hard risk &mdash; can route you to real humans</span>
+      <span><span class="sw" style="background:var(--am-tx)"></span> calibration &amp; human loop</span>
+      <span><span class="sw" style="background:var(--vi-tx)"></span> governance</span>
+      <span class="mono" style="color:var(--text)">Fail any gate &rarr; you're routed to real people, not blocked forever.</span>
+    </div>
+  </div>
+
+  <div class="ft">
+    <span>Explore every gate interactively &rarr; <a href="https://synth-5qo9.vercel.app/index.html#map">synth-5qo9.vercel.app</a></span>
+    <span><a href="https://synth-5qo9.vercel.app">Anchorflight</a> · Apache-2.0 · © 2026 Terry M. Patterson</span>
+  </div>
+</div>
+</body>
+</html>
