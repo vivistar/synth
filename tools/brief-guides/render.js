@@ -1,6 +1,6 @@
-// Renders the Anchorflight cheat sheets (HTML -> PDF + PNG) into ../../docs.
+// Renders the Anchorflight brief guides (HTML -> PDF + PNG) into ../../docs.
 // Usage:
-//   cd tools/cheatsheet && npm install playwright && npx playwright install chromium
+//   cd tools/brief-guides && npm install playwright && npx playwright install chromium
 //   node render.js
 // If Chromium is already installed elsewhere, point to it:
 //   CHROME_PATH=/path/to/chrome node render.js
