@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=Geist+Mono:wght@400;500;600&display=swap');
+  :root{
+    --dark:#0F2124; --bg:#f5f4f0; --card:#fafaf9; --alt:#eeecea;
+    --accent:#3a3aff; --accent-dark:#8080ff; --text:#0d0d0d; --text2:#6b6860;
+    --border:rgba(13,13,13,0.10);
+    --em-bg:#ecfdf5; --em-bd:#6ee7b7; --em-tx:#065f46; --em-lb:#047857;
+    --am-bg:#fffbeb; --am-bd:#f59e0b; --am-tx:#92400e;
+    --ro-bg:#fff1f2; --ro-bd:#fda4af; --ro-tx:#9f1239;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  @page{ size:1123px 650px; margin:0; }
+  html,body{ background:#d9d7d2; }
+  .page{
+    width:1123px; height:650px; background:var(--bg); color:var(--text);
+    font-family:'Geist', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    padding:0; overflow:hidden; position:relative; display:flex; flex-direction:column;
+  }
+  .mono{ font-family:'Geist Mono', ui-monospace, 'SF Mono', monospace; }
+  /* ---- header ---- */
+  .hd{ background:var(--dark); color:#fff; padding:20px 44px; display:flex; align-items:center; justify-content:space-between; }
+  .brand{ display:flex; align-items:center; gap:12px; }
+  .brand .sq{ width:20px; height:20px; border-radius:6px; background:var(--accent); display:inline-block; }
+  .brand .wm{ font-family:'Geist Mono', monospace; font-weight:600; letter-spacing:.18em; font-size:19px; }
+  .hd .tag{ font-family:'Geist Mono', monospace; font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--accent-dark); }
+  /* ---- body ---- */
+  .body{ flex:1; padding:22px 44px 0; display:flex; flex-direction:column; }
+  .lede{ display:flex; gap:26px; align-items:flex-start; margin-bottom:18px; }
+  .lede .what{ flex:1.55; }
+  .lede h1{ font-weight:300; letter-spacing:-0.02em; font-size:26px; line-height:1.12; }
+  .lede h1 b{ font-weight:600; }
+  .lede p.sub{ font-size:12.5px; color:var(--text2); line-height:1.5; margin-top:8px; max-width:560px; }
+  .anchor{ flex:1; background:var(--card); border:1px solid var(--border); border-radius:14px; padding:14px 16px; }
+  .anchor .k{ font-family:'Geist Mono', monospace; font-size:10px; text-transform:uppercase; letter-spacing:.12em; color:var(--text2); }
+  .anchor p{ font-size:12px; line-height:1.5; color:var(--text); margin-top:6px; }
+  .anchor .fl{ color:var(--accent); font-weight:600; }
+  /* ---- loop section ---- */
+  .loop-h{ display:flex; align-items:baseline; gap:10px; margin-bottom:4px; }
+  .loop-h h2{ font-weight:300; letter-spacing:-0.02em; font-size:22px; }
+  .loop-h .git{ color:var(--accent); font-size:18px; }
+  .loop-h span.desc{ font-size:11.5px; color:var(--text2); }
+  .card-wrap{ background:var(--card); border:1px solid var(--border); border-radius:18px; padding:18px 20px; margin-top:10px; }
+  .triage{ border-bottom:1px solid var(--border); padding-bottom:12px; margin-bottom:14px; }
+  .triage .t1{ font-weight:600; font-size:13px; }
+  .triage .t2{ font-family:'Geist Mono', monospace; font-size:11px; color:var(--text2); margin-top:3px; }
+  /* stages */
+  .stages{ display:flex; align-items:stretch; gap:0; }
+  .stage{ flex:1; border-radius:12px; border:2px solid; padding:12px 8px; text-align:center; display:flex; flex-direction:column; justify-content:center; min-height:96px; }
+  .stage .lb{ font-family:'Geist Mono', monospace; font-size:9px; text-transform:uppercase; letter-spacing:.08em; }
+  .stage .nm{ font-weight:600; font-size:19px; margin-top:5px; }
+  .stage .ds{ font-size:11px; margin-top:2px; }
+  .arrow{ display:flex; align-items:center; justify-content:center; width:26px; color:var(--text2); font-size:18px; flex:0 0 26px; }
+  .em{ background:var(--em-bg); border-color:var(--em-bd); }
+  .em .lb{ color:var(--em-lb);} .em .nm{ color:var(--em-tx);} .em .ds{ color:var(--em-lb);}
+  .nu{ background:var(--alt); border-color:var(--border); }
+  .nu .lb{ color:var(--text2);} .nu .nm{ color:var(--text);} .nu .ds{ color:var(--text2);}
+  .am{ background:var(--am-bg); border-color:var(--am-bd); border-style:dashed; }
+  .am .lb{ color:var(--am-tx);} .am .nm{ color:var(--am-tx);} .am .ds{ color:var(--am-tx);}
+  .ro{ background:var(--ro-bg); border-color:var(--ro-bd); }
+  .ro .lb{ color:var(--ro-tx);} .ro .nm{ color:var(--ro-tx);} .ro .ds{ color:var(--ro-tx);}
+  /* loop-back chips */
+  .chips{ display:flex; gap:8px; margin-top:14px; flex-wrap:wrap; }
+  .chip{ font-family:'Geist Mono', monospace; font-size:10.5px; color:var(--text2); background:var(--alt); border-radius:999px; padding:5px 11px; }
+  .chip b{ color:var(--text); font-weight:600; }
+  /* legend */
+  .legend{ display:flex; gap:20px; flex-wrap:wrap; margin-top:13px; padding-top:12px; border-top:1px solid var(--border); font-size:11px; color:var(--text2); }
+  .legend span{ display:inline-flex; align-items:center; gap:6px; }
+  .sw{ width:12px; height:12px; border-radius:3px; display:inline-block; border:1px solid; }
+  .sw-em{ background:var(--em-bd); border-color:var(--em-lb);}
+  .sw-am{ background:#fcd34d; border-color:var(--am-bd);}
+  .sw-ro{ background:var(--ro-bd); border-color:var(--ro-tx);}
+  .sw-nu{ background:#d6d3ce; border-color:#b8b4ad;}
+  .sw-gate{ background:transparent; border:2px dashed var(--accent);}
+  /* footer */
+  .ft{ margin-top:auto; padding:14px 44px; display:flex; align-items:center; justify-content:space-between; border-top:1px solid var(--border); font-family:'Geist Mono', monospace; font-size:10.5px; color:var(--text2); }
+  .ft a{ color:var(--accent); text-decoration:none; }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="hd">
+    <div class="brand"><span class="sq"></span><span class="wm">ANCHORFLIGHT</span></div>
+    <div class="tag">The Anchorflight Check for Synthetic Users</div>
+  </div>
+
+  <div class="body">
+    <div class="lede">
+      <div class="what">
+        <h1><b>Know when synthetic users help,</b><br>and when they'll fool you.</h1>
+        <p class="sub">AI-driven product loops move too fast for traditional validation, creating a dangerous illusion of user certainty. Anchorflight is an interactive triage tool: in about two minutes it tells you exactly where synthetic cohorts are reliable, and exactly when you must halt the loop and bring in real humans.</p>
+      </div>
+      <div class="anchor">
+        <div class="k">Why "Anchorflight"</div>
+        <p>The <span class="fl">flight</span> is your development velocity, the pace at which AI lets you build. The <span class="fl">anchor</span> is the empirical human data that keeps every synthetic pass grounded. Move fast, but stay tethered to real people where it counts.</p>
+      </div>
+    </div>
+
+    <div class="loop-h">
+      <span class="git">⎇</span>
+      <h2>The Continuous-AI Loop</h2>
+      <span class="desc">Each stage is colored by who you can trust there.</span>
+    </div>
+
+    <div class="card-wrap">
+      <div class="triage">
+        <div class="t1">Triage gate &mdash; runs first, sets how hard the exit is</div>
+        <div class="t2">Reversible, low-stakes &rarr; loose exit&nbsp;&nbsp;·&nbsp;&nbsp;Irreversible, high-stakes &rarr; hard exit</div>
+      </div>
+
+      <div class="stages">
+        <div class="stage em"><span class="lb">entry gate</span><span class="nm">Frame</span><span class="ds">test the idea</span></div>
+        <div class="arrow">&rarr;</div>
+        <div class="stage nu"><span class="lb">build step</span><span class="nm">Generate</span><span class="ds">just build</span></div>
+        <div class="arrow">&rarr;</div>
+        <div class="stage am"><span class="lb">decision</span><span class="nm">Inspect</span><span class="ds">stakes decide</span></div>
+        <div class="arrow">&rarr;</div>
+        <div class="stage em"><span class="lb">&nbsp;</span><span class="nm">Iterate</span><span class="ds">fast cycles</span></div>
+        <div class="arrow">&rarr;</div>
+        <div class="stage ro"><span class="lb">ship gate</span><span class="nm">Ship</span><span class="ds">needs humans</span></div>
+      </div>
+
+      <div class="chips">
+        <span class="chip">↺ refine loop · <b>Inspect → Iterate</b></span>
+        <span class="chip">↰ reframe · <b>Inspect → Frame</b></span>
+        <span class="chip">⟳ next cycle · <b>Ship → Frame</b></span>
+      </div>
+
+      <div class="legend">
+        <span><span class="sw sw-em"></span> synthetic reliable</span>
+        <span><span class="sw sw-am"></span> conditional: stakes decide</span>
+        <span><span class="sw sw-ro"></span> humans required</span>
+        <span><span class="sw sw-nu"></span> build step</span>
+        <span><span class="sw sw-gate"></span> gate (dashed)</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="ft">
+    <span>Building in defined stages instead? The same logic runs as the 8-Gate Anchorflight Framework.</span>
+    <span><a href="https://synth-5qo9.vercel.app">synth-5qo9.vercel.app</a> · Apache-2.0 · © 2026 Terry M. Patterson</span>
+  </div>
+</div>
+</body>
+</html>

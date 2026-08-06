@@ -311,21 +311,44 @@ body { font-family:'Geist', system-ui, sans-serif !important; background:var(--p
     <section class="py-16 px-4">
         <div class="max-w-5xl mx-auto">
             <div class="text-center mb-8 space-y-2">
-                <span class="inline-block bg-blue-100 text-blue-700 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Cheat Sheet</span>
+                <span class="inline-block bg-blue-100 text-blue-700 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Cheat Sheets</span>
                 <h2 class="text-2xl font-extrabold text-slate-900 tracking-tight">The framework on one page.</h2>
-                <p class="text-sm text-slate-500 max-w-xl mx-auto leading-relaxed">A short, shareable one-pager: the continuous-AI loop and a quick intro to Anchorflight. Print it, drop it in a deck, or pin it in your team channel.</p>
+                <p class="text-sm text-slate-500 max-w-2xl mx-auto leading-relaxed">Two short, shareable one-pagers. Print them, drop them in a deck, or pin them in your team channel.</p>
             </div>
-            <div class="bg-white border border-slate-200 rounded-2xl p-4 sm:p-6 shadow-sm">
-                <a href="docs/anchorflight-cheatsheet.png" target="_blank" class="block rounded-xl overflow-hidden border border-slate-200 hover:border-blue-400 transition-colors">
-                    <img src="docs/anchorflight-cheatsheet.png" alt="Anchorflight cheat sheet: the continuous-AI loop and framework intro on one page" class="w-full h-auto" loading="lazy">
-                </a>
-                <div class="flex flex-wrap items-center justify-center gap-3 mt-5">
-                    <a href="docs/anchorflight-cheatsheet.pdf" download class="pf-btn pf-btn-primary">
-                        <i data-lucide="file-down" class="w-4 h-4"></i> Download PDF
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+                <!-- Sheet 1: the loop -->
+                <div class="bg-white border border-slate-200 rounded-2xl p-4 sm:p-5 shadow-sm flex flex-col">
+                    <a href="docs/anchorflight-cheatsheet.png" target="_blank" class="block rounded-xl overflow-hidden border border-slate-200 hover:border-blue-400 transition-colors">
+                        <img src="docs/anchorflight-cheatsheet.png" alt="Anchorflight cheat sheet: the continuous-AI loop and framework intro on one page" class="w-full h-auto" loading="lazy">
                     </a>
-                    <a href="docs/anchorflight-cheatsheet.png" download class="inline-flex items-center gap-2 border border-slate-300 hover:border-slate-400 text-slate-700 font-semibold text-sm px-5 py-3 rounded-full transition-colors">
-                        <i data-lucide="image-down" class="w-4 h-4"></i> Download PNG
+                    <h3 class="font-bold text-slate-900 text-base mt-4">The continuous-AI loop</h3>
+                    <p class="text-sm text-slate-500 leading-relaxed mt-1 mb-4 flex-1">A quick intro to Anchorflight and the loop at a glance: every stage colored by who you can trust there.</p>
+                    <div class="flex flex-wrap items-center gap-3">
+                        <a href="docs/anchorflight-cheatsheet.pdf" download class="pf-btn pf-btn-primary">
+                            <i data-lucide="file-down" class="w-4 h-4"></i> Download PDF
+                        </a>
+                        <a href="docs/anchorflight-cheatsheet.png" download class="inline-flex items-center gap-2 border border-slate-300 hover:border-slate-400 text-slate-700 font-semibold text-sm px-5 py-3 rounded-full transition-colors">
+                            <i data-lucide="image-down" class="w-4 h-4"></i> PNG
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Sheet 2: run it by hand -->
+                <div class="bg-white border border-slate-200 rounded-2xl p-4 sm:p-5 shadow-sm flex flex-col">
+                    <a href="docs/anchorflight-method-cheatsheet.png" target="_blank" class="block rounded-xl overflow-hidden border border-slate-200 hover:border-blue-400 transition-colors">
+                        <img src="docs/anchorflight-method-cheatsheet.png" alt="Anchorflight methodology cheat sheet: how to run the framework by hand and why each stop brings in real people, cited to the research" class="w-full h-auto" loading="lazy">
                     </a>
+                    <h3 class="font-bold text-slate-900 text-base mt-4">Run it by hand &mdash; the reasoning</h3>
+                    <p class="text-sm text-slate-500 leading-relaxed mt-1 mb-4 flex-1">No tool required: why each stop exists and where the loop calls for real people, cited to the <a href="references.html" class="pf-accent font-medium hover:underline">research behind Anchorflight</a>.</p>
+                    <div class="flex flex-wrap items-center gap-3">
+                        <a href="docs/anchorflight-method-cheatsheet.pdf" download class="pf-btn pf-btn-primary">
+                            <i data-lucide="file-down" class="w-4 h-4"></i> Download PDF
+                        </a>
+                        <a href="docs/anchorflight-method-cheatsheet.png" download class="inline-flex items-center gap-2 border border-slate-300 hover:border-slate-400 text-slate-700 font-semibold text-sm px-5 py-3 rounded-full transition-colors">
+                            <i data-lucide="image-down" class="w-4 h-4"></i> PNG
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -470,7 +493,9 @@ body { font-family:'Geist', system-ui, sans-serif !important; background:var(--p
                 <span class="text-white/20">·</span>
                 <a href="trust.html" class="hover:text-white underline underline-offset-2 transition-colors">Trust Center</a>
                 <span class="text-white/20">·</span>
-                <a href="docs/anchorflight-cheatsheet.pdf" download class="hover:text-white underline underline-offset-2 transition-colors">Cheat Sheet (PDF)</a>
+                <a href="docs/anchorflight-cheatsheet.pdf" download class="hover:text-white underline underline-offset-2 transition-colors">Loop Cheat Sheet (PDF)</a>
+                <span class="text-white/20">·</span>
+                <a href="docs/anchorflight-method-cheatsheet.pdf" download class="hover:text-white underline underline-offset-2 transition-colors">Run-by-Hand Guide (PDF)</a>
                 <span class="text-white/20">·</span>
                 <a href="https://www.apache.org/licenses/LICENSE-2.0" target="_blank" class="hover:text-white underline underline-offset-2 transition-colors">Apache-2.0</a>
                 <span class="text-white/20">·</span>
