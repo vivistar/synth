@@ -9,8 +9,8 @@ const path = require('path');
 
 // [source html, output basename, page width px, page height px]
 const SHEETS = [
-  ['loop-cheatsheet.html',   'anchorflight-method-guides-loop.png',        1123, 650],
-  ['method-cheatsheet.html', 'anchorflight-method-guides-reasoning.png', 1123, 840],
+  ['loop-brief-guide.html',   'anchorflight-method-guides-loop.png',        1123, 650],
+  ['method-brief-guide.html', 'anchorflight-method-guides-reasoning.png', 1123, 840],
 ];
 
 (async () => {

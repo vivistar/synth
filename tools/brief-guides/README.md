@@ -1,21 +1,21 @@
-# Cheat sheet generator
+# Brief guides generator
 
 Generates the shareable Anchorflight one-pagers as **PDF + PNG** into [`docs/`](../../docs):
 
 | Source | Output | What it is |
 | --- | --- | --- |
-| `loop-cheatsheet.html` | `docs/anchorflight-method-guides-loop.{pdf,png}` | The continuous-AI loop + a short intro to the framework. |
-| `method-cheatsheet.html` | `docs/anchorflight-method-guides-reasoning.{pdf,png}` | How to run the framework by hand — why each stop exists, cited to the research. |
+| `loop-brief-guide.html` | `docs/anchorflight-method-guides-loop.{pdf,png}` | The continuous-AI loop + a short intro to the framework. |
+| `method-brief-guide.html` | `docs/anchorflight-method-guides-reasoning.{pdf,png}` | How to run the framework by hand — why each stop exists, cited to the research. |
 
-The cheat sheets are hand-authored HTML that mirror the app's palette (the `--pf-*`
+The brief guides are hand-authored HTML that mirror the app's palette (the `--pf-*`
 tokens) and pull their content from `index.html` (the loop) and `references.html`
-(the sources). If you change that copy in the app, update the matching sheet here
+(the sources). If you change that copy in the app, update the matching guide here
 and re-render so the downloads stay in sync.
 
 ## Regenerate
 
 ```bash
-cd tools/cheatsheet
+cd tools/brief-guides
 npm install playwright
 npx playwright install chromium   # first time only
 node render.js
