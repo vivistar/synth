@@ -65,6 +65,22 @@ Take the built-in **90-second interactive tour** (first-visit chip, or the Menu)
 
 ---
 
+## Use with Claude Code
+
+Anchorflight ships as a suite of **Claude Code skills** so Claude can apply the framework while you build — no need to run or host the app. They're plain Markdown and live in [`.claude/skills/`](.claude/skills):
+
+| Skill | Use it when |
+|---|---|
+| [`anchorflight-triage`](.claude/skills/anchorflight-triage/SKILL.md) | Building **continuously with AI** — decide synthetic-vs-human at each turn of the loop |
+| [`anchorflight-8gate`](.claude/skills/anchorflight-8gate/SKILL.md) | Building in **defined stages** — run a decision through the 8-gate pipeline |
+| [`anchorflight-persona`](.claude/skills/anchorflight-persona/SKILL.md) | Building or auditing a **synthetic persona** (Gate 5 + calibration/guardrails) |
+
+**Install:** copy a skill folder into `~/.claude/skills/` (personal) or commit it under your repo's `.claude/skills/` (team). Claude Code auto-discovers it — invoke by name (e.g. `/anchorflight-triage`) or let its description trigger it. Each folder is self-contained (a `SKILL.md` plus a bundled `references.md`), so it works standalone in anyone's Claude.
+
+The bundled `references.md` is generated from [`references.html`](references.html) (the single source of truth) via [`tools/skills/sync-references.js`](tools/skills/sync-references.js) — re-run it after editing the references so the skills stay current. Prefer downloadable one-pagers? See the [brief guides](docs).
+
+---
+
 ## Architecture
 
 Anchorflight is a static front end (a single, self-contained `index.html` plus a few supporting pages) with **no database, no accounts, and no cloud storage**. The only server-side component is a **lightweight, stateless serverless function** (`api/ai.js`) that proxies AI requests to OpenRouter so the API key stays off the client; it stores no prompt content. All other computation (triage scoring, gate logic, persona and prompt assembly, report generation) runs in your browser.
